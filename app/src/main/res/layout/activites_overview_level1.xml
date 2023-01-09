@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingTop="0dip"
+    android:paddingBottom="0dip"
+    android:background="@color/overview_background"
+    android:stateListAnimator="@animator/tracked_item_raise"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:background="@color/blue"
+        android:paddingLeft="20dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:id="@+id/overview_level1_color"
+        >
+        <ImageView
+            android:id="@+id/expand_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dip"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_navigation_expand"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dip"
+            android:gravity="left"
+            android:text="Agime"
+            android:textColor="@color/white"
+
+            android:singleLine="false"
+            android:paddingTop="8dip"
+            android:paddingBottom="8dip"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold"
+            android:id="@+id/overview_level1_name"
+            android:layout_weight="10" />
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="12dp"
+            android:gravity="end|center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/overview_level1_duration_sum_label"
+                android:textStyle="italic"
+                android:paddingLeft="8dip"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="9 Std 34 Min"
+                android:id="@+id/overview_level1_duration_sum"
+                android:paddingLeft="8dip"
+                android:textStyle="italic"
+                android:textColor="@color/white"
+                android:paddingRight="0dip" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

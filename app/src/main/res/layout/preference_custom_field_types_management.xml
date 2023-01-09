@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="0px"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/settings_item_padding_horizontal"
+        android:paddingRight="@dimen/settings_item_padding_horizontal"
+        android:minHeight="@dimen/settings_section_header_min_height"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/preferenceStyle"
+        android:text="@string/acquisition_times_group_times"
+        android:visibility="gone"
+        android:id="@android:id/summary" />
+    <com.linearlistview.LinearListView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:showDividers="middle|end"
+        android:divider="@drawable/separator"
+        android:dividerPadding="2dp"
+        app:dividerThickness="1dp"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:id="@+id/insert"
+        android:minHeight="@dimen/settings_item_min_height"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/settings_item_padding_horizontal"
+        android:paddingRight="@dimen/settings_item_padding_horizontal"
+        android:background="@drawable/list_item_selector"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_action_new_dark"
+             />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_subhead_material"
+            android:paddingRight="@dimen/preference_item_padding_side"
+            android:textAppearance="?android:attr/preferenceStyle"
+
+            android:paddingLeft="8dp"
+            android:text="@string/custom_field_type_add"
+            android:gravity="start" />
+    </LinearLayout>
+
+
+</LinearLayout>

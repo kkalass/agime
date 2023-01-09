@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <PreferenceCategory
+        android:title="@string/settings_group_management"
+        android:key="pref_key_storage_settings_management">
+        <Preference android:title="@string/settings_activity_type" >
+            <intent android:targetClass="de.kalass.agime.activitytype.ActivityTypeManagementActivity" android:targetPackage="de.kalass.agime" />
+        </Preference>
+        <Preference android:title="@string/settings_categories" >
+            <intent android:targetClass="de.kalass.agime.category.CategoryManagementActivity" android:targetPackage="de.kalass.agime" />
+        </Preference>
+        <Preference android:title="@string/settings_projects" >
+            <intent android:targetClass="de.kalass.agime.project.ProjectManagementActivity" android:targetPackage="de.kalass.agime" />
+        </Preference>
+
+        <de.kalass.agime.customfield.CustomFieldTypeListPreference
+            android:key="pref_key_custom_field_types"
+            android:title="@string/fragment_custom_field_types_label">
+
+        </de.kalass.agime.customfield.CustomFieldTypeListPreference>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_group_acquisition"
+        android:key="pref_key_acquisition_time_group">
+        <Preference android:title="@string/action_acquisition_times" >
+            <intent android:targetClass="de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity" android:targetPackage="de.kalass.agime" />
+        </Preference>
+
+        <CheckBoxPreference
+            android:key="pref_acquisition_time_notification"
+            android:title="@string/pref_acquisition_time_notification"
+            android:summaryOn="@string/pref_acquisition_time_notification_summary"
+            android:summaryOff="@string/pref_acquisition_time_notification_summary_off"
+            android:defaultValue="true" />
+
+
+        <ListPreference
+            android:key="pref_acquisition_time_notification_noise_interval"
+            android:dependency="pref_acquisition_time_notification"
+            android:title="@string/pref_acquisition_time_notification_noise"
+            android:defaultValue="120"
+            android:entryValues="@array/notification_noise_interval_options_minutes"
+            android:entries="@array/notification_noise_interval_options_labels"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_group_backup"
+        android:key="pref_key_storage_settings">
+
+        <CheckBoxPreference
+            android:key="pref_backup_automatically"
+            android:title="@string/pref_backup_to_sd"
+            android:summaryOff="@string/pref_backup_to_sd_summary_off"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_backup_to_drive"
+            android:title="@string/pref_backup_to_drive"
+            android:summaryOn="@string/pref_backup_to_drive_summary"
+            android:summaryOff="@string/pref_backup_to_drive_summary_off"
+            android:defaultValue="false" />
+        <CheckBoxPreference
+            android:key="pref_backup_to_dropbox"
+            android:title="@string/pref_backup_to_dropbox"
+            android:summaryOn="@string/pref_backup_to_dropbox_summary"
+            android:summaryOff="@string/pref_backup_to_dropbox_summary_off"
+            android:defaultValue="false" />
+
+        <ListPreference
+            android:key="pref_backup_num_files"
+            android:title="@string/pref_backup_num_files"
+            android:summary="@string/pref_backup_num_files_summary"
+            android:defaultValue="5"
+            android:entryValues="@array/backup_num_files_options"
+            android:entries="@array/backup_num_files_options"
+            />
+
+        <Preference android:title="@string/settings_group_backup_more" >
+            <intent android:targetClass="de.kalass.agime.backup.BackupRestoreActivity" android:targetPackage="de.kalass.agime" />
+        </Preference>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settings_group_other"
+        android:key="pref_key_other_group">
+        <CheckBoxPreference
+            android:key="pref_keep_screen_on"
+            android:title="@string/pref_keep_screen_on"
+            android:summaryOn="@string/pref_keep_screen_on_summary"
+            android:summaryOff="@string/pref_keep_screen_on_summary_off"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

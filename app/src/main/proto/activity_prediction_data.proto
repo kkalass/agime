@@ -1,0 +1,35 @@
+package agime.prediction;
+
+option java_package = "de.kalass.agime.prediction";
+option java_outer_classname = "PredictionData";
+
+// Main container for the configuration data of a activity prediction
+message ActivityPredictionData {
+    optional ActivityPredictionRowBuilderState rowBuilder = 1;
+    optional MulticlassLogisticRegression trainingResult = 2;
+}
+
+message ActivityPredictionRowBuilderState {
+    required int32 numDimensions = 1; // consistency check
+    required int32 weekdaysFieldsNum = 2; // controls algorithm for weekdays
+    repeated LocalTime timeSliceBorders = 3;
+    required int32 numPrevious = 4;
+    repeated int64 activityTypeId = 5;
+}
+
+message LocalTime {
+    required int32 hour = 1;
+    required int32 minute = 2;
+}
+
+message MulticlassLogisticRegression {
+  repeated double meansPerColumn = 1; // normalization of input data
+  repeated double stdDevPerColumn = 2;  // normalization of input data
+  repeated LogisticRegression thetas = 3; // per output class, the theta vector
+}
+
+message LogisticRegression {
+  required string serializedClassValue = 1;
+  repeated double theta = 2;
+}
+

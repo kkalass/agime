@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:agime="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_go_to_today"
+        android:icon="@drawable/ic_today_white_24dp"
+        android:title="@string/action_go_to_today"
+        agime:showAsAction="ifRoom" />
+    <item android:id="@+id/action_stop_acquisition"
+        android:title="@string/description_stop_acquisition"
+        android:orderInCategory="100"
+        agime:showAsAction="never" />
+    <item android:id="@+id/action_restart_acquisition"
+        android:title="@string/description_restart_acquisition"
+        android:orderInCategory="110"
+        agime:showAsAction="never" />
+
+</menu>

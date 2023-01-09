@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:minHeight="@dimen/settings_item_min_height"
+    android:gravity="center_vertical"
+
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:visibility="gone"
+        android:id="@+id/status_row_insert"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/settings_item_padding_horizontal"
+            android:paddingRight="@dimen/settings_item_padding_horizontal"
+            android:minHeight="@dimen/settings_section_header_min_height"
+            android:gravity="center_vertical"
+            android:textAppearance="?android:attr/listSeparatorTextViewStyle"
+            android:text="@string/automatic_acquisition_label"
+            android:id="@+id/acquisition_times_label" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="?android:attr/listDivider" />
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:id="@+id/status_row"
+        >
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minHeight="@dimen/settings_section_header_min_height"
+            android:gravity="center_vertical"
+
+            android:paddingLeft="@dimen/settings_item_padding_horizontal"
+            android:paddingRight="@dimen/settings_item_padding_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textAppearance="?android:attr/listSeparatorTextViewStyle"
+                android:text="@string/automatic_acquisition_label"
+                android:textOn="Aktiv"
+                android:textOff="Inaktiv"
+                android:checked="true"
+                android:id="@+id/status_switch"
+
+                />
+            <TextView
+                android:id="@+id/heading_label"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="@string/automatic_acquisition_label"
+                android:layout_weight="5"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:paddingBottom="0dp"
+                android:layout_marginTop="0dp"
+                android:textAppearance="?android:attr/listSeparatorTextViewStyle"
+                android:layout_marginLeft="2dip"
+                android:layout_marginRight="2dip"
+                android:visibility="gone"
+                />
+            <TextView
+                android:id="@+id/heading_date"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:text="Heute"
+                android:layout_weight="5"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:paddingBottom="0dp"
+                android:layout_marginTop="0dp"
+                android:gravity="right"
+
+                android:layout_marginLeft="2dip"
+                android:layout_marginRight="2dip"
+                android:visibility="gone"
+                />
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:background="?android:attr/listDivider" />
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:visibility="gone"
+            android:id="@+id/current_acquisition_until_row"
+            >
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="64dip"
+                >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:text="@string/acquisition_times_inactive_until"
+                    android:layout_weight="5"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:paddingBottom="0dp"
+                    android:layout_marginTop="0dp"
+
+                    style="@style/TextAppearance.EditEvent_LabelSmall"
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    />
+                <Button
+                    android:id="@+id/current_acquisition_until"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="Mo., 27.12.2013"
+                    style="@style/TextAppearance.EditEvent_Spinner"
+                    android:contentDescription="@string/accessibility_pick_start_time"
+                    />
+            </LinearLayout>
+            <View
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dip"
+                android:background="?android:attr/listDivider" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="64dip"
+            >
+            <LinearLayout
+                android:id="@+id/from_row"
+                android:orientation="vertical"
+                android:layout_width="0px"
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:minHeight="64dip"
+                >
+                <TextView
+                    android:id="@+id/from_label"
+                    android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                    android:paddingRight="@dimen/settings_item_padding_horizontal"
+
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="@string/track_activity_from_label"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="8dp"
+
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    />
+                <Button
+                    android:id="@+id/start_time"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="09:00"
+                    style="@style/TextAppearance.EditEvent_Spinner"
+                    android:contentDescription="@string/accessibility_pick_start_time"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/to_row"
+                android:orientation="vertical"
+                android:layout_width="0px"
+                android:layout_weight="5"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:minHeight="64dip"
+                >
+                <TextView
+                    android:id="@+id/to_label"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                    android:paddingRight="@dimen/settings_item_padding_horizontal"
+
+                    android:text="@string/track_activity_to_label"
+                    android:layout_gravity="center_vertical"
+
+                    android:layout_marginLeft="2dip"
+                    android:layout_marginRight="2dip"
+                    />
+                <Button
+                    android:id="@+id/end_time"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="18:00"
+                    style="@style/TextAppearance.EditEvent_Spinner"
+                    android:contentDescription="@string/accessibility_pick_end_time"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/weekdays_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/settings_item_padding_horizontal"
+            android:paddingRight="@dimen/settings_item_padding_horizontal"
+            android:layout_marginLeft="0dp"
+            android:paddingBottom="16dp"
+            android:minHeight="@dimen/settings_section_header_min_height"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp"
+
+            android:text="Wochentage" />
+
+        <LinearLayout
+            android:id="@+id/weekdays_row"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:paddingLeft="@dimen/settings_item_padding_horizontal"
+            android:paddingRight="@dimen/settings_item_padding_horizontal"
+
+            android:layout_weight="5"
+            android:layout_height="0px"
+            android:minHeight="64dip"
+            >
+
+            <GridView 
+                android:id="@+id/gridview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:columnWidth="68dp"
+                android:numColumns="auto_fit"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

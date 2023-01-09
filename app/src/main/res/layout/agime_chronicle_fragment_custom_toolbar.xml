@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/actionview"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="4dp"
+
+    tools:ignore="UnusedAttribute">
+    <LinearLayout
+        android:id="@+id/faketoolbar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+        <LinearLayout
+            android:id="@+id/heading"
+            android:visibility="gone"
+
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_marginTop="@dimen/chronicle_toolbar_header_margin_top_initial"
+
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/heading_text"
+                android:layout_marginTop="0dp"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/primary_text_dark"
+
+                android:textSize="@dimen/chronicle_toolbar_header_text_size_initial"
+                android:text="Moinsen"
+                android:singleLine="true"
+                />
+            <ImageView
+                android:id="@+id/heading_text_icon"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_action_arrow_drop_down_48"
+                android:layout_gravity="fill_vertical|end"/>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="32dp"
+            android:layout_marginLeft="0dp"
+            android:lines="3"
+            android:maxLines="3"
+            android:minLines="3"
+            android:singleLine="false"
+            android:textColor="@android:color/primary_text_dark"
+            android:paddingTop="8dp"
+            android:paddingBottom="2dp"
+            android:text=""
+            android:visibility="visible"
+
+            />
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:visibility="gone"
+            android:orientation="vertical"
+
+            android:paddingTop="0dp"
+            android:layout_marginTop="-8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_gravity="end"
+
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:text="@string/action_item_of_day_extend_previous_action"
+                android:layout_marginBottom="0dp"
+                android:paddingRight="32dp"
+                android:singleLine="true"
+                tools:ignore="NewApi" />
+            <Button
+                android:id="@+id/button"
+                android:layout_marginTop="0dp"
+                android:layout_width="fill_parent"
+                android:layout_gravity="end"
+                android:gravity="end|center_vertical"
+                android:textColor="@color/white"
+                android:paddingRight="32dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                style="?android:attr/borderlessButtonStyle"
+                tools:ignore="NewApi"
+                android:text="@string/action_item_of_day_action"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,137 @@
+package agime.backup;
+
+option java_package = "de.kalass.agime.backup";
+option java_outer_classname = "BackupData";
+
+// Main container for a full backup of Agime data
+message PersonalBackup {
+    repeated TrackedActivity tracked_activities = 1;
+    repeated Project projects = 2;
+    repeated ActivityType activity_types = 3;
+    repeated ActivityTypeCategory activity_type_categories = 4;
+    repeated CustomFieldType custom_field_types = 5;
+    repeated RecurringAcquisitionTime recurring_acquisition_times = 6;
+
+    optional int64 latest_insert_or_update_millis = 14;
+    optional int64 created_at = 15;
+}
+
+message TrackedActivity {
+    required int64 identifier = 1;
+    optional int64 activity_type_reference = 2;
+    optional int64 project_reference = 3;
+
+    // really required: tracking an activity without the times is worthless
+    required int64 starttime_millis = 4;
+    required int64 endtime_millis = 5;
+    repeated ActivityCustomFieldValue custom_field_values = 6;
+    optional string details = 7;
+
+    optional int32 insert_duration_millis = 8;
+    optional int32 update_duration_millis = 9;
+    optional int32 update_count = 10;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+
+}
+
+// N2M Relation TrackedActvity -> CustomFieldTypeValue => anders kodieren?
+message ActivityCustomFieldValue {
+    required int64 identifier = 1;
+    required int64 custom_field_value_reference = 2;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+}
+
+message ActivityType {
+    required int64 identifier = 1;
+    optional string name = 2;
+    optional int64 activity_type_category_reference = 3;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+}
+
+message ActivityTypeCategory {
+    required int64 identifier = 1;
+    optional string name = 2;
+    optional sint64 color_code = 3;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+}
+
+message Project {
+    required int64 identifier = 1;
+    optional string name = 2;
+    optional sint64 color_code = 3;
+
+    // the custom field types that will be shown for this project
+    repeated ProjectCustomFieldType custom_field_types = 4;
+
+    optional int64 active_until_millis = 5;
+
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+}
+
+message CustomFieldType {
+    required int64 identifier = 1;
+    optional string name = 2;
+
+    optional bool any_project = 3;
+
+    repeated CustomFieldTypeValue values = 4;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+
+}
+
+message ProjectCustomFieldType {
+    required int64 identifier = 1;
+    required int64 custom_field_type_reference = 2;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+
+}
+
+message CustomFieldTypeValue {
+    required int64 identifier = 1;
+    optional string field_value = 2;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+}
+
+
+message RecurringAcquisitionTime {
+    required int64 identifier = 1;
+
+    repeated Weekday weekdays = 2;
+
+    optional int32 start_time_hours = 3 [default = 9];
+    optional int32 start_time_minutes = 4 [default = 0];
+    optional int32 end_time_hours = 5 [default = 18];
+    optional int32 end_time_minutes = 6 [default = 0];
+
+    optional int64 inactive_until_millis = 7;
+    optional int64 active_once_date_millis = 8;
+
+    optional int64 modified_at = 14;
+    optional int64 created_at = 15;
+
+    enum Weekday {
+        MO = 0;
+        TUE = 1;
+        WED = 2;
+        THU = 3;
+        FR = 4;
+        SA = 5;
+        SU = 6;
+    }
+}

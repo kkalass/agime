@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_report">Auswertung</string>
+    <string name="action_daily_report">Tag</string>
+    <string name="action_weekly_report">Woche</string>
+    <string name="action_monthly_report">Monat</string>
+    <string name="action_yearly_report">Jahr</string>
+    <string name="action_chronicle">Chronik</string>
+
+
+    <string-array name="notification_noise_interval_options_labels">
+        <item>Nie</item>
+        <item>15 Minuten</item>
+        <item>30 Minuten</item>
+        <item>45 Minuten</item>
+        <item>1 Stunde</item>
+        <item>2 Stunden</item>
+        <item>3 Stunden</item>
+        <item>4 Stunden</item>
+    </string-array>
+
+    <string name="app_name">Agime</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="activity_title_add_tracked">Add</string>
+    <string name="action_track_activity">Aktivität tracken</string>
+    <string name="action_tracktime_new">Tätigkeit aufzeichnen</string>
+    <string name="action_tracktime_new_notification">Eintragen</string>
+    <string name="fragment_tracked_activities_empty_text">Keine Aktivitäten aufgezeichnet</string>
+    <string name="activity_track_details">Beschreibung</string>
+    <string name="track_activity_from_label">Von</string>
+    <string name="track_activity_to_label">Bis</string>
+    <string name="accessibility_pick_start_time">Zeitpunkt, zu dem die Aktivität begonnen wurde</string>
+    <string name="accessibility_pick_end_time">Zeitpunkt, zu dem die Aktivität beendet wurde</string>
+    <string name="track_activity_name_label">Aktivität</string>
+    <string name="track_activity_category_label">Kategorie</string>
+    <string name="track_activity_project_label">---</string>
+    <string name="activity_category_default">Ohne Kategorie</string>
+    <string name="activity_project_default">Ohne Projekt</string>
+    <string name="activity_name_default">Ohne Titel</string>
+    <string name="action_export_csv">CSV exportieren</string>
+    <string name="action_backup">Sicherungskopie erstellen</string>
+    <string name="error_backup_failed_export_dir">Fehler beim Erstellen des Export-Verzeichnisses</string>
+    <string name="error_backup_failed_cleanup">Fehler beim Löschen alter Export-Dateien</string>
+    <string name="error_backup_failed_storage_not_writeable">Stellen Sie bitte sicher, dass die SD-Karte eingelegt und das Smartphone nicht an einen Computer angeschlossen ist.</string>
+    <string name="error_backup_failed_storage_not_writeable_title">Externer Speicher kann nicht geschrieben werden.</string>
+    <string name="fragment_activity_types_empty_text">Keine benannten Aktivitäten</string>
+    <string name="action_list_activities">Aktivitätsnamen verwalten</string>
+    <string name="action_list_categories">Kategorien verwalten</string>
+    <string name="action_list_projects">Projekte verwalten</string>
+    <string name="export_chooser">Exportieren nach&#8230;</string>
+    <string name="action_edit_activity">Aktivität bearbeiten</string>
+    <!--string name="action_add">Hinzufügen</string>
+    <string name="action_edit">Bearbeiten</string>
+    <string name="action_save">Speichern</string>
+    <string name="action_delete">Löschen</string-->
+    <string name="fragment_project_management_empty_text">Keine Projekte</string>
+    <string name="action_edit_category">Kategorie bearbeiten</string>
+    <string name="action_edit_project">Projekt bearbeiten</string>
+    <string name="fragment_category_management_empty_text">Keine Kategorien</string>
+    <string name="new_category_title">Neue Kategorie</string>
+    <string name="track_activity_existing_adjusted">Bestehende Einträge wurden angepasst</string>
+    <string name="track_activity_new_adjusted">Der neue Eintrag wurde aufgeteilt</string>
+    <string name="settings_categories">Kategorien</string>
+    <string name="settings_projects">Projekte</string>
+    <string name="settings_activity_type">Aktivitätstypen</string>
+    <string name="settings_group_management">Erfasste Daten</string>
+    <string name="settings_group_other">Sonstige Einstellungen</string>
+    <string name="settings_group_acquisition">Erfassung</string>
+    <string name="activity_name_label">Name</string>
+    <string name="activity_category_label">Kategorie</string>
+    <string name="category_name_label">Kategoriename</string>
+    <string name="category_color_label">Farbe</string>
+    <string name="project_name_label">Projektname</string>
+    <string name="project_color_label">Farbe</string>
+    <string name="action_restore">Aus Sicherungskopie wiederherstellen</string>
+    <string name="action_restore_chooser">Wiederherstellen von&#8230;</string>
+    <string name="action_restore_confirm_title">Sicherung wiederherstellen</string>
+    <string name="action_restore_confirm_message">Die lokalen Daten werden beim Einspielen der Sicherungsdatei überschrieben</string>
+    <string name="action_restore_confirm_ok">Fortfahren</string>
+    <string name="action_backup_restore">Daten Sichern/Wiederherstellen</string>
+    <string name="overview_level1_duration_sum_label">&#8721;</string>
+    <string name="overview_level1_title_any">Alle Aktivitäten</string>
+    <string name="overview_level1_title_any_restricted_custom_field">Aktivitäten mit: %1$s</string>
+    <string name="track_activity_day_label">Datum</string>
+    <string name="action_acquisition_times">Zeiten</string>
+    <string name="acquisition_times_group_current_state">Aktuell</string>
+    <string name="acquisition_times_group_times">Erfassungszeiten</string>
+    <string name="acquisition_times_inactive_until">Deaktiviert bis</string>
+    <string name="title_activity_recurring_acquisition_time_editor">Wiederkehrende Erfassungszeit</string>
+    <string name="automatic_acquisition_label">Erfassungszeit</string>
+    <string name="backup_failure_notif_title">Backup fehlgeschlagen</string>
+    <string name="backup_failure_notif_details">Schreiben in den externen Speicher fehlgeschlagen</string>
+    <string name="backup_failure_drive_connection_title">Google Drive: Backup fehlgeschlagen</string>
+    <string name="backup_failure_drive_connection_details">Es konnte keine Verbindung zu Google Drive hergestellt werden</string>
+    <string name="backup_failure_drive_title">Google Drive: Backup fehlgeschlagen</string>
+    <string name="backup_failure_drive_details">Es gab einen Fehler beim Anlegen des Backups</string>
+    <string name="acquisition_times_current_label">Aktuell</string>
+    <string name="acquisition_times_current_active">Erfassung aktiv bis</string>
+    <string name="acquisition_times_current_inactive">Erfassung inaktiv</string>
+    <string name="acquisition_times_temporarily_disabled_title">Erfassungszeit wird deaktiviert bis:</string>
+    <string name="action_tracktime_notification_settings">Einstellungen</string>
+
+    <string name="fragment_custom_field_types_label">Weitere Daten konfigurieren</string>
+    <string name="custom_field_type_name_label">Name</string>
+    <string name="custom_field_type_name_hint">Mein Datenfeld</string>
+    <string name="custom_field_type_activity_label">Eigener Feldtyp</string>
+    <string name="custom_field_value_name_label">Name</string>
+    <string name="overview_group_types_project">Projekt</string>
+    <string name="overview_group_types_activity_type">Aktivität</string>
+    <string name="overview_group_types_category">Kategorie</string>
+    <string name="overview_level1_title_any_dropdown_value">---</string>
+    <string name="custom_field_type_delete_title">%1$s löschen?</string>
+    <string name="custom_field_type_delete_message">Es werden alle Werte von \"%1$s\" gelöscht.</string>
+    <plurals name="track_activity_delete_title">
+        <item quantity="one">Eintrag löschen?</item>
+        <item quantity="other">%d Einträge löschen?</item>
+    </plurals>
+
+    <string name="track_activity_delete_message">Gelöschte Einträge können nicht wieder hergestellt werden</string>
+    <string name="first_use_defaults_category_communication">Kommunikation</string>
+    <string name="first_use_defaults_category_break">Pause</string>
+    <string name="first_use_defaults_category_acquisition">Akquise</string>
+    <string name="first_use_defaults_category_selforganization">Selbstorganisation</string>
+    <string name="first_use_defaults_project_leisure">Freizeit</string>
+    <string name="first_use_defaults_project_work">Arbeit</string>
+    <string name="first_use_defaults_activity_type_try_agime">Agime ausprobieren</string>
+    <string name="first_use_defaults_activity_type_create_angebot">Angebot erstellen</string>
+    <string name="first_use_defaults_activity_type_meeting">Besprechung</string>
+    <string name="first_use_defaults_activity_type_emails">E-Mails bearbeiten</string>
+    <string name="first_use_defaults_activity_type_phone">Telefonieren</string>
+    <string name="first_use_defaults_activity_type_coffee">Kaffeepause</string>
+    <string name="first_use_defaults_activity_type_lunch">Mittagessen</string>
+    <string name="welcome_title">Willkommen bei Agime!</string>
+    <string name="welcome_message"><b>Wenn du eine neue Aktivität beginnst</b>, dann füge doch sofort
+        einen Eintrag für die vorherige Aktivität hinzu - also für das, was du <b>bis dahin</b> gemacht hast!
+        \n\nSo erhälst du ganz einfach eine komplette <b>Chronik</b> deiner Aktivitäten.
+\n\nUnd solltest du nicht 24 Stunden am Tag tracken wollen: Agime geht davon aus, dass du deine Aktivitäten <b>Wochentags ab 09:00 Uhr aufzeichnen</b> möchtest und nimmt deshalb 09:00 Uhr als Startzeit für die erste Aktivität des Tages - logischerweise kannst du diese Zeit aber in den Einstellungen anpassen.
+</string>
+    <string name="action_first_item_of_day_heading">Moinsen!</string>
+
+    <string name="action_first_item_of_day_message">Na, was hast du in den letzten &lt;b>%1$s Minuten&lt;/b> seit &lt;b>%2$s&lt;/b> gemacht?</string>
+    <string name="action_first_item_of_day_message_acquisition_time_started">Na, was machst du gerade? Die Erfassungszeit ist aktiv bis &lt;b>%1$s&lt;/b>.</string>
+    <string name="action_first_item_of_day_message_no_minutes">Na, was machst du gerade?</string>
+    <string name="action_first_item_of_day_start_acquisition_time">Ab jetzt erfassen</string>
+    <string name="action_first_item_of_day_start_acquisition_time_success">Erfassungszeit gestartet</string>
+    <string name="action_next_item_of_day_heading">Was machst du?</string>
+    <string name="action_next_item_of_day_message">Hast du in den letzten &lt;i>%1$s Minuten&lt;/i> weiterhin die Aktivität &lt;i>%3$s&lt;/i> ausgeführt?</string>
+
+    <string name="action_next_item_of_day_message_no_title">Was hast du in den letzten &lt;i>%1$s Minuten&lt;/i> seit &lt;i>%2$s&lt;/i> gemacht?</string>
+    <string name="action_fresh_item_of_day_heading">Alles klar!</string>
+    <string name="action_fresh_item_of_day_message_with_previous_details">Für das Eintragen von %3$s &lt;b>%2$s&lt;/b> hast du &lt;b>%1$s&lt;/b> gebraucht.</string>
+    <string name="action_item_of_day_action">Neue Aktivität</string>
+    <!--string name="action_item_of_day_extend_previous_action"><![CDATA[<b>%1$s</b> bis jetzt um %2$s Min. verlängern]]></string-->
+    <string name="action_item_of_day_extend_previous_action"><![CDATA[Verlängern: %1$s ]]></string>
+    <string name="action_last_item_of_day_heading">Fertig!</string>
+    <!-- &lt;br>Das entspricht &lt;b>%2$2.2f&lt;/b>%% des erfassten Zeitraumes.-->
+    <string name="action_last_item_of_today_message">Du hast heute insgesamt &lt;b>%1$s&lt;/b> für das Eintragen deiner Aktivitäten benötigt.</string>
+    <string name="action_last_item_of_day_message"> &lt;b>%2$2.2f&lt;/b>%% der erfassten Zeit hast du deine Aktivitäten eingetragen.</string>
+    <string name="faq_message">
+        <b>Wo werden meine Daten gespeichert?</b>
+        \nAlle Daten werden nur auf deinem Telefon gespeichert.
+        \n\n<b>Komme ich selber an meine Daten?</b>
+        \nIn den <i>Einstellungen</i> findest du unter dem Punkt <i>Daten Sichern/Wiederherstellen</i>
+        Optionen, um deine Daten zu exportieren. Du kannst sie dir z. B. per E-Mail als CSV-Datei schicken.
+    \n\n<b>Wofür braucht Agime Zugriff auf das Internet?</b>
+    \nDu hast die Option, tägliche Backups in Google Drive oder Dropbox einzurichten,
+        wofür Zugriff auf das Internet erforderlich ist.
+    \n\n<b>Werden meine Daten jemals ohne mein Wissen in der Cloud gespeichert werden?</b>
+    \nWir wissen, dass die von Dir eingegebenen Daten
+        sehr sensibel sind und deshalb werden wir diese Daten niemals ohne deine explizite Zustimmung
+        übertragen oder in der Cloud speichern. Wenn du möchtest, kannst du in den Einstellungen
+        ein Backup in Google Drive oder Dropbox einrichten, womit ein Backup deiner Daten bei
+        dem entsprechenden Anbieter erzeugt wird.
+    \n\n
+    </string>
+    <string name="faq_title">FAQ</string>
+    <string name="action_faq">FAQ</string>
+    <string name="undo_expand_message">Verlängert um %1$s</string>
+    <string name="extend_previous_action_reversed">Die vorherige Aktivität wurde wieder auf ihre letzte Endzeit zurückgesetzt</string>
+    <string name="extend_previous_action_undo_error_title">Fehler</string>
+    <string name="extend_previous_action_undo_error_message">Konnte die Verlängerung der Aktivität nicht rückgängig machen</string>
+    <string name="settings_group_backup">Daten Sichern / Wiederherstellen</string>
+    <string name="pref_acquisition_time_notification">Benachrichtigung</string>
+    <string name="pref_acquisition_time_notification_summary">Während der Erfassungszeiten wird eine Benachrichtigung angezeigt</string>
+    <string name="pref_acquisition_time_notification_summary_off">Keine</string>
+    <string name="action_first_item_of_day_start_acquisition_time_error_title">Fehler</string>
+    <string name="action_first_item_of_day_start_acquisition_time_error_message">Die Erfassungszeit konnte nicht erstellt werden</string>
+    <string name="action_item_of_day_end_acquisition_time_message">Erfassungszeit für heute beenden?</string>
+    <string name="action_item_of_day_end_acquisition_time_error_title">Fehler</string>
+    <string name="action_item_of_day_end_acquisition_time_error_message">Die Erfassungszeit konnte nicht beendet werden</string>
+    <string name="pref_backup_to_sd">Externer Speicher</string>
+    <string name="pref_backup_to_sd_summary">Täglich automatisch Sicherungskopien im externen Speicher erstellen</string>
+    <string name="pref_backup_to_sd_summary_off">Keine täglichen Sicherungskopien im externen Speicher</string>
+    <string name="pref_backup_to_drive">Google Drive</string>
+    <string name="pref_backup_to_drive_summary">Täglich automatisch Sicherungskopien in Google Drive erstellen</string>
+    <string name="pref_backup_to_drive_summary_off">Keine täglichen Sicherungskopien in Google Drive</string>
+    <string name="pref_backup_to_dropbox">Dropbox</string>
+    <string name="pref_backup_to_dropbox_summary">Täglich automatisch Sicherungskopien in Dropbox erstellen</string>
+    <string name="pref_backup_to_dropbox_summary_off">Keine täglichen Sicherungskopien in Dropbox</string>
+    <string name="pref_backup_num_files">Maximale Anzahl Sicherungskopien</string>
+    <string name="pref_backup_num_files_summary" >Die %1$s neuesten täglichen Sicherungskopien werden aufbewahrt</string>
+    <string name="settings_group_backup_more">Weitere Optionen&#8230;</string>
+    <string name="description_about">Über Agime</string>
+
+
+    <!-- Legal stuff -->
+    <string name="about_eula">Nutzungsbedingungen</string>
+    <string name="about_licenses">Software von Drittanbietern</string>
+    <string name="about_privacy">Datenschutzerklärung</string>
+    <string name="about_body_top"><![CDATA[
+    <b>Agime Version %s</b><br><br>
+
+        &#x00A9;2014 Klas Kalaß
+    ]]></string>
+    <string name="about_body_bottom">Agime hilft dir, schnell und einfach zu erfassen was du wirklich machst.</string>
+    <string name="about_credits"><![CDATA[
+    Mein besonderer Dank geht an:<br><br>
+    <a href="http://androiduiux.com">UI/UX Tips</a><br> für die Orientierung bei UI/UX Fragen<br><br>
+    <a href="http://www.android-app-patterns.com/">Android App Patterns</a><br> ebenfalls für die Orientierung bei UI/UX Fragen<br><br>
+    &#8230; und auch Google und seinen Mitarbeitern für Android und die super Design-Guidelines<br><br>
+    ]]></string>
+
+    <!--suppress AndroidLintTypographyOther -->
+    <string name="eula_text"><![CDATA[
+        FIXME
+        TODO
+    ]]></string>
+    <string name="title_about">Über Agime</string>
+    <string name="about_feedback">Feedback geben</string>
+    <string name="about_feedback_description">Lob, Kritik, Anregungen</string>
+    <string name="about_bugs">Ein Problem melden</string>
+    <string name="about_bugs_description">Teil Probleme oder Fehler mit</string>
+    <string name="mail_subject_feedback">Feedback zu Agime v%1$s</string>
+    <string name="mail_chooser_feedback">Feedback geben:</string>
+    <string name="mail_subject_bugreport">Fehler oder Problem in Agime v%1$s</string>
+    <string name="mail_chooser_bugreport">Fehler oder Problem melden:</string>
+    <string name="about_impressum" ><![CDATA[
+    <b>Impressum</b><br><br>
+    <b>Anbieter:</b><br>
+     Klas Kalaß<br>
+     Sierichstraße 88<br>
+     22301 Hamburg<br><br>
+     <b>Kontakt:</b><br>
+     e-Mail: habbatical@gmail.com<br>
+     Telefon: 01577 1567 115<br>
+
+    ]]></string>
+    <string name="pref_analytics_summary_on">Das Nutzungsverhalten wird erfasst. Damit hilfst du uns dabei, Agime zu verbessern - Danke!</string>
+    <string name="pref_analytics_summary_off">Es werden keine Daten erfasst. Wenn du die Weiterentwicklung von Agime unterstützen möchtest, dann aktiviere diese Option doch bitte.</string>
+    <string name="about_licenses_failed">Die Lizenzdaten konnten nicht gelesen werden. Bitte melde diesen Fehler.</string>
+    <string name="error_drive_failed">Konnte Verbindung zu Google Drive nicht herstellen</string>
+    <string name="backup_failure_dropbox_title">Dropbox: Backup fehlgeschlagen</string>
+    <string name="backup_failure_dropbox_link_message">Bitte überprüfe die Einstellungen und verknüpfe ggf. die Dropbox erneut.</string>
+    <string name="backup_failure_dropbox_message">Fehler beim Schreiben in die Dropbox</string>
+    <string name="supportEmailBody"><![CDATA[
+Agime: %1$s\n
+Mein Gerät: %2$s, %3$s, Android %4$s %5$d\n
+\n
+    ]]></string>
+    <string name="mail_chooser_no_mail_clients">Bitte installieren Sie einen E-Mail Client</string>
+    <string name="end_time_end_of_day">heute Nacht</string>
+    <string name="track_activity_project_hint">Projekt</string>
+    <string name="track_activity_name_hint">Vorgeschlagene Aktivitäten</string>
+    <string name="description_restart_acquisition">Erfassungszeit fortsetzen</string>
+    <string name="description_stop_acquisition">Erfassungszeit jetzt beenden</string>
+    <string name="action_last_item_of_day_heading_unfinished">Fertig?</string>
+    <string name="action_next_item_of_day_message_no_title_unfinished">Dir fehlen noch Einträge für diesen Tag</string>
+    <string name="action_next_item_of_day_message_unifished">&lt;br>Was hast du in den letzten &lt;b>%1$s Minuten&lt;/b> seit &lt;b>%2$s&lt;/b> gemacht?</string>
+    <string name="pref_acquisition_time_notification_noise">Lautere Benachrichtigung</string>
+    <string name="pref_acquisition_time_notification_noise_interval_summary_off">Nie</string>
+    <string name="pref_acquisition_time_notification_noise_interval_summary_on">Nach %1$s</string>
+    <string name="acquisition_times_none_configured">Keine Erfassungszeiten konfiguriert</string>
+    <string name="restore_failed_title">Fehler</string>
+    <string name="restore_failed_message">Die Daten konnten nicht wiederhergestellt werden. Bitte kontaktieren Sie den Support.</string>
+    <string name="data_type_name_project">Projekt</string>
+    <string name="data_type_name_custom_field">Datenfeld</string>
+    <string name="data_type_name_custom_value">Wert</string>
+    <string name="data_type_name_activity">Aktivität</string>
+    <string name="data_type_name_category">Kategorie</string>
+    <string name="custom_field_value_list_empty_text">Keine Einträge vorhanden für: %1$s</string>
+    <string name="custom_field_value_management_activity_title">%1$s verwalten</string>
+    <string name="ongoing_notif_after_acquisition_with_previous_activity_content_text">Letzte Aktivität: %1$s</string>
+    <string name="ongoing_notif_after_acquisition_with_previous_activity_content_info">Dauer %1$s</string>
+    <string name="ongoing_notif_after_acquisition_without_previous_activity_content_text">Na, was machst du seit %1$s?</string>
+    <string name="ongoing_notif_in_acquisition_first_activity_content_text">Na, was machst du seit %1$s?</string>
+    <string name="ongoing_notif_in_acquisition_first_activity_content_title">Moinsen!</string>
+    <string name="ongoing_notif_in_acquisition_next_activity_within_threshold_content_title">Aktuell: %1$s</string>
+    <string name="ongoing_notif_in_acquisition_next_activity_content_title">Was machst du gerade?</string>
+    <string name="ongoing_notif_in_acquisition_next_activity_content_text">Letzte Aktivität: %1$s</string>
+    <string name="ongoing_notif_in_acquisition_next_activity_content_info">Dauer %1$s</string>
+    <string name="ongoing_notif_in_long_after_content_title">Erinnerung: Was machst du?</string>
+    <string name="overview_group_types_custom_field_empty_value">%1$s nicht angegeben</string>
+    <string name="end_time_unknown">unbekannt</string>
+    <string name="activity_type_suggestion_create_activity_create_category_title">Neu: %1$s</string>
+    <string name="activity_type_suggestion_create_activity_create_category_subtitle_unnamed"><![CDATA[<Neue Kategorie>]]></string>
+    <string name="activity_type_suggestion_create_activity_create_category_subtitle"><![CDATA[<Neue Kategorie: %1$s>]]></string>
+    <string name="activity_type_suggestion_create_activity_with_category_title">Neu: %1$s</string>
+    <string name="activity_type_suggestion_edit_activity_title">Bearbeiten: %1$s</string>
+    <string name="time_suggestion_label_selected_activity_begin">Nächste Aktivität</string>
+    <string name="time_suggestion_label_selected_activity_end">Letzte Aktivität</string>
+    <string name="time_suggestion_label_selected_day_start">Mitternacht</string>
+    <string name="time_suggestion_label_selected_day_end">Mitternacht</string>
+    <string name="time_suggestion_label_selected_now">Jetzt</string>
+    <string name="time_suggestion_label_selected_workingday_start">Arbeitsbeginn</string>
+    <string name="time_suggestion_label_activity_begin">Beginn: %1$s</string>
+    <string name="time_suggestion_label_activity_end">Ende:  %1$s</string>
+    <string name="time_suggestion_label_day_start">Mitternacht</string>
+    <string name="time_suggestion_label_day_end">Mitternacht</string>
+    <string name="time_suggestion_label_now">Jetzt</string>
+    <string name="time_suggestion_label_workingday_start">Arbeitsbegin</string>
+    <string name="time_suggestion_label_anytime">Andere Zeit</string>
+    <string name="fragment_custom_field_project_specific_label">Projektspezifisch</string>
+    <string name="recurring_acquisition_time_add">Hinzufügen</string>
+    <string name="recurring_acquisition_time_next_occurance">Nächste Erfassung</string>
+    <string name="custom_field_type_add">Hinzufügen</string>
+    <string name="action_go_to_today">Zum aktuellen Tag</string>
+    <string name="action_go_to_current_month">Zum aktuellen Monat</string>
+    <string name="action_go_to_current_year">Zum aktuellen Jahr</string>
+    <string name="action_go_to_current_week">Zur aktuellen Woche</string>
+    <string name="action_go_to_current_week_superfluous">Die aktuelle Woche wird bereits angezeigt</string>
+    <string name="action_go_to_current_month_superfluous">Der aktuelle Monat wird bereits angezeigt</string>
+    <string name="action_go_to_current_year_superfluous">Das aktuelle Jahr wird bereits angezeigt</string>
+    <string name="action_go_to_current_day_superfluous">Der aktuelle Tag wird bereits angezeigt</string>
+    <string name="action_go_to_date_error_not_supported">Eine Wahl des Tages ist in dieser Auswertung nicht nötig</string>
+    <string name="pref_keep_screen_on">Chronik aktiv halten</string>
+    <string name="pref_keep_screen_on_summary">Solange das Gerät am Strom angeschlossen ist, wird das automatische Sperren des Bildschirms verhindert</string>
+    <string name="pref_keep_screen_on_summary_off">Der Bildschirm wird gemäß den Systemeinstellungen gesperrt</string>
+    <string name="drawer_close">Seitenleiste schließen</string>
+    <string name="drawer_open">Seitenleiste öffnen</string>
+    <string name="active_from_label">Aktiv Ab</string>
+    <string name="active_until_label">Aktiv Bis</string>
+    <string name="project_duration_limited">Projektlaufzeit begrenzt</string>
+    <string name="action_go_to_date_error_future">Datum in der Zukunft ist unzulässig</string>
+    <string name="action_go_to_date_error_past">Das Datum liegt zu weit in der Vergangenheit</string>
+    <string name="inactive">Inaktiv</string>
+    <string name="action_supplement">Aktivität nachtragen</string>
+    <string name="action_export_csv_overview">Aktivitäten als CSV</string>
+    <string name="overview_group_types_by_day">Tag</string>
+    <string name="overview_group_types_by_week">Woche</string>
+    <string name="overview_group_types_by_month">Monat</string>
+    <string name="overview_group_types_by_year">Jahr</string>
+    <string name="activity_no_day_default">---</string>
+    <string name="overview_total">Gesamt</string>
+    <string name="action_print_overview">Drucken</string>
+
+
+    <string name="track_activity_time_now">Jetzt</string>
+    <string name="action_accept">Fertig</string>
+    <string name="action_dismiss">Abbrechen</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_add">Hinzufügen</string>
+    <string name="action_delete_confirm_ok">OK</string>
+    <string name="action_delete_message">Gelöschte Daten können nicht wiederhergestellt werden</string>
+    <plurals name="action_delete_title">
+        <item quantity="one">Wert löschen?</item>
+        <item quantity="other">%d Werte löschen?</item>
+    </plurals>
+    <plurals name="cab_title">
+        <item quantity="one">1 Eintrag</item>
+        <item quantity="other">%d Einträge</item>
+    </plurals>
+    <string name="time_format_in_zero_days">Heute</string>
+    <plurals name="time_format_in_num_days">
+        <item quantity="one">Morgen</item>
+        <item quantity="other">In %d Tagen</item>
+    </plurals>
+
+    <string name="delete_failed_message">Löschen ist fehlgeschlagen</string>
+    <string name="delete_failed_title">Fehler</string>
+    <string name="insert_or_update_failed_title">Fehler</string>
+    <string name="action_edit">Bearbeiten</string>
+    <string name="error_dialog_title">Fehler</string>
+    <string name="error_dialog_save_failed_message">Speichern ist fehlgeschlagen</string>
+    <string name="error_dialog_save_pending">Fehler beim Speichern. Bitte versuche es später nochmal.</string>
+    <string name="time_format_duration_h_m">%1$d Std %2$02d Min</string>
+    <string name="time_format_duration_m_s">%1$d Min %2$d Sek</string>
+    <string name="time_format_duration_s">%d Sek</string>
+    <string name="time_format_duration_m">%d Min</string>
+    <string name="async_task_progress_title">In Arbeit…</string>
+    <string name="async_task_progress_message">Bitte warten</string>
+    <string name="action_save">Speichern</string>
+    <string name="today">Heute</string>
+    <string name="menu_settings">Einstellungen</string>
+</resources>

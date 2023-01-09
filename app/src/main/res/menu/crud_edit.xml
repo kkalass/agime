@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:kkcommons="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_save"
+        android:title="@string/action_save"
+        android:orderInCategory="1"
+        kkcommons:showAsAction="withText|always" />
+    <item android:id="@+id/action_edit"
+        android:title="@string/action_edit"
+        android:orderInCategory="2"
+        kkcommons:showAsAction="withText|always" />
+</menu>
+

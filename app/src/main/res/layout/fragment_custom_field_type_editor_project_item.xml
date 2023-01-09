@@ -1,0 +1,48 @@
+
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:orientation="horizontal"
+android:layout_width="match_parent"
+android:minHeight="48dp"
+android:gravity="center_vertical"
+android:padding="0px"
+android:paddingRight="@dimen/settings_item_padding_horizontal"
+android:background="@drawable/list_item_selector"
+android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="@dimen/project_color_bar_width"
+        android:layout_height="match_parent"
+
+        android:background="@color/category2_default"
+        android:paddingLeft="8dip"
+        android:paddingRight="8dip"
+        android:paddingTop="4dip"
+        android:paddingBottom="4dip"
+        android:id="@+id/project_color">
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="0px"
+        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dip"
+        android:paddingRight="8dip"
+        android:paddingTop="4dip"
+        android:paddingBottom="4dip"
+        android:minHeight="48dp"
+        android:gravity="center_vertical"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Mein Projekt"
+        android:id="@+id/project_name"
+        android:singleLine="true" />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/checkBox"
+        android:checked="true" />
+
+</LinearLayout>

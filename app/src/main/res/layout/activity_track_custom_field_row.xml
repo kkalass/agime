@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="64dip"
+    android:id="@+id/activity_custom_field_row"
+    >
+    <TextView
+        android:id="@+id/custom_field_value_label"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="FIXME"
+        android:layout_gravity="center_vertical"
+        android:minWidth="60sp"
+        android:textColor="#999"
+        android:layout_marginLeft="2dip"
+        android:layout_marginRight="2dip"
+        />
+    <de.kalass.android.common.widget.AutoCompleteSpinner
+        android:id="@+id/custom_field_value"
+        android:layout_marginTop="10dip"
+        android:layout_width="0dp"
+        android:layout_weight="7"
+        android:selectAllOnFocus="true"
+        android:imeOptions="actionNext"
+
+        android:inputType="textAutoComplete|textCapSentences"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>

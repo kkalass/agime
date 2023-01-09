@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:agime="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_go_to_today"
+        android:icon="@drawable/ic_today_white_24dp"
+        android:title="@string/action_go_to_current_week"
+        android:orderInCategory="5"
+        agime:showAsAction="ifRoom" />
+
+</menu>

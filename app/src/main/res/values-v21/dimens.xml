@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="status_bar_height_if_overridable">24dp</dimen>
+
+</resources>

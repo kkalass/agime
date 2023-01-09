@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AgimeTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <!--   your app branding color for the app bar -->
+        <item name="colorPrimary">@color/primary</item>
+        <!--   darker variant for the status bar and contextual app bars -->
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <!--   theme UI controls like checkboxes and text fields -->
+        <item name="colorAccent">@color/accent</item>
+
+        <item name="android:colorButtonNormal">@color/white</item>
+        <item name="android:buttonStyle">@style/ButtonStyleWhite</item>
+        <item name="android:actionModeBackground">@color/primary_dark</item>
+        <item name="android:actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <!--item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item-->
+        <item name="windowActionModeOverlay">true</item>
+
+
+    </style>
+
+    <style name="ButtonStylePrimary" parent="@android:style/Widget.Material.Button">
+        <item name="android:background">@drawable/custom_btn_primary</item>
+        <item name="android:stateListAnimator">@animator/button_raise</item>
+
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonStyleAccent" parent="@android:style/Widget.Material.Button">
+        <item name="android:background">@drawable/custom_btn_accent</item>
+        <item name="android:stateListAnimator">@animator/button_raise</item>
+
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ButtonStyleWhite" parent="@android:style/Widget.Material.Button">
+        <item name="android:background">@drawable/custom_btn_white</item>
+        <item name="android:stateListAnimator">@animator/button_raise</item>
+
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="AgimeToolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!-- Used to for the title of the Toolbar -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <!-- Used to for the title of the Toolbar when parent is Theme.AppCompat.Light -->
+        <item name="android:textColorPrimaryInverse">@color/white</item>
+        <!-- Used to color the text of the action menu icons -->
+        <item name="android:textColorSecondary">@color/material_black_text</item>
+        <!-- Used to color the overflow menu icon -->
+        <item name="actionMenuTextColor">@color/material_black_text</item>
+    </style>
+
+    <style name="AgimeTheme.NoTitleBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="AgimeTheme.NoTitleBarDrawer">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

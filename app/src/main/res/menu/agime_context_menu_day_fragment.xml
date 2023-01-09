@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:agime="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/action_now"
+        android:icon="@drawable/ic_action_fast_forward"
+        android:title="@string/action_item_of_day_extend_previous_action"
+        agime:showAsAction="ifRoom" />
+
+    <item android:id="@+id/action_edit"
+        android:icon="@android:drawable/ic_menu_edit"
+        android:title="@string/action_edit"
+        agime:showAsAction="ifRoom" />
+    <item android:id="@+id/action_delete"
+        android:title="@string/action_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:orderInCategory="100"
+        agime:showAsAction="ifRoom" />
+
+</menu>

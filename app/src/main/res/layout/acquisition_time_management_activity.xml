@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/action_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:elevation="4dp"
+        android:contentInsetEnd="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        android:contentInsetLeft="72dp"
+        android:contentInsetStart="72dp"
+        app:contentInsetLeft="72dp"
+        app:contentInsetStart="72dp"
+        android:paddingRight="12dp"
+        style="@style/AgimeToolbar"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+
+    <ScrollView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:orientation="vertical"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                android:paddingRight="@dimen/settings_item_padding_horizontal"
+                android:minHeight="@dimen/settings_section_header_min_height"
+                android:gravity="center_vertical"
+                android:textAppearance="?android:attr/listSeparatorTextViewStyle"
+                android:text="@string/acquisition_times_group_times"
+                android:id="@+id/acquisition_times_label" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="?android:attr/listDivider" />
+            <com.linearlistview.LinearListView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/acquisition_times_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:showDividers="middle|end"
+                android:divider="@drawable/separator"
+                android:dividerPadding="2dp"
+                app:dividerThickness="1dp"
+                />
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:id="@+id/insert_aquisition_time"
+                android:minHeight="@dimen/settings_item_min_height"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                android:paddingRight="@dimen/settings_item_padding_horizontal"
+                android:background="@drawable/list_item_selector"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_action_new_dark"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/recurring_acquisition_time_add"
+
+                    android:gravity="start" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minHeight="@dimen/settings_section_header_min_height"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                android:paddingRight="@dimen/settings_item_padding_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/listSeparatorTextViewStyle"
+                    android:text="@string/acquisition_times_current_label"
+                    android:id="@+id/current_acquisition_active_label" />
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="?android:attr/listDivider" />
+
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:minHeight="@dimen/settings_item_min_height"
+                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                android:paddingRight="@dimen/settings_item_padding_horizontal"
+                android:background="@drawable/list_item_selector"
+                android:id="@+id/current_acquisition_until_row"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/current_acquisition_active"
+                    android:text="@string/acquisition_times_current_active"
+                    android:textStyle="italic"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Heute, 18:00"
+                    android:textStyle="italic"
+                    android:id="@+id/current_acquisition_until"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/settings_section_header_min_height"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                android:paddingRight="@dimen/settings_item_padding_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/recurring_acquisition_time_next_occurance"
+                android:textAppearance="?android:attr/listSeparatorTextViewStyle"
+                android:id="@+id/next_acquisition_label" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dip"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:minHeight="@dimen/settings_item_min_height"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/settings_item_padding_horizontal"
+                android:paddingRight="@dimen/settings_item_padding_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/next_acquisition_first_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="italic"
+
+                    android:text="In 10 Tagen"
+                    />
+                <LinearLayout
+                    android:id="@+id/next_acquisition_second_line"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/next_acquisition_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Mo. 06.01.2014"
+                        />
+
+                    <TextView
+                        android:id="@+id/next_acquisition_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="09:00 - 18:00"
+                        android:gravity="end" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

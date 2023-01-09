@@ -1,0 +1,28 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:agime="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/report_day"
+        android:icon="@android:drawable/ic_menu_day"
+        android:title="@string/action_daily_report"
+        android:checkable="true"
+        agime:showAsAction="never" />
+    <item android:id="@+id/report_week"
+        android:icon="@android:drawable/ic_menu_week"
+        android:title="@string/action_weekly_report"
+        android:checkable="true"
+        agime:showAsAction="never" />
+    <item android:id="@+id/report_month"
+        android:icon="@android:drawable/ic_menu_month"
+        android:title="@string/action_monthly_report"
+        android:checkable="true"
+        agime:showAsAction="never" />
+    <item android:id="@+id/report_year"
+
+        android:title="@string/action_yearly_report"
+        android:checkable="true"
+        agime:showAsAction="never" />
+    <item android:id="@+id/report_total"
+
+        android:title="@string/overview_total"
+        android:checkable="true"
+        agime:showAsAction="never" />
+</menu>

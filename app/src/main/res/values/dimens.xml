@@ -1,0 +1,39 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="element_spacing_normal">8dp</dimen>
+    <dimen name="content_padding_normal">16dp</dimen>
+
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">18sp</dimen>
+    <dimen name="text_size_diff_large_small">6sp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="project_color_bar_width">12dip</dimen>
+    <dimen name="overview_percentage_column_width">48sp</dimen>
+    <dimen name="overview_level2_card_horizontal_margin">16dp</dimen>
+    <dimen name="overview_level1_marginBottom">24dip</dimen>
+    <dimen name="overview_level2_card_padding_bottom">16dip</dimen>
+    <dimen name="settings_item_padding_horizontal">16dp</dimen>
+    <dimen name="settings_item_margin_horizontal">0dp</dimen>
+    <dimen name="settings_item_min_height">64dp</dimen>
+    <dimen name="settings_section_header_min_height">32dp</dimen>
+    <dimen name="settings_item_textSize">20sp</dimen>
+    <dimen name="status_bar_height">24dp</dimen>
+    <dimen name="toolbar_margin_start">72dp</dimen>
+    <dimen name="status_bar_height_if_overridable">0dp</dimen>
+    <!-- 16:9 = 202 -->
+    <!-- 3:2 = 240 -->
+    <dimen name="custom_toolbar_height_chronicle">202dp</dimen>
+    <!-- custom_toolbar_height_chronicle plus extra padding -->
+    <dimen name="tracked_activities_list_header_size">210dp</dimen>
+    <dimen name="chronicle_toolbar_header_margin_top_initial">48dp</dimen>
+    <dimen name="chronicle_toolbar_header_margin_top_target">15dp</dimen>
+    <dimen name="chronicle_toolbar_header_text_size_initial">@dimen/text_size_display_1_material</dimen>
+    <dimen name="chronicle_toolbar_header_text_size_target">@dimen/text_size_title_material_toolbar</dimen>
+    <dimen name="custom_toolbar_height_overview_fragment">96dp</dimen>
+</resources>
