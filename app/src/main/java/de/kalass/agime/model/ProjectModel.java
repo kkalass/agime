@@ -1,5 +1,6 @@
 package de.kalass.agime.model;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import org.joda.time.DateTimeZone;
@@ -56,7 +57,7 @@ public class ProjectModel implements IViewModel {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .addValue(_id)
                 .addValue(_name)
                 .addValue(_activeUntilDate)

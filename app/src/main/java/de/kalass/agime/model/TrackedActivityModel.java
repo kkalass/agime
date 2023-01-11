@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -294,7 +295,7 @@ public class TrackedActivityModel extends TimeSpanning implements IViewModel {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .addValue(_id)
                 .addValue(_activity)
                 .toString();

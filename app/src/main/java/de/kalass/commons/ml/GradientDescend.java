@@ -1,6 +1,7 @@
 package de.kalass.commons.ml;
 
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 
@@ -72,7 +73,7 @@ public class GradientDescend implements GradientMinimizer {
         }
 
         @Override
-        public Objects.ToStringHelper toStringHelper() {
+        public MoreObjects.ToStringHelper toStringHelper() {
             return super.toStringHelper().add("alpha", _alpha).add("iterations", _iterations);
         }
 
@@ -166,7 +167,7 @@ public class GradientDescend implements GradientMinimizer {
 
         @Override
         public String toString() {
-            Objects.ToStringHelper helper = Objects.toStringHelper(this)
+            MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper(this)
                     .addValue(_alpha)
                     .addValue(isTooLarge() ? "TOO_LARGE" : (isTooSmall() ? "TOO_SMALL" : (isTerminated() ? "TERMINATED" : "UNKNOWN")));
             if (_terminationResult != null) {

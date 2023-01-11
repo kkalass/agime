@@ -1,5 +1,6 @@
 package de.kalass.commons.ml;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 
@@ -30,8 +31,8 @@ public class ThetaAndCosts {
                 .toString();
     }
 
-    protected Objects.ToStringHelper toStringHelper() {
-        return Objects.toStringHelper(this)
+    protected MoreObjects.ToStringHelper toStringHelper() {
+        return MoreObjects.toStringHelper(this)
                 .add("theta", Octave.toString(theta))
                 .add("previousCost", previousCost)
                 .add("currentCost", currentCost)

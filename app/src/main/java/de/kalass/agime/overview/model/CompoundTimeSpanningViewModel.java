@@ -3,6 +3,7 @@ package de.kalass.agime.overview.model;
 import android.content.res.Resources;
 
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
@@ -53,7 +54,7 @@ public class CompoundTimeSpanningViewModel<T extends TimeSpanning> extends Compo
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .addValue(_id)
                 .addValue(getChildren())
                 .toString();

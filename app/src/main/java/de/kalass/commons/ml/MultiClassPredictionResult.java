@@ -1,5 +1,6 @@
 package de.kalass.commons.ml;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
@@ -25,7 +26,7 @@ public class MultiClassPredictionResult<T> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("value", _predictedValue)
                 .add("probability", _probability)
                 .toString();

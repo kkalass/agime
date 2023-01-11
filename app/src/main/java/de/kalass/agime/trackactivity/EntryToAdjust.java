@@ -3,6 +3,7 @@ package de.kalass.agime.trackactivity;
 import android.database.Cursor;
 
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import de.kalass.android.common.simpleloader.CursorUtil;
@@ -57,7 +58,7 @@ public final class EntryToAdjust {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .addValue(id)
                 .add("startTime", startTime)
                 .add("endTime", endTime)

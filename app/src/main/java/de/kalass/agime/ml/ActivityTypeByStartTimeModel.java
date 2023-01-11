@@ -1,6 +1,7 @@
 package de.kalass.agime.ml;
 
 import com.google.common.base.Function;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -160,7 +161,7 @@ public final class ActivityTypeByStartTimeModel extends DelegatingMultiClassAgim
 
             @Override
             public String toString() {
-                return Objects.toStringHelper(this)
+                return MoreObjects.toStringHelper(this)
                         .addValue(activityTypeId).add("daysBefore", daysBefore).add("durationMinutes", durationMinutes)
                         .toString();
             }

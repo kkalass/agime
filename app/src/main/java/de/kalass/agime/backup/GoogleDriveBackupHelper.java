@@ -20,6 +20,7 @@ import com.google.android.gms.drive.DriveResource;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataBuffer;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -373,7 +374,7 @@ public class GoogleDriveBackupHelper implements GoogleApiClient.ConnectionCallba
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this).addValue(title).addValue(id).toString();
+            return MoreObjects.toStringHelper(this).addValue(title).addValue(id).toString();
         }
     }
 

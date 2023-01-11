@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 
@@ -140,7 +141,7 @@ public class CategoryEditorFragment
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this)
+            return MoreObjects.toStringHelper(this)
                     .addValue(_name)
                     .toString();
         }

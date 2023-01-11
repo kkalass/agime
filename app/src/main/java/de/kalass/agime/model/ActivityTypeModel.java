@@ -2,6 +2,7 @@ package de.kalass.agime.model;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import de.kalass.android.common.model.IViewModel;
@@ -49,7 +50,7 @@ public class ActivityTypeModel implements IViewModel {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .addValue(_id)
                 .addValue(_activityName)
                 .toString();
