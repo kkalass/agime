@@ -30,7 +30,7 @@ import de.kalass.agime.SettingsActivity;
 import de.kalass.android.common.util.StringUtil;
 
 /**
- * Implements backup to Google Drive
+ * Implements backup to Dropbox
  * Created by klas on 13.02.14.
  */
 public class DropboxBackupHelper implements BackupHelper {

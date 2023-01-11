@@ -91,10 +91,6 @@
     <string name="automatic_acquisition_label">Erfassungszeit</string>
     <string name="backup_failure_notif_title">Backup fehlgeschlagen</string>
     <string name="backup_failure_notif_details">Schreiben in den externen Speicher fehlgeschlagen</string>
-    <string name="backup_failure_drive_connection_title">Google Drive: Backup fehlgeschlagen</string>
-    <string name="backup_failure_drive_connection_details">Es konnte keine Verbindung zu Google Drive hergestellt werden</string>
-    <string name="backup_failure_drive_title">Google Drive: Backup fehlgeschlagen</string>
-    <string name="backup_failure_drive_details">Es gab einen Fehler beim Anlegen des Backups</string>
     <string name="acquisition_times_current_label">Aktuell</string>
     <string name="acquisition_times_current_active">Erfassung aktiv bis</string>
     <string name="acquisition_times_current_inactive">Erfassung inaktiv</string>
@@ -164,13 +160,13 @@
         \nIn den <i>Einstellungen</i> findest du unter dem Punkt <i>Daten Sichern/Wiederherstellen</i>
         Optionen, um deine Daten zu exportieren. Du kannst sie dir z. B. per E-Mail als CSV-Datei schicken.
     \n\n<b>Wofür braucht Agime Zugriff auf das Internet?</b>
-    \nDu hast die Option, tägliche Backups in Google Drive oder Dropbox einzurichten,
+    \nDu hast die Option, tägliche Backups in Dropbox einzurichten,
         wofür Zugriff auf das Internet erforderlich ist.
     \n\n<b>Werden meine Daten jemals ohne mein Wissen in der Cloud gespeichert werden?</b>
     \nWir wissen, dass die von Dir eingegebenen Daten
         sehr sensibel sind und deshalb werden wir diese Daten niemals ohne deine explizite Zustimmung
         übertragen oder in der Cloud speichern. Wenn du möchtest, kannst du in den Einstellungen
-        ein Backup in Google Drive oder Dropbox einrichten, womit ein Backup deiner Daten bei
+        ein Backup in Dropbox einrichten, womit ein Backup deiner Daten bei
         dem entsprechenden Anbieter erzeugt wird.
     \n\n
     </string>
@@ -192,9 +188,6 @@
     <string name="pref_backup_to_sd">Externer Speicher</string>
     <string name="pref_backup_to_sd_summary">Täglich automatisch Sicherungskopien im externen Speicher erstellen</string>
     <string name="pref_backup_to_sd_summary_off">Keine täglichen Sicherungskopien im externen Speicher</string>
-    <string name="pref_backup_to_drive">Google Drive</string>
-    <string name="pref_backup_to_drive_summary">Täglich automatisch Sicherungskopien in Google Drive erstellen</string>
-    <string name="pref_backup_to_drive_summary_off">Keine täglichen Sicherungskopien in Google Drive</string>
     <string name="pref_backup_to_dropbox">Dropbox</string>
     <string name="pref_backup_to_dropbox_summary">Täglich automatisch Sicherungskopien in Dropbox erstellen</string>
     <string name="pref_backup_to_dropbox_summary_off">Keine täglichen Sicherungskopien in Dropbox</string>
@@ -249,7 +242,6 @@
     <string name="pref_analytics_summary_on">Das Nutzungsverhalten wird erfasst. Damit hilfst du uns dabei, Agime zu verbessern - Danke!</string>
     <string name="pref_analytics_summary_off">Es werden keine Daten erfasst. Wenn du die Weiterentwicklung von Agime unterstützen möchtest, dann aktiviere diese Option doch bitte.</string>
     <string name="about_licenses_failed">Die Lizenzdaten konnten nicht gelesen werden. Bitte melde diesen Fehler.</string>
-    <string name="error_drive_failed">Konnte Verbindung zu Google Drive nicht herstellen</string>
     <string name="backup_failure_dropbox_title">Dropbox: Backup fehlgeschlagen</string>
     <string name="backup_failure_dropbox_link_message">Bitte überprüfe die Einstellungen und verknüpfe ggf. die Dropbox erneut.</string>
     <string name="backup_failure_dropbox_message">Fehler beim Schreiben in die Dropbox</string>

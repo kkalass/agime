@@ -58,12 +58,6 @@
             android:summaryOff="@string/pref_backup_to_sd_summary_off"
             android:defaultValue="false" />
         <CheckBoxPreference
-            android:key="pref_backup_to_drive"
-            android:title="@string/pref_backup_to_drive"
-            android:summaryOn="@string/pref_backup_to_drive_summary"
-            android:summaryOff="@string/pref_backup_to_drive_summary_off"
-            android:defaultValue="false" />
-        <CheckBoxPreference
             android:key="pref_backup_to_dropbox"
             android:title="@string/pref_backup_to_dropbox"
             android:summaryOn="@string/pref_backup_to_dropbox_summary"

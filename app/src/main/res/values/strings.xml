@@ -92,10 +92,6 @@
     <string name="automatic_acquisition_label">Acquisition time</string>
     <string name="backup_failure_notif_title">Backup failed</string>
     <string name="backup_failure_notif_details">Can\'t write to external storage</string>
-    <string name="backup_failure_drive_connection_title">Can\'t create Backup in Google Drive</string>
-    <string name="backup_failure_drive_connection_details">Can\'t connect to Google Drive</string>
-    <string name="backup_failure_drive_title">Error with Google Drive Backup</string>
-    <string name="backup_failure_drive_details">Can\'t create Backup in Google Drive</string>
     <string name="acquisition_times_current_label">Current</string>
     <string name="acquisition_times_current_active">Acquisition active until</string>
     <string name="acquisition_times_current_inactive">Acquisition inactive</string>
@@ -169,8 +165,7 @@ Otherwise, Agime will automatically assume the following default start time for 
         \nThe export options are within the <i>Settings</i> under <i>Backup / Restore</i>.
         For example, you can export your data as a single flat CSV file and send it as an e-mail.
     \n\n<b>Why does Agime need access to the internet?</b>
-        Internet access allows the optional daily backup in Google Drive
-        or Dropbox.
+        Internet access allows the optional daily backup in Dropbox.
     \n\n
     </string>
     <string name="faq_title">FAQ</string>
@@ -191,9 +186,6 @@ Otherwise, Agime will automatically assume the following default start time for 
     <string name="pref_backup_to_sd">External storage</string>
     <string name="pref_backup_to_sd_summary">Automatic daily Backup</string>
     <string name="pref_backup_to_sd_summary_off">No automatic Backup</string>
-    <string name="pref_backup_to_drive">Google Drive</string>
-    <string name="pref_backup_to_drive_summary">Automatic daily Backup</string>
-    <string name="pref_backup_to_drive_summary_off">No automatic Backup</string>
     <string name="pref_backup_to_dropbox">Dropbox</string>
     <string name="pref_backup_to_dropbox_summary">Automatic daily Backup</string>
     <string name="pref_backup_to_dropbox_summary_off">No automatic Backup</string>
@@ -249,7 +241,6 @@ Otherwise, Agime will automatically assume the following default start time for 
     <string name="pref_analytics_summary_on">Information on how often an activity is tracked is collected. This helps us to understand and determine Agime\'s user behaviour, so we are able to continuously improve.</string>
     <string name="pref_analytics_summary_off">No data is collected. Enable this option to help us understand and determine how Agime is being used.</string>
     <string name="about_licenses_failed">Can\'t read the license file. Please contact support.</string>
-    <string name="error_drive_failed">Can\'t connect to Google Drive</string>
     <string name="backup_failure_dropbox_title">Dropbox: No Backup possible</string>
     <string name="backup_failure_dropbox_link_message">Please check the settings and link Dropbox again if needed.</string>
     <string name="backup_failure_dropbox_message">Can\'t write to Dropbox</string>

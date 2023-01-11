@@ -75,7 +75,7 @@ public class BackupPreferences {
      * Unique UUID to identify this installation, used as part of the filename.
      *
      * This UUID is needed to avoid dataloss if a user  should install Agime
-     * on multiple devices that are connected to the same google drive storage
+     * on multiple devices that are connected to the same storage
      */
     public static String getBackupUUID(Context context) {
         final String uuidString = getString(context, KEY_PREF_BACKUP_UUID, null);
