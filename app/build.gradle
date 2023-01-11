@@ -49,8 +49,6 @@ dependencies {
     implementation files('libs/fuava-ctprofiler-core-1.0.1.jar')
 
     implementation 'com.google.guava:guava:31.1-android'
-    //implementation 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
-    //implementation 'com.github.flavienlaurent.datetimepicker:library:0.0.1'
     implementation 'joda-time:joda-time:2.3'
     implementation 'com.googlecode.efficient-java-matrix-library:ejml:0.24'
 
