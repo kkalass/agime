@@ -1,7 +1,10 @@
 package de.kalass.agime.ongoingnotification;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -10,6 +13,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -19,6 +23,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import android.util.Log;
@@ -305,8 +311,34 @@ public class NotificationManagingService extends Service {
             return createForegroundNotification(am, times, now, lastActivity, context, pendingIntent);
         }
 
+        @NonNull
+        @TargetApi(26)
+        private synchronized String createChannel() {
+            NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+            String name = "Agime";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+
+            NotificationChannel mChannel = new NotificationChannel("de.kalass.agime", name, importance);
+
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.BLUE);
+            if (mNotificationManager != null) {
+                mNotificationManager.createNotificationChannel(mChannel);
+            } else {
+                stopSelf();
+            }
+            return mChannel.getId();
+        }
+
         private Notification createForegroundNotification(AlarmManager am, AcquisitionTimes times, DateTime now, TrackedActivityModel lastActivity, Context context, PendingIntent pendingIntent) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            final String channel;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                channel = createChannel();
+            else {
+                channel = "";
+            }
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel);
             PendingIntent mainActivityIntent = createMainActivityIntent(context);
             builder.setContentIntent(mainActivityIntent);
 
