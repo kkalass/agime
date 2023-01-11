@@ -3,7 +3,6 @@ package de.kalass.android.common.activity;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;

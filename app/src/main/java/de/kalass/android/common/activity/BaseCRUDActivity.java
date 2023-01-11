@@ -1,23 +1,17 @@
 package de.kalass.android.common.activity;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.google.common.base.Strings;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -26,7 +20,7 @@ import de.kalass.agime.R;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public abstract class BaseCRUDActivity extends ActionBarActivity implements BaseCRUDFragment.CRUDListener {
+public abstract class BaseCRUDActivity extends AppCompatActivity implements BaseCRUDFragment.CRUDListener {
     public static final String EXTRA_ID = "id";
 
 

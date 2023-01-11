@@ -1,11 +1,11 @@
 package de.kalass.agime.analytics;
 
-import android.support.v7.app.ActionBarActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by klas on 07.01.14.
  */
-public class AnalyticsActionBarActivity extends ActionBarActivity {
+public class AnalyticsActionBarActivity extends AppCompatActivity {
 
 
     protected void doOnStart() {

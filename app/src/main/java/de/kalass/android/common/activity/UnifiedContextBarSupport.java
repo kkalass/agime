@@ -3,7 +3,7 @@ package de.kalass.android.common.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,8 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.common.collect.ImmutableList;
-
-import java.lang.annotation.Target;
 
 /**
  * Created by klas on 19.02.14.

@@ -3,7 +3,7 @@ package de.kalass.agime.trackactivity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.support.v4.widget.SimpleCursorAdapter;
+import androidx.cursoradapter.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;

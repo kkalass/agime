@@ -2,7 +2,7 @@ package de.kalass.android.common.support.datetime;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 

@@ -1,8 +1,8 @@
 package de.kalass.android.common.support.fragments;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 /**
  * Provides a workaround for bugs in the support library wrt nested fragments. Should be used as
@@ -24,8 +24,8 @@ public class BaseListFragment extends ListFragment implements FragmentBugfix {
      * @param requestCode
      *            the request code.
      * @param id
-     *            the fragment ID (can be {@link android.support.v4.app.Fragment#getId()} of
-     *            {@link android.support.v4.app.Fragment#hashCode()}).
+     *            the fragment ID (can be {@link Fragment#getId()} of
+     *            {@link Fragment#hashCode()}).
      */
     public void registerRequestCode(int requestCode, int id) {
        _support.registerRequestCode(requestCode, id);

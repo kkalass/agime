@@ -3,8 +3,8 @@ package de.kalass.android.common.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 
 import de.kalass.agime.R;
 
-public abstract class BaseCRUDManagementActivity extends ActionBarActivity {
+public abstract class BaseCRUDManagementActivity extends AppCompatActivity {
 
     private final Uri _uri;
 

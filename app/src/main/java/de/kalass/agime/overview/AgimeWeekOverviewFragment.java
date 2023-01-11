@@ -1,9 +1,9 @@
 package de.kalass.agime.overview;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.google.common.base.Predicate;
 
-import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.Weeks;
 
@@ -23,7 +22,6 @@ import de.kalass.agime.R;
 import de.kalass.agime.customfield.CustomFieldTypeModel;
 import de.kalass.agime.overview.model.GroupHeaderType;
 import de.kalass.agime.overview.model.GroupHeaderTypes;
-import de.kalass.android.common.support.datetime.DatePickerSupport;
 import de.kalass.android.common.util.DateUtil;
 import de.kalass.android.common.util.TimeFormatUtil;
 

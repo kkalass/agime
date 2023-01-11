@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="11">
+      <module name="agime.Agime" target="11" />
+      <module name="agime.Agime-ML" target="11" />
+      <module name="agime.Agime-ML.main" target="11" />
+      <module name="agime.Agime-ML.test" target="11" />
+      <module name="agime.KKCommons" target="11" />
+      <module name="agime.libraries.LinearListViewKK.linearlistview" target="11" />
+      <module name="agime.libraries.SimpleContentProvider" target="11" />
+      <module name="agime.Protobuf-Agime" target="11" />
+      <module name="agime.Protobuf-Agime.main" target="11" />
+      <module name="agime.Protobuf-Agime.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

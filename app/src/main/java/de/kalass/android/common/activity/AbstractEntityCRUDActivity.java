@@ -9,15 +9,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.provider.BaseColumns;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.kalass.android.common.widget.AutoCompleteSpinner;
 import de.kalass.agime.R;
@@ -26,7 +24,7 @@ import de.kalass.agime.R;
  * @deprecated use {@link de.kalass.android.common.activity.BaseCRUDActivity} instead.
  */
 @Deprecated()
-public abstract class AbstractEntityCRUDActivity extends ActionBarActivity {
+public abstract class AbstractEntityCRUDActivity extends AppCompatActivity {
     public static final String EXTRA_ID = "activityId";
 
 

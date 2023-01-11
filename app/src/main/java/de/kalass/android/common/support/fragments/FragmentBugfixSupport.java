@@ -1,7 +1,7 @@
 package de.kalass.android.common.support.fragments;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.SparseIntArray;
 
 import java.util.List;
@@ -27,8 +27,8 @@ public class FragmentBugfixSupport {
      * @param requestCode
      *            the request code.
      * @param id
-     *            the fragment ID (can be {@link android.support.v4.app.Fragment#getId()} of
-     *            {@link android.support.v4.app.Fragment#hashCode()}).
+     *            the fragment ID (can be {@link Fragment#getId()} of
+     *            {@link Fragment#hashCode()}).
      */
     public void registerRequestCode(int requestCode, int id) {
         mRequestCodes.put(requestCode, id);

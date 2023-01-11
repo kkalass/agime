@@ -1,14 +1,10 @@
 package de.kalass.agime.overview;
 
-import android.net.Uri;
-import android.os.ParcelFileDescriptor;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.common.base.Preconditions;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.kalass.agime.backup.BackupRestoreListFragment;

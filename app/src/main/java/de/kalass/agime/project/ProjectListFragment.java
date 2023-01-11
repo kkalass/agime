@@ -2,7 +2,7 @@ package de.kalass.agime.project;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.content.Loader;
+import androidx.loader.content.Loader;
 import android.view.View;
 import android.widget.TextView;
 

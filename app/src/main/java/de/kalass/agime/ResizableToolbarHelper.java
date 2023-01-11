@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Build;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +90,7 @@ public class ResizableToolbarHelper {
 
     protected int getActionBarSize() {
         TypedValue typedValue = new TypedValue();
-        int[] textSizeAttr = new int[]{android.support.v7.appcompat.R.attr.actionBarSize};
+        int[] textSizeAttr = new int[]{androidx.appcompat.R.attr.actionBarSize};
         int indexOfAttrTextSize = 0;
         TypedArray a = _activity.obtainStyledAttributes(typedValue.data, textSizeAttr);
         int actionBarSize = a.getDimensionPixelSize(indexOfAttrTextSize, -1);

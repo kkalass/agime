@@ -1,9 +1,9 @@
 package de.kalass.android.common.simpleloader;
 
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 
 import com.freiheit.fuava.ctprofiler.core.CallTreeProfiler;

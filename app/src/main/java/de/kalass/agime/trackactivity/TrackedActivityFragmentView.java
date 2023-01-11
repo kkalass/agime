@@ -2,7 +2,7 @@ package de.kalass.agime.trackactivity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;

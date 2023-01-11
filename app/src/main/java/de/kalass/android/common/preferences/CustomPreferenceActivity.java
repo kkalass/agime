@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ListAdapter;
@@ -30,7 +30,7 @@ public class CustomPreferenceActivity extends PreferenceActivity {
         //addPreferencesFromResource(R.xml.preferences);
 
         toolbar.setClickable(true);
-        toolbar.setNavigationIcon(getResIdFromAttribute(this, android.support.v7.appcompat.R.attr.homeAsUpIndicator));
+        toolbar.setNavigationIcon(getResIdFromAttribute(this, androidx.appcompat.R.attr.homeAsUpIndicator));
         toolbar.setTitle(R.string.menu_settings);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 

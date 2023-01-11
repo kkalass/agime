@@ -8,11 +8,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,7 +129,7 @@ public abstract class BaseCRUDFragment<C, D> extends Fragment
     }
 
     public ContentResolver getContentResolver() {
-        return getContext().getContentResolver();
+        return getPrivateContext().getContentResolver();
     }
 
     @Override
@@ -158,7 +158,7 @@ public abstract class BaseCRUDFragment<C, D> extends Fragment
         _data = null;
     }
 
-    protected final Context getContext() {
+    private final Context getPrivateContext() {
         return getActivity();
     }
 
@@ -202,7 +202,7 @@ public abstract class BaseCRUDFragment<C, D> extends Fragment
 
         ArrayList<ContentProviderOperation> opsList = Arrays2.asArrayList(ops);
 
-        performSaveOrUpdateAsync(opsList, new ArrayListInsertOrUpdate(getContext(), _uri, mainEntityOperationIndex, getEntityId()));
+        performSaveOrUpdateAsync(opsList, new ArrayListInsertOrUpdate(getPrivateContext(), _uri, mainEntityOperationIndex, getEntityId()));
     }
 
     protected String getEntityTypeName() {
@@ -265,7 +265,7 @@ public abstract class BaseCRUDFragment<C, D> extends Fragment
         assertCanDelete();
         ContentProviderOperation operation = createDeletionOperation(getUri());
         BaseCRUDDBUtil.performDeletionAsync(
-                getContext(), this, getUri().getAuthority(),
+                getPrivateContext(), this, getUri().getAuthority(),
                 R.plurals.action_delete_title,
                 R.string.action_delete_message,
                 1,

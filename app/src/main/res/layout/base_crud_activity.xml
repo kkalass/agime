@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     >
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/action_bar"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             android:layout_marginTop="-57dp"
             android:background="@color/material_black_dividers"/>
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/bottom_bar"
             android:layout_height="56dp"
@@ -75,7 +75,7 @@
                 style="@style/KKBorderlesButton"
                 />
 
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
 
 </RelativeLayout>

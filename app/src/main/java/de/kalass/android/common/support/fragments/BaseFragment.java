@@ -1,10 +1,7 @@
 package de.kalass.android.common.support.fragments;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.util.SparseIntArray;
-
-import java.util.List;
+import androidx.fragment.app.Fragment;
 
 /**
  * Provides a workaround for bugs in the support library wrt nested fragments. Should be used as

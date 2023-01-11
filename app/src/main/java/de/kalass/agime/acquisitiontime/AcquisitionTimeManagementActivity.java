@@ -6,14 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.google.common.collect.ImmutableList;
 import com.linearlistview.LinearListView;
 
 import org.joda.time.DateTime;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import de.kalass.agime.R;
-import de.kalass.agime.analytics.AnalyticsActionBarActivity;
 import de.kalass.agime.analytics.AnalyticsActionToolBarActivity;
 import de.kalass.android.common.simpleloader.HourMinute;
 import de.kalass.android.common.simpleloader.Weekdays;

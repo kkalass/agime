@@ -1,9 +1,9 @@
 package de.kalass.agime.overview;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,13 +11,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.joda.time.LocalDate;
-import org.joda.time.Years;
 
-import de.kalass.agime.AgimeChronicleFragment;
 import de.kalass.agime.R;
-import de.kalass.android.common.support.datetime.DatePickerSupport;
-import de.kalass.android.common.util.DateUtil;
-import de.kalass.android.common.util.TimeFormatUtil;
 
 /**
  * Created by klas on 29.11.13.

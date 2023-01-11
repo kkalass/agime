@@ -1,23 +1,16 @@
 package de.kalass.android.common.activity;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
+
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.common.base.Function;
 
 import java.util.List;
 
 import de.kalass.android.common.adapter.AbstractLoadingViewModelListAdapter;
 import de.kalass.android.common.model.IViewModel;
-import de.kalass.android.common.simpleloader.AbstractLoader;
-import de.kalass.android.common.simpleloader.CursorUtil;
 
 /**
  * Created by klas on 08.01.14.

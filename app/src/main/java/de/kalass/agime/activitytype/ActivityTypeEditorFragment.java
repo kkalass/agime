@@ -1,15 +1,13 @@
 package de.kalass.agime.activitytype;
 
-import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.content.Loader;
+import androidx.loader.content.Loader;
 import android.view.View;
 import android.widget.EditText;
 
 import com.google.common.collect.ImmutableList;
 
-import de.kalass.agime.ColorSuggestion;
 import de.kalass.agime.R;
 import de.kalass.agime.analytics.AnalyticsBaseCRUDFragment;
 import de.kalass.agime.category.CategoryEditorFragment;
@@ -19,7 +17,6 @@ import de.kalass.agime.model.ActivityCategorySuggestionModel;
 import de.kalass.agime.model.ActivityTypeModel;
 import de.kalass.agime.model.CategoryModel;
 import de.kalass.agime.provider.MCContract;
-import de.kalass.agime.provider.MCContract.Category;
 import de.kalass.android.common.activity.BaseViewWrapper;
 import de.kalass.android.common.activity.CRUDMode;
 import de.kalass.android.common.simpleloader.CompoundAsyncLoader;

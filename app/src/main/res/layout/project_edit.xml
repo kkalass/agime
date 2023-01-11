@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     >
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:layout_width="fill_parent"
                         android:id="@+id/duration_limited"
                         android:text="@string/project_duration_limited"

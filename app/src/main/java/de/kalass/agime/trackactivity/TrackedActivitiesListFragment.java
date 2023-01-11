@@ -11,10 +11,10 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
@@ -285,7 +285,7 @@ public class TrackedActivitiesListFragment extends BaseListFragment
         _loadingPanel = getView().findViewById(R.id.loadingPanel);
         _emptyPanel = _footerView1.findViewById(R.id.emptyPanel);
 
-        _extraHeaderPadding = dpToPx(getContext(), 8);
+        _extraHeaderPadding = dpToPx(getPrivateContext(), 8);
 
         _day = calculateDay();
 
@@ -300,7 +300,7 @@ public class TrackedActivitiesListFragment extends BaseListFragment
 
         //setHeaderHeights();
 
-        setListAdapter(new TrackedActivitiesListAdapter(getContext()));
+        setListAdapter(new TrackedActivitiesListAdapter(getPrivateContext()));
 
         _listView.setScrollViewCallbacks(this);
         _listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -646,7 +646,7 @@ public class TrackedActivitiesListFragment extends BaseListFragment
     }
 
     protected void deleteItems(List<Long> rowItemIds) {
-        TrackedActivityEditorDBUtil.delete(getContext(), null, rowItemIds);
+        TrackedActivityEditorDBUtil.delete(getPrivateContext(), null, rowItemIds);
     }
 
     private LocalDate calculateDay() {
@@ -731,7 +731,7 @@ public class TrackedActivitiesListFragment extends BaseListFragment
         refreshActionItems();
     }
 
-    private Context getContext() {
+    private Context getPrivateContext() {
         return getActivity();
     }
 
