@@ -21,10 +21,9 @@ import de.kalass.android.common.preferences.CustomPreferenceActivity;
  * Created by klas on 21.11.13.
  */
 public class SettingsActivity extends CustomPreferenceActivity
-        implements SharedPreferences.OnSharedPreferenceChangeListener, SettingsActivityDriveSupport.DriveConnectionListener {
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String LOG_TAG = "SettingsActivity";
-    private SettingsActivityDriveSupport _driveSupport;
     private SettingsActivityDropboxSupport _dropboxSupport;
 
     @Override
@@ -38,13 +37,6 @@ public class SettingsActivity extends CustomPreferenceActivity
 
         updateBackupSDCardSummary();
 
-        if (Consts.INCLUDE_GOOGLE_DRIVE) {
-            _driveSupport = new SettingsActivityDriveSupport(this);
-            updateDriveState();
-        } else {
-            final PreferenceCategory storage = (PreferenceCategory)findPreference("pref_key_storage_settings");
-            storage.removePreference(findPreference(BackupPreferences.KEY_PREF_BACKUP_DRIVE));
-        }
 
         if (Consts.INCLUDE_DROPBOX) {
             _dropboxSupport = new SettingsActivityDropboxSupport(this);
@@ -77,26 +69,13 @@ public class SettingsActivity extends CustomPreferenceActivity
         }
     }
 
-    private void updateDriveState() {
-        boolean linked = BackupPreferences.isBackupToDriveLinked(this);
-
-        if (!linked) {
-            Log.w(LOG_TAG, "updateDriveState: Disabling Drive ");
-            final CheckBoxPreference preference = (CheckBoxPreference)findPreference(BackupPreferences.KEY_PREF_BACKUP_DRIVE);
-            preference.setChecked(false);
-        }
-    }
 
     protected void doOnStart() {
-        if (_driveSupport != null) {
-            _driveSupport.doOnStart();
-        }
+        // nada
     }
 
     protected void doOnStop() {
-        if (_driveSupport != null) {
-            _driveSupport.doOnStop();
-        }
+        // nada
     }
 
     @Override
@@ -140,12 +119,6 @@ public class SettingsActivity extends CustomPreferenceActivity
             updateNoisyNotification();
             Intent intent = new Intent(this, NotificationManagingService.class);
             startService(intent);
-        } else if (BackupPreferences.KEY_PREF_BACKUP_DRIVE.equals(key)) {
-            if (_driveSupport != null) {
-                _driveSupport.ensureDriveAccess(sharedPreferences.getBoolean(key, false));
-            }
-
-            updateNumFilesPreference();
         } else if (BackupPreferences.KEY_PREF_BACKUP_DROPBOX.equals(key)) {
             if (_dropboxSupport != null) {
                 _dropboxSupport.ensureDriveAccess(sharedPreferences.getBoolean(key, false));
@@ -185,11 +158,6 @@ public class SettingsActivity extends CustomPreferenceActivity
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
-            case SettingsActivityDriveSupport.RESOLVE_CONNECTION_REQUEST_CODE:
-                if (_driveSupport != null) {
-                    _driveSupport.onActivityResult(requestCode, resultCode, data);
-                }
-                break;
             case SettingsActivityDropboxSupport.RESOLVE_CONNECTION_REQUEST_CODE:
                 if (_dropboxSupport != null) {
                     _dropboxSupport.onActivityResult(requestCode, resultCode, data);
@@ -201,18 +169,4 @@ public class SettingsActivity extends CustomPreferenceActivity
         }
     }
 
-    @Override
-    public void googleDriveConnectionConnected() {
-        updateDriveState();
-    }
-
-    @Override
-    public void googleDriveConnectionSuspended(int cause) {
-        updateDriveState();
-    }
-
-    @Override
-    public void googleDriveConnectionFailed() {
-        updateDriveState();
-    }
 }

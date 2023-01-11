@@ -198,7 +198,7 @@ Otherwise, Agime will automatically assume the following default start time for 
     <string name="pref_backup_to_dropbox_summary">Automatic daily Backup</string>
     <string name="pref_backup_to_dropbox_summary_off">No automatic Backup</string>
     <string name="pref_backup_num_files">Maximum number of backup files</string>
-    <string name="pref_backup_num_files_summary" >Store the %1$s newest daily backup files</string>
+    <string name="pref_backup_num_files_summary" >Store the %1$d newest daily backup files</string>
     <string name="settings_group_backup_more">More&#8230;</string>
     <string name="description_about">About Agime</string>
 

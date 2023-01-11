@@ -10,7 +10,6 @@ public final class Consts {
     private Consts() {}
 
     public static final String SUPPORT_EMAIL_ADDRESS = "habbatical@gmail.com";
-    public static final boolean INCLUDE_GOOGLE_PLAY_SERVICES = true;
-    public static final boolean INCLUDE_GOOGLE_DRIVE = INCLUDE_GOOGLE_PLAY_SERVICES;
+
     public static final boolean INCLUDE_DROPBOX = true;
 }

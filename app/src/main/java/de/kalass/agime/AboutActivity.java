@@ -1,12 +1,13 @@
 package de.kalass.agime;
 
+import static de.kalass.android.common.DialogUtils.showSimpleHtmlDialog;
+import static de.kalass.android.common.DialogUtils.showSimpleHtmlWebviewDialog;
+import static de.kalass.android.common.DialogUtils.showSimpleHtmlWebviewDialogContent;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentActivity;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -17,7 +18,8 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import androidx.fragment.app.FragmentActivity;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
@@ -27,10 +29,6 @@ import java.io.InputStreamReader;
 import de.kalass.agime.analytics.AnalyticsActionToolBarActivity;
 import de.kalass.agime.util.EmailUtil;
 import de.kalass.android.common.DialogUtils;
-
-import static de.kalass.android.common.DialogUtils.showSimpleHtmlDialog;
-import static de.kalass.android.common.DialogUtils.showSimpleHtmlWebviewDialog;
-import static de.kalass.android.common.DialogUtils.showSimpleHtmlWebviewDialogContent;
 
 /**
  * Created by klas on 11.02.14.
@@ -187,11 +185,6 @@ public class AboutActivity extends AnalyticsActionToolBarActivity {
         sb.append("<html><head><style> body { font-family: sans-serif; } pre { background-color: #eeeeee; padding: 1em; white-space: pre-wrap;word-wrap: break-word } </style></head><body>");
         String furtherLicenses = read(activity);
         sb.append(furtherLicenses);
-        if (Consts.INCLUDE_GOOGLE_PLAY_SERVICES) {
-            sb.append("<h3>Google Play Services</h3><pre>");
-            sb.append(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(activity));
-            sb.append("</pre>");
-        }
         sb.append("</body></html>");
 
         showSimpleHtmlWebviewDialogContent(activity,

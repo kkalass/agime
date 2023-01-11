@@ -32,8 +32,6 @@ public class BackupService extends IntentService {
         // note that async services should be first here, so that they can
         // do their work while the other services run
         return ImmutableList.of(
-                // async - thus first
-                new GoogleDriveBackupHelper(this, suggestedFileName),
                 // sync
                 new LocalFSBackupHelper(this, suggestedFileName),
                 new DropboxBackupHelper(this, suggestedFileName)

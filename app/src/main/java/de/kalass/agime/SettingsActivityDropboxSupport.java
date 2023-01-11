@@ -2,19 +2,11 @@ package de.kalass.agime;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.dropbox.sync.android.DbxAccountManager;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.drive.Drive;
 
 import de.kalass.agime.backup.BackupPreferences;
 import de.kalass.agime.backup.BackupService;
-import de.kalass.android.common.DialogUtils;
 
 /**
  * Created by klas on 21.11.13.

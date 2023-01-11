@@ -199,7 +199,7 @@
     <string name="pref_backup_to_dropbox_summary">Täglich automatisch Sicherungskopien in Dropbox erstellen</string>
     <string name="pref_backup_to_dropbox_summary_off">Keine täglichen Sicherungskopien in Dropbox</string>
     <string name="pref_backup_num_files">Maximale Anzahl Sicherungskopien</string>
-    <string name="pref_backup_num_files_summary" >Die %1$s neuesten täglichen Sicherungskopien werden aufbewahrt</string>
+    <string name="pref_backup_num_files_summary" >Die %1$d neuesten täglichen Sicherungskopien werden aufbewahrt</string>
     <string name="settings_group_backup_more">Weitere Optionen&#8230;</string>
     <string name="description_about">Über Agime</string>
 

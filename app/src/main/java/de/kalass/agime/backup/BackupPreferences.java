@@ -1,18 +1,19 @@
 package de.kalass.agime.backup;
 
+import static de.kalass.agime.settings.PreferencesBase.getBoolean;
+import static de.kalass.agime.settings.PreferencesBase.getString;
+import static de.kalass.agime.settings.PreferencesBase.setBoolean;
+import static de.kalass.agime.settings.PreferencesBase.setString;
+
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
-
-import com.google.android.gms.drive.DriveId;
 
 import java.io.File;
 import java.util.UUID;
 
 import de.kalass.agime.Consts;
 import de.kalass.android.common.util.StringUtil;
-
-import static de.kalass.agime.settings.PreferencesBase.*;
 /**
  * Created by klas on 22.11.13.
  */
@@ -22,9 +23,6 @@ public class BackupPreferences {
     public static final String KEY_PREF_BACKUP_LOCAL_FS_LINKED = KEY_PREF_BACKUP_LOCAL_FS + "linked";
     public static final String KEY_PREF_BACKUP_DROPBOX = "pref_backup_to_dropbox";
     public static final String KEY_PREF_BACKUP_DROPBOX_LINKED = KEY_PREF_BACKUP_DROPBOX + "_linked";
-    public static final String KEY_PREF_BACKUP_DRIVE = "pref_backup_to_drive";
-    public static final String KEY_PREF_BACKUP_DRIVE_FOLDER_ID = "pref_backup_drive_folder_id";
-    public static final String KEY_PREF_BACKUP_DRIVE_LINKED = KEY_PREF_BACKUP_DRIVE + "_linked";
 
     public static final String KEY_PREF_BACKUP_NUM_FILES = "pref_backup_num_files";
 
@@ -32,8 +30,7 @@ public class BackupPreferences {
     private static final String LOG_TAG = "BackupPreferences";
 
     public static boolean isDailyBackup(Context context) {
-        return BackupPreferences.isBackupToDrive(context)
-                || BackupPreferences.isBackupToLocalFS(context)
+        return  BackupPreferences.isBackupToLocalFS(context)
                 || BackupPreferences.isBackupToDropbox(context);
     }
 
@@ -61,36 +58,7 @@ public class BackupPreferences {
         setBoolean(context, KEY_PREF_BACKUP_DROPBOX_LINKED, b);
     }
 
-    public static void setBackupToDriveLinked(Context context, boolean b) {
-        setBoolean(context, KEY_PREF_BACKUP_DRIVE_LINKED, b);
-    }
 
-    public static boolean isBackupToDrive(Context context) {
-        return Consts.INCLUDE_GOOGLE_DRIVE && getBoolean(context, KEY_PREF_BACKUP_DRIVE, false);
-    }
-    public static boolean isBackupToDriveLinked(Context context) {
-        return Consts.INCLUDE_GOOGLE_DRIVE && getBoolean(context, KEY_PREF_BACKUP_DRIVE_LINKED, false);
-    }
-
-
-    public static DriveId getBackupToDriveFolderId(Context context) {
-        final String s = getString(context, KEY_PREF_BACKUP_DRIVE_FOLDER_ID, null);
-        if (StringUtil.isTrimmedNullOrEmpty(s)) {
-            return null;
-        }
-        try {
-            return DriveId.decodeFromString(s);
-        } catch (java.lang.IllegalArgumentException e) {
-            //setBackupToDriveLinked(context, false);
-            Log.w(LOG_TAG, "Failed to decode nonnull drive id, probably because it was an old version?", e);
-            return null;
-        }
-    }
-
-    public static void setBackupToDriveFolderId(Context context, DriveId driveId) {
-        final String driveIdString = driveId == null ? null : driveId.encodeToString();
-        setString(context, KEY_PREF_BACKUP_DRIVE_FOLDER_ID, driveIdString);
-    }
 
     public static int getBackupNumFiles(Context context) {
         int defaultNum = 50;
