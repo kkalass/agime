@@ -5,11 +5,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.ListFragment;
 import android.util.Log;
@@ -285,11 +289,21 @@ public class BackupRestoreListFragment extends ListFragment {
         for (String file : filePaths)
         {
             File fileIn = new File(file);
-            Uri u = Uri.fromFile(fileIn);
+            Uri u = FileProvider.getUriForFile(context.getApplicationContext(), "de.kalass.agime.provider", fileIn);
             uris.add(u);
         }
         emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-        context.startActivity(Intent.createChooser(emailIntent, context.getResources().getString(R.string.export_chooser)));
+        Intent chooser = Intent.createChooser(emailIntent, context.getResources().getString(R.string.export_chooser));
+        List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY);
+
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            for (Uri uri: uris) {
+                context.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
+        }
+
+        context.startActivity(chooser);
     }
 
     private static class AgimeBackupExportTask extends ExportTask<Void, Void, BackupData.PersonalBackup> {

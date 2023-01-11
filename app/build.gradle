@@ -11,8 +11,8 @@ android {
         applicationId "de.kalass.agime"
         minSdk 23
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 33
+        versionName "0.14.0"
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
