@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -54,7 +55,7 @@ import de.kalass.android.common.util.TimeFormatUtil;
  * A Service that manages
  */
 public class NotificationManagingService extends Service {
-
+    public static final boolean DISABLE_FOREGROUND_SERVICE = false;
     public static final int NOTIFICATION_ID = 1000;
     private static final String LOG_TAG = "NotifManagingService";
     public static final int UP_TO_DATE_MINUTES_SINCE_ACTIVITY = 2;
@@ -108,6 +109,9 @@ public class NotificationManagingService extends Service {
 
         @Override
         public void handleMessage(Message msg) {
+            if (DISABLE_FOREGROUND_SERVICE) {
+                return;
+            }
             // the trigger could be wrong/untimely, so we ignore the type of trigger
             // and update the notification and scheduling according to the actual state
             int startId = msg.arg1;
@@ -121,7 +125,11 @@ public class NotificationManagingService extends Service {
             Intent intent = (Intent)msg.obj;
             if (isPermanentlyHidden()) {
                 Log.v(LOG_TAG, "notification permanently hidden");
-                stopForeground(true);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    stopForeground(STOP_FOREGROUND_REMOVE);
+                } else {
+                    stopForeground(true);
+                }
                 stopSelf();
                 if (intent != null) {
                     // release the wakelock if applicable

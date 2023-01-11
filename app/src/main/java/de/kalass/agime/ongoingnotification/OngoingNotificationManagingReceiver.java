@@ -13,11 +13,17 @@ import de.kalass.agime.AgimeIntents;
 public class OngoingNotificationManagingReceiver extends WakefulBroadcastReceiver {
     public static final String TAG = "Ongoing Notification";
 
+
     public OngoingNotificationManagingReceiver() {
     }
 
 
     private void callService(Context context, String action) {
+        // FIXME upgrading android target from 21 to 33, our foreground
+        // service crashes the application. Will disable it for now
+        if (NotificationManagingService.DISABLE_FOREGROUND_SERVICE) {
+            return;
+        }
         Intent intent = new Intent(context, NotificationManagingService.class);
         intent.setAction(action);
         startWakefulService(context, intent);
