@@ -57,7 +57,6 @@ public class AgimeMainActivity extends MainEntryPointActivity  implements  Resiz
     private View.OnClickListener _clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // FIXME implement
             switch (v.getId()) {
                 case R.id.action_about:
                     selectItem(v.getId(), POS_ACTIVITY_ABOUT, null);

@@ -66,18 +66,19 @@
         android:layout_width="320dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/white"
+        android:background="@color/primary"
         android:elevation="10dp"
         android:fitsSystemWindows="true">
 
         <!-- Your drawer content -->
         <ScrollView
             android:layout_width="fill_parent"
+            android:layout_marginTop="@dimen/status_bar_height_if_overridable"
+            android:background="@color/white"
             android:layout_height="fill_parent">
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/status_bar_height_if_overridable"
                 android:orientation="vertical"
                 >
                 <LinearLayout
