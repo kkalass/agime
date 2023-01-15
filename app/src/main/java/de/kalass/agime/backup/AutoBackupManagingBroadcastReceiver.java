@@ -5,12 +5,14 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import org.joda.time.DateTime;
 
 import de.kalass.agime.AgimeIntents;
 
 public class AutoBackupManagingBroadcastReceiver extends BroadcastReceiver {
+    private static final String LOG_TAG = "AutoBackupManagingBroadcastReceiver";
     public AutoBackupManagingBroadcastReceiver() {
     }
 
@@ -34,13 +36,16 @@ public class AutoBackupManagingBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // always schedule backup, but only execute it if it is enabled at time of backup
+        Log.i(LOG_TAG, "onReceive " + intent);
         if (AgimeIntents.isInitializingIntent(intent)) {
+            Log.i(LOG_TAG, "initialize ");
             initialize(context);
         } else if (AgimeIntents.ACTION_AUTOMATIC_BACKUP.equals(intent.getAction())) {
             if (BackupPreferences.isDailyBackup(context)) {
                 context.startService(new Intent(context, BackupService.class));
             }
         }
+        Log.i(LOG_TAG, "is backup: " + AgimeIntents.ACTION_AUTOMATIC_BACKUP.equals(intent.getAction()) + " - isDailyBackup: " + BackupPreferences.isDailyBackup(context) + " => " +intent.getAction() );
     }
 
     private static AlarmManager getAlarmManager(Context context) {

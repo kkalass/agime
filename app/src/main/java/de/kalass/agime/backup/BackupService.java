@@ -2,6 +2,7 @@ package de.kalass.agime.backup;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.common.collect.ImmutableList;
 
@@ -53,7 +54,7 @@ public class BackupService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+        Log.i(LOG_TAG, "Backup intent received");
         FullExportLoader trackedActivityLoader = new FullExportLoader(getApplicationContext());
 
 

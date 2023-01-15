@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'de.kalass.agime'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "de.kalass.agime"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode 33
         versionName "0.14.0"
 
