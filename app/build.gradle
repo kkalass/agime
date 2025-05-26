@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.googlecode.efficient-java-matrix-library:ejml:0.24'
 
     // You need to depend on the lite runtime library, not protobuf-java
-    implementation 'com.google.protobuf:protobuf-javalite:3.8.0'
+    implementation 'com.google.protobuf:protobuf-javalite:3.21.12'
 
     testImplementation 'junit:junit:4.13.2'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -64,7 +64,8 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.8.0'
+        // Use the artifact from Maven Central
+        artifact = 'com.google.protobuf:protoc:3.21.12'
     }
     generateProtoTasks {
         all().each { task ->
