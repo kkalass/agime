@@ -75,19 +75,18 @@ public class CustomFieldTypeListPreference extends CustomPreference implements V
 
 			@Override
 			protected void onQueryComplete(int token, Object cookie, Cursor cursor) {
-				switch (token) {
-					case TOKEN_QUERY_CUSTOM_FIELD_TYPES:
-						WrappedView view = (WrappedView)cookie;
-						try {
-							List<CustomFieldTypeDAO.Data> customFields = CursorUtil.readList(cursor, CustomFieldTypeDAO.READ_DATA);
-							view.getListAdapter().setItems(customFields);
-						}
-						finally {
-							cursor.close();
-						}
-						break;
-					default:
-						// invalid ID was passed in
+				if (token == TOKEN_QUERY_CUSTOM_FIELD_TYPES) {
+					WrappedView view = (WrappedView)cookie;
+					try {
+						List<CustomFieldTypeDAO.Data> customFields = CursorUtil.readList(cursor, CustomFieldTypeDAO.READ_DATA);
+						view.getListAdapter().setItems(customFields);
+					}
+					finally {
+						cursor.close();
+					}
+				}
+				else {
+					// invalid ID was passed in
 				}
 			}
 

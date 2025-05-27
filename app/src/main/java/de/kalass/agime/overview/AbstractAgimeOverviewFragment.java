@@ -248,19 +248,20 @@ public abstract class AbstractAgimeOverviewFragment extends AbstractViewPagerFra
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 		final int viewId = parent.getId();
-		switch (viewId) {
-			case CustomToolbarWrappedView.ID_LEVEL1_GROUP_HEADER_SPINNER:
-				Preferences.setLevel1GroupTypeId(getActivity(), (int)id);
-				updateOverviewConfiguration();
-				return;
-			case CustomToolbarWrappedView.ID_LEVEL2_GROUP_HEADER_SPINNER:
-				Preferences.setLevel2GroupTypeId(getActivity(), (int)id);
-				updateOverviewConfiguration();
-				return;
-			case CustomToolbarWrappedView.ID_LEVEL3_GROUP_HEADER_SPINNER:
-				Preferences.setLevel3GroupTypeId(getActivity(), (int)id);
-				updateOverviewConfiguration();
-				return;
+		if (viewId == CustomToolbarWrappedView.ID_LEVEL1_GROUP_HEADER_SPINNER) {
+			Preferences.setLevel1GroupTypeId(getActivity(), (int)id);
+			updateOverviewConfiguration();
+			return;
+		}
+		else if (viewId == CustomToolbarWrappedView.ID_LEVEL2_GROUP_HEADER_SPINNER) {
+			Preferences.setLevel2GroupTypeId(getActivity(), (int)id);
+			updateOverviewConfiguration();
+			return;
+		}
+		else if (viewId == CustomToolbarWrappedView.ID_LEVEL3_GROUP_HEADER_SPINNER) {
+			Preferences.setLevel3GroupTypeId(getActivity(), (int)id);
+			updateOverviewConfiguration();
+			return;
 		}
 	}
 

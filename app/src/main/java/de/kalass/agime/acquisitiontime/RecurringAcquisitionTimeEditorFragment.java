@@ -207,13 +207,11 @@ public class RecurringAcquisitionTimeEditorFragment extends AnalyticsBaseCursorC
 
 	@Override
 	public void onTimeSelected(int token, LocalTime time) {
-		switch (token) {
-			case WrappedView.ID_END_TIME_BUTTON:
-				endTimeSelected(time);
-				break;
-			case WrappedView.ID_START_TIME_BUTTON:
-				startTimeSelected(time);
-				break;
+		if (token == WrappedView.ID_END_TIME_BUTTON) {
+			endTimeSelected(time);
+		}
+		else if (token == WrappedView.ID_START_TIME_BUTTON) {
+			startTimeSelected(time);
 		}
 	}
 

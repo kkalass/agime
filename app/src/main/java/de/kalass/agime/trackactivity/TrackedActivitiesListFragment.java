@@ -646,47 +646,45 @@ public class TrackedActivitiesListFragment extends BaseListFragment implements L
 
 	@Override
 	public boolean onUnifiedContextBarItemSelected(int menuItemId, List<Long> rowItemIds, List<Integer> selectedPositions) {
-		switch (menuItemId) {
-			case R.id.action_delete:
-				deleteItems(withoutFakeIds(rowItemIds));
-				return true;
-			case R.id.action_edit:
-				// works for fake entries as well as normal entries
-				if (rowItemIds.size() == 1) {
-					long id = rowItemIds.get(0);
-					if (isFakeEntry(id)) {
-						final TrackedActivityModel model = findModelById(id);
-						if (model != null) {
-							trackTimeFromFakeEntry(model);
-						}
-						else {
-							// fallback
-							Log.w(LOG_TAG, "Edit of a fake entry requested, but no entry found for id " + id);
-							trackTime();
-						}
+		if (menuItemId == R.id.action_delete) {
+			deleteItems(withoutFakeIds(rowItemIds));
+			return true;
+		}
+		else if (menuItemId == R.id.action_edit) {
+			// works for fake entries as well as normal entries
+			if (rowItemIds.size() == 1) {
+				long id = rowItemIds.get(0);
+				if (isFakeEntry(id)) {
+					final TrackedActivityModel model = findModelById(id);
+					if (model != null) {
+						trackTimeFromFakeEntry(model);
 					}
 					else {
-						Intent intent = new Intent(Intent.ACTION_EDIT, ContentUris.withAppendedId(MCContract.Activity.CONTENT_URI, id));
-						startActivity(intent);
+						// fallback
+						Log.w(LOG_TAG, "Edit of a fake entry requested, but no entry found for id " + id);
+						trackTime();
 					}
 				}
 				else {
-					Log.w(LOG_TAG, "context menu edit called for " + rowItemIds.size() + " items, will ignore");
+					Intent intent = new Intent(Intent.ACTION_EDIT, ContentUris.withAppendedId(MCContract.Activity.CONTENT_URI, id));
+					startActivity(intent);
 				}
-				return true;
-
-			case R.id.action_now:
-				if (_data.isToday() && isOnlyLastItemSelected(withoutFakeIds(rowItemIds))) {
-					final TrackedActivitiesListAdapter adapter = getListAdapter();
-					final TrackedActivityModel item = adapter.getItem(adapter.getCount() - 1);
-					Fragment parent = getParentFragment();
-					if (parent instanceof AgimeChronicleFragment) {
-						((AgimeChronicleFragment)parent).onExtendPreviousActivity(item.getId(), item);
-					}
-
+			}
+			else {
+				Log.w(LOG_TAG, "context menu edit called for " + rowItemIds.size() + " items, will ignore");
+			}
+			return true;
+		}
+		else if (menuItemId == R.id.action_now) {
+			if (_data.isToday() && isOnlyLastItemSelected(withoutFakeIds(rowItemIds))) {
+				final TrackedActivitiesListAdapter adapter = getListAdapter();
+				final TrackedActivityModel item = adapter.getItem(adapter.getCount() - 1);
+				Fragment parent = getParentFragment();
+				if (parent instanceof AgimeChronicleFragment) {
+					((AgimeChronicleFragment)parent).onExtendPreviousActivity(item.getId(), item);
 				}
-				return true;
-
+			}
+			return true;
 		}
 		return false;
 	}

@@ -177,10 +177,8 @@ public class ProjectEditorFragment extends AnalyticsBaseCRUDFragment<ProjectEdit
 
 	@Override
 	public void onDateSelected(int token, final LocalDate date) {
-		switch (token) {
-			case WrappedView.ID_ACTIVE_UNTIL_BUTTON:
-				getWrappedView().setActiveUntilDay(date);
-				break;
+		if (token == WrappedView.ID_ACTIVE_UNTIL_BUTTON) {
+			getWrappedView().setActiveUntilDay(date);
 		}
 	}
 
