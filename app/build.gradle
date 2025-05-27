@@ -64,7 +64,8 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.8.0'
+        // Aktualisierte Version für bessere ARM64-Unterstützung
+        artifact = 'com.google.protobuf:protoc:3.21.7'
     }
     generateProtoTasks {
         all().each { task ->
