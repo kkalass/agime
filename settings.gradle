@@ -2,7 +2,17 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-        mavenCentral()
+    }
+    
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.namespace == 'com.android' || requested.id.name == 'kotlin-android-extensions') {
+                useModule("com.android.tools.build:gradle:8.2.2")
+            }
+            if (requested.id.id == 'org.jetbrains.kotlin.android') {
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
+            }
+        }
     }
 }
 
@@ -11,6 +21,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 

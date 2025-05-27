@@ -4,17 +4,45 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
+    
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22'
+        classpath 'com.google.protobuf:protoc:4.26.1'
     }
 }
 
 // All repository configurations are now in settings.gradle to avoid conflicts
 // with the new Gradle version's settings API
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+// Apply common configuration to all subprojects
+subprojects {
+    // Configure common Android settings for all subprojects
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                compileSdkVersion 34
+                
+                defaultConfig {
+                    minSdk 24
+                    targetSdk 34
+                }
+                
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+                
+                kotlinOptions {
+                    jvmTarget = '17'
+                }
+            }
+        }
+    }
+}
+
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }
