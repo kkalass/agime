@@ -30,7 +30,7 @@ public class AutoBackupManagingBroadcastReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, AutoBackupManagingBroadcastReceiver.class);
         intent.setAction(AgimeIntents.ACTION_AUTOMATIC_BACKUP);
 
-        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
     }
 
     @Override

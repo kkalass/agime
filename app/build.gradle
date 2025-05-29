@@ -24,8 +24,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
@@ -53,7 +53,7 @@ dependencies {
     implementation 'com.googlecode.efficient-java-matrix-library:ejml:0.24'
 
     // You need to depend on the lite runtime library, not protobuf-java
-    implementation 'com.google.protobuf:protobuf-javalite:3.8.0'
+    implementation 'com.google.protobuf:protobuf-javalite:4.26.1'
 
     testImplementation 'junit:junit:4.13.2'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -64,7 +64,7 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.8.0'
+        artifact = 'com.google.protobuf:protoc:4.26.1'
     }
     generateProtoTasks {
         all().each { task ->
