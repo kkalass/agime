@@ -1,423 +1,424 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:versionCode="32"
-    android:versionName="0.13.0" >
+	android:versionCode="33"
+	android:versionName="0.14.0">
 
-    <!-- For Backup: Saving Application State to disk -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28"/>
+	<!-- For Backup: Saving Application State to disk -->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+		android:maxSdkVersion="28" />
 
-    <!-- TimePickerLibrary requires this - needed for picking times with the radial timepicker -->
-    <uses-permission android:name="android.permission.VIBRATE" />
+	<!-- TimePickerLibrary requires this - needed for picking times with the radial timepicker -->
+	<uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- Register start for ongoing notification during acquisition time -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<!-- Register start for ongoing notification during acquisition time -->
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-    <!-- Needed for  Dropbox-->
-    <uses-permission android:name="android.permission.INTERNET" />
+	<!-- Needed for  Dropbox-->
+	<uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Needed for  Dropbox -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<!-- Needed for  Dropbox -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!--
+	<!--
          Ensure that processing of Broadcasts is finished before device sleeps again,
          most importantly scheduling acquisition time handling
     -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!--
+	<!--
         Needed for notification managing service
     -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:name="AgimeApplication"
-        android:theme="@style/AgimeTheme.NoTitleBar" >
-        <activity
-            android:name="de.kalass.agime.AgimeMainActivity"
-            android:theme="@style/AgimeTheme.NoTitleBarDrawer"
-            android:label="@string/app_name"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+	<application
+		android:allowBackup="true"
+		android:icon="@drawable/ic_launcher"
+		android:label="@string/app_name"
+		android:name="AgimeApplication"
+		android:theme="@style/AgimeTheme.NoTitleBar">
+		<activity
+			android:name="de.kalass.agime.AgimeMainActivity"
+			android:theme="@style/AgimeTheme.NoTitleBarDrawer"
+			android:label="@string/app_name"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".trackactivity.TrackActivity"
-            android:label="@string/action_track_activity"
-            android:parentActivityName="de.kalass.agime.AgimeMainActivity"
-            android:exported="true">
-            <intent-filter android:label="@string/activity_title_add_tracked" >
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".trackactivity.TrackActivity"
+			android:label="@string/action_track_activity"
+			android:parentActivityName="de.kalass.agime.AgimeMainActivity"
+			android:exported="true">
+			<intent-filter android:label="@string/activity_title_add_tracked">
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.activity" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT" />
+				<data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.activity" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.activity" />
-            </intent-filter>
-            <!--
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.activity" />
+			</intent-filter>
+			<!--
             intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter
             -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.AgimeMainActivity" />
-        </activity>
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.AgimeMainActivity" />
+		</activity>
 
 
-        <activity
-            android:name=".activitytype.ActivityTypeManagementActivity"
-            android:label="@string/action_list_activities"
-            android:parentActivityName="de.kalass.agime.SettingsActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.SettingsActivity" />
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
+		<activity
+			android:name=".activitytype.ActivityTypeManagementActivity"
+			android:label="@string/action_list_activities"
+			android:parentActivityName="de.kalass.agime.SettingsActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.SettingsActivity" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.activity_type" />
-            </intent-filter>
-        </activity>
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.activity_type" />
+			</intent-filter>
+		</activity>
 
-        <activity
-            android:name=".activitytype.ActivityTypeEditorActivity"
-            android:label="@string/action_edit_activity"
-            android:parentActivityName="de.kalass.agime.activitytype.ActivityTypeManagementActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.activitytype.ActivityTypeManagementActivity" />
+		<activity
+			android:name=".activitytype.ActivityTypeEditorActivity"
+			android:label="@string/action_edit_activity"
+			android:parentActivityName="de.kalass.agime.activitytype.ActivityTypeManagementActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.activitytype.ActivityTypeManagementActivity" />
 
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.activity_type" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT" />
+				<data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.activity_type" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- needs an extra to be provided! -->
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.activity_type" />
-            </intent-filter>
-        </activity>
-
-
-
-        <activity
-            android:name=".category.CategoryManagementActivity"
-            android:label="@string/action_list_categories"
-            android:parentActivityName="de.kalass.agime.SettingsActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.SettingsActivity" />
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.category" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".category.CategoryEditorActivity"
-            android:label="@string/action_edit_category"
-            android:parentActivityName="de.kalass.agime.category.CategoryManagementActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.category.CategoryManagementActivity" />
-
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.category" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- needs an extra to be provided! -->
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.category" />
-            </intent-filter>
-        </activity>
+				<category android:name="android.intent.category.DEFAULT" />
+				<!-- needs an extra to be provided! -->
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.activity_type" />
+			</intent-filter>
+		</activity>
 
 
-        <activity
-            android:name="de.kalass.agime.SettingsActivity"
-            android:label="@string/action_settings"
-            android:parentActivityName="de.kalass.agime.AgimeMainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.AgimeMainActivity" />
-        </activity>
-        <activity
-            android:name="de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity"
-            android:label="@string/action_acquisition_times"
-            android:parentActivityName="de.kalass.agime.SettingsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.SettingsActivity" />
-        </activity>
+		<activity
+			android:name=".category.CategoryManagementActivity"
+			android:label="@string/action_list_categories"
+			android:parentActivityName="de.kalass.agime.SettingsActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.SettingsActivity" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.category" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name=".category.CategoryEditorActivity"
+			android:label="@string/action_edit_category"
+			android:parentActivityName="de.kalass.agime.category.CategoryManagementActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.category.CategoryManagementActivity" />
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+
+				<data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.category" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<!-- needs an extra to be provided! -->
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.category" />
+			</intent-filter>
+		</activity>
 
 
-        <activity
-            android:name=".project.ProjectManagementActivity"
-            android:label="@string/action_list_projects"
-            android:parentActivityName="de.kalass.agime.SettingsActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.SettingsActivity" />
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.project" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".project.ProjectEditorActivity"
-            android:label="@string/action_edit_project"
-            android:parentActivityName="de.kalass.agime.project.ProjectManagementActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.project.ProjectManagementActivity" />
-
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.project" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- needs an extra to be provided! -->
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.project" />
-            </intent-filter>
-        </activity>
+		<activity
+			android:name="de.kalass.agime.SettingsActivity"
+			android:label="@string/action_settings"
+			android:parentActivityName="de.kalass.agime.AgimeMainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.AgimeMainActivity" />
+		</activity>
+		<activity
+			android:name="de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity"
+			android:label="@string/action_acquisition_times"
+			android:parentActivityName="de.kalass.agime.SettingsActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.SettingsActivity" />
+		</activity>
 
 
-        <activity
-            android:name=".backup.BackupRestoreActivity"
-            android:label="@string/action_backup_restore"
-            android:parentActivityName="de.kalass.agime.SettingsActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.SettingsActivity" />
-        </activity>
+		<activity
+			android:name=".project.ProjectManagementActivity"
+			android:label="@string/action_list_projects"
+			android:parentActivityName="de.kalass.agime.SettingsActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.SettingsActivity" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
 
-        <provider
-            android:name="de.kalass.agime.provider.MCProvider"
-            android:authorities="de.kalass.agime"
-            android:exported="false" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-        <receiver
-            android:name="de.kalass.agime.ongoingnotification.OngoingNotificationManagingReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="de.kalass.agime.intent.action.FIRST_START_AFTER_INSTALL_OR_UPGRADE" />
-                <!--
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.project" />
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name=".project.ProjectEditorActivity"
+			android:label="@string/action_edit_project"
+			android:parentActivityName="de.kalass.agime.project.ProjectManagementActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.project.ProjectManagementActivity" />
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+
+				<data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.project" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<!-- needs an extra to be provided! -->
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.project" />
+			</intent-filter>
+		</activity>
+
+
+		<activity
+			android:name=".backup.BackupRestoreActivity"
+			android:label="@string/action_backup_restore"
+			android:parentActivityName="de.kalass.agime.SettingsActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.SettingsActivity" />
+		</activity>
+
+		<provider
+			android:name="de.kalass.agime.provider.MCProvider"
+			android:authorities="de.kalass.agime"
+			android:exported="false" />
+
+		<receiver
+			android:name="de.kalass.agime.ongoingnotification.OngoingNotificationManagingReceiver"
+			android:enabled="true"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="de.kalass.agime.intent.action.FIRST_START_AFTER_INSTALL_OR_UPGRADE" />
+				<!--
                  Api Level 12,
                  the ongoing notifications will be registered with the alarm service
                  on boot and first use anyways, so this adds a little bit of convenience but
                  can be lived without
                 -->
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.TIME_SET" />
-            </intent-filter>
-        </receiver>
+				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+				<action android:name="android.intent.action.TIME_SET" />
+			</intent-filter>
+		</receiver>
 
-        <service
-            android:name="de.kalass.agime.ongoingnotification.NotificationManagingService"
-            android:enabled="true"
-            android:foregroundServiceType=""
-            android:exported="false" >
-        </service>
+		<service
+			android:name="de.kalass.agime.ongoingnotification.NotificationManagingService"
+			android:enabled="true"
+			android:foregroundServiceType="dataSync"
+			android:exported="false">
+		</service>
 
-        <receiver
-            android:name="de.kalass.agime.backup.AutoBackupManagingBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="de.kalass.agime.intent.action.FIRST_START_AFTER_INSTALL_OR_UPGRADE" />
-            </intent-filter>
-        </receiver>
+		<receiver
+			android:name="de.kalass.agime.backup.AutoBackupManagingBroadcastReceiver"
+			android:enabled="true"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="de.kalass.agime.intent.action.FIRST_START_AFTER_INSTALL_OR_UPGRADE" />
+			</intent-filter>
+		</receiver>
 
-        <service
-            android:name="de.kalass.agime.backup.BackupService"
-            android:enabled="true"
-            android:exported="false" >
-        </service>
+		<service
+			android:name="de.kalass.agime.backup.BackupService"
+			android:enabled="true"
+			android:exported="false">
+		</service>
 
-        <activity
-            android:name=".acquisitiontime.RecurringAcquisitionTimeEditorActivity"
-            android:label="@string/title_activity_recurring_acquisition_time_editor"
-            android:parentActivityName="de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity" />
+		<activity
+			android:name=".acquisitiontime.RecurringAcquisitionTimeEditorActivity"
+			android:label="@string/title_activity_recurring_acquisition_time_editor"
+			android:parentActivityName="de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity" />
 
-            <intent-filter android:label="@string/title_activity_recurring_acquisition_time_editor" >
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
+			<intent-filter android:label="@string/title_activity_recurring_acquisition_time_editor">
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.recurring_acquisition_time" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT" />
+				<data
+					android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.recurring_acquisition_time" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.recurring_acquisition_time" />
-            </intent-filter>
-        </activity>
+				<data
+					android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.recurring_acquisition_time" />
+			</intent-filter>
+		</activity>
 
-        <activity
-            android:name=".customfield.CustomFieldTypeEditorActivity"
-            android:label="@string/custom_field_type_activity_label"
-            android:parentActivityName="de.kalass.agime.SettingsActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.SettingsActivity" />
+		<activity
+			android:name=".customfield.CustomFieldTypeEditorActivity"
+			android:label="@string/custom_field_type_activity_label"
+			android:parentActivityName="de.kalass.agime.SettingsActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.SettingsActivity" />
 
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.custom_field_type" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT" />
+				<data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.custom_field_type" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.custom_field_type" />
-            </intent-filter>
-        </activity>
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.custom_field_type" />
+			</intent-filter>
+		</activity>
 
-        <activity
-            android:name="de.kalass.agime.customfield.CustomFieldValueManagementActivity"
-            android:parentActivityName="de.kalass.agime.SettingsActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.SettingsActivity" />
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
+		<activity
+			android:name="de.kalass.agime.customfield.CustomFieldValueManagementActivity"
+			android:parentActivityName="de.kalass.agime.SettingsActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.SettingsActivity" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.custom_field_value" />
-            </intent-filter>
-        </activity>
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.custom_field_value" />
+			</intent-filter>
+		</activity>
 
-        <activity
-            android:name=".customfield.CustomFieldValueEditorActivity"
-            android:parentActivityName="de.kalass.agime.customfield.CustomFieldValueManagementActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.customfield.CustomFieldValueManagementActivity" />
+		<activity
+			android:name=".customfield.CustomFieldValueEditorActivity"
+			android:parentActivityName="de.kalass.agime.customfield.CustomFieldValueManagementActivity"
+			android:exported="true">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.customfield.CustomFieldValueManagementActivity" />
 
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.EDIT" />
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<action android:name="android.intent.action.EDIT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.custom_field_value" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT" />
+				<data android:mimeType="vnd.android.cursor.item/vnd.de.kalass.agime.custom_field_value" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.INSERT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <!-- needs an extra to be provided! -->
-                <data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.custom_field_value" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".AboutActivity"
-            android:label="@string/title_about"
+				<category android:name="android.intent.category.DEFAULT" />
+				<!-- needs an extra to be provided! -->
+				<data android:mimeType="vnd.android.cursor.dir/vnd.de.kalass.agime.custom_field_value" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".AboutActivity"
+			android:label="@string/title_about"
+			android:parentActivityName="de.kalass.agime.AgimeMainActivity">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value="de.kalass.agime.AgimeMainActivity" />
+		</activity>
 
-            android:parentActivityName="de.kalass.agime.AgimeMainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.kalass.agime.AgimeMainActivity" />
-        </activity>
 
+		<activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
+		<activity
+			android:name="com.dropbox.client2.android.AuthActivity"
+			android:launchMode="singleTask"
+			android:exported="true">
+			<intent-filter>
+				<data android:scheme="db-y1r7twpueydvjai" />
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<service
+			android:name="com.dropbox.sync.android.DbxSyncService"
+			android:enabled="true"
+			android:exported="false"
+			android:label="Dropbox Sync" />
 
-        <activity android:name="com.dropbox.sync.android.DbxAuthActivity" />
-        <activity
-            android:name="com.dropbox.client2.android.AuthActivity"
-            android:launchMode="singleTask"
-            android:exported="true">
-            <intent-filter>
-                <data android:scheme="db-y1r7twpueydvjai" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <service
-            android:name="com.dropbox.sync.android.DbxSyncService"
-            android:enabled="true"
-            android:exported="false"
-            android:label="Dropbox Sync" />
-
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="de.kalass.agime.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <!-- ressource file to create -->
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
-        </provider>
-    </application>
+		<provider
+			android:name="androidx.core.content.FileProvider"
+			android:authorities="de.kalass.agime.provider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<!-- ressource file to create -->
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/file_paths">
+			</meta-data>
+		</provider>
+	</application>
 
 </manifest>
