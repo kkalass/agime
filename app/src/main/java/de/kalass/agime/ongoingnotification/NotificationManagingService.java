@@ -278,8 +278,7 @@ public class NotificationManagingService extends Service {
             AcquisitionTimeInstance next = times.getNext();
             if (next != null) {
                 PendingIntent pendingIntent = createPendingIntent(context, AgimeIntents.ACTION_REFRESH_ACQUISITION_TIME_NOTIFICATION);
-                AlarmManagerSupport.setExact(
-                        am,
+                am.setAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
                         next.getStartDateTime().getMillis(), pendingIntent);
             }
@@ -295,7 +294,7 @@ public class NotificationManagingService extends Service {
             AcquisitionTimeInstance current = times.getCurrent();
             PendingIntent pendingIntent = createPendingIntent(context, AgimeIntents.ACTION_REFRESH_ACQUISITION_TIME_NOTIFICATION);
             if (current != null) {
-                AlarmManagerSupport.setExact(am,
+                AlarmManagerSupport.setAlarm(am,
                         AlarmManager.RTC_WAKEUP,
                         current.getEndDateTime().getMillis(), pendingIntent);
             } else {
@@ -303,7 +302,7 @@ public class NotificationManagingService extends Service {
 
                 if (previous != null) {
                     DateTime notificationRefreshTime = previous.getEndDateTime().plusMinutes(AcquisitionTimeInstance.ACQUISITION_TIME_END_THRESHOLD_MINUTES).plusMillis(500);
-                    AlarmManagerSupport.setExact(am,
+                    AlarmManagerSupport.setAlarm(am,
                             AlarmManager.RTC_WAKEUP,
                             notificationRefreshTime.getMillis(), pendingIntent);
                 }
@@ -460,7 +459,7 @@ public class NotificationManagingService extends Service {
 
             if (updateInMillis != VALUE_MILLIS_NOT_SET) {
                 if (needExact) {
-                    AlarmManagerSupport.setExact(am, AlarmManager.ELAPSED_REALTIME,
+                    AlarmManagerSupport.setAlarm(am, AlarmManager.ELAPSED_REALTIME,
                             SystemClock.elapsedRealtime() + updateInMillis, pendingIntent);
                 } else {
                     am.set(AlarmManager.ELAPSED_REALTIME,
