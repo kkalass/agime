@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- Android 15+ specific themes with edge-to-edge support -->
+
+	<style name="AgimeTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+		<!--   your app branding color for the app bar -->
+		<item name="colorPrimary">@color/primary</item>
+		<!--   darker variant for the status bar and contextual app bars -->
+		<item name="colorPrimaryDark">@color/primary_dark</item>
+		<!--   theme UI controls like checkboxes and text fields -->
+		<item name="colorAccent">@color/accent</item>
+
+		<item name="colorButtonNormal">@color/accent</item>
+
+		<item name="actionModeBackground">@color/primary</item>
+		<item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+		<item name="windowActionModeOverlay">true</item>
+
+		<!-- Enable true edge-to-edge with transparent status bar -->
+		<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:navigationBarColor">@android:color/transparent</item>
+		<!-- Use light status bar content (dark icons/text) on light background -->
+		<item name="android:windowLightStatusBar">true</item>
+	</style>
+
+	<style name="AgimeTheme.NoTitleBar">
+		<item name="windowActionBar">false</item>
+		<item name="android:windowNoTitle">true</item>
+		<!-- Enable true edge-to-edge with transparent status bar -->
+		<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:navigationBarColor">@android:color/transparent</item>
+		<!-- Use light status bar content (dark icons/text) on light background -->
+		<item name="android:windowLightStatusBar">true</item>
+	</style>
+
+	<style name="AgimeTheme.NoTitleBarDrawer">
+		<item name="windowActionBar">false</item>
+		<item name="android:windowNoTitle">true</item>
+		<!-- Enable true edge-to-edge with transparent status bar -->
+		<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:navigationBarColor">@android:color/transparent</item>
+		<!-- Use light status bar content (dark icons/text) on light background -->
+		<item name="android:windowLightStatusBar">true</item>
+	</style>
+</resources>

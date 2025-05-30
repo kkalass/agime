@@ -36,6 +36,7 @@ import de.kalass.agime.overview.AgimeMonthOverviewFragment;
 import de.kalass.agime.overview.AgimeTotalOverviewFragment;
 import de.kalass.agime.overview.AgimeWeekOverviewFragment;
 import de.kalass.agime.overview.AgimeYearOverviewFragment;
+import de.kalass.agime.util.EdgeToEdgeHelper;
 import de.kalass.android.common.DialogUtils;
 
 
@@ -101,6 +102,8 @@ public class AgimeMainActivity extends MainEntryPointActivity implements Resizab
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		// Configure edge-to-edge display for Android 15+
+		EdgeToEdgeHelper.setupEdgeToEdge(this);
 		super.onCreate(savedInstanceState);
 
 		// Prüfen und Anfordern der Benachrichtigungsberechtigung für Android 13+ (API 33+)
@@ -111,6 +114,9 @@ public class AgimeMainActivity extends MainEntryPointActivity implements Resizab
 		setContentView(R.layout.agime_main_activity);
 		Toolbar toolbar = getToolbar();
 		setSupportActionBar(toolbar);
+
+		// Apply window insets to the toolbar to handle status bar
+		EdgeToEdgeHelper.applySystemWindowInsetsToToolbar(toolbar);
 
 		_drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 

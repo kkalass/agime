@@ -1,81 +1,82 @@
 
 <!-- Your normal content view -->
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:fitsSystemWindows="false"
+>
 
-    <androidx.appcompat.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/action_bar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:elevation="4dp"
-        android:contentInsetEnd="0dp"
-        app:contentInsetRight="0dp"
-        app:contentInsetEnd="0dp"
-        android:contentInsetRight="0dp"
-        android:contentInsetLeft="72dp"
-        android:contentInsetStart="72dp"
-        app:contentInsetLeft="72dp"
-        app:contentInsetStart="72dp"
-        android:paddingRight="12dp"
-        style="@style/AgimeToolbar"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
+	<androidx.appcompat.widget.Toolbar
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/action_bar"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:elevation="4dp"
+		android:contentInsetEnd="0dp"
+		app:contentInsetRight="0dp"
+		app:contentInsetEnd="0dp"
+		android:contentInsetRight="0dp"
+		android:contentInsetLeft="72dp"
+		android:contentInsetStart="72dp"
+		app:contentInsetLeft="72dp"
+		app:contentInsetStart="72dp"
+		android:paddingRight="12dp"
+		style="@style/AgimeToolbar"
+		app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+		app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+		android:minHeight="?attr/actionBarSize"
+		android:background="?attr/colorPrimary" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/action_bar">
-        <!-- The main content view -->
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_marginBottom="57dp"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-        <View
-            android:id="@+id/bottom_bar_separator"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="-57dp"
-            android:background="@color/material_black_dividers"/>
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_below="@id/action_bar">
+		<!-- The main content view -->
+		<FrameLayout
+			android:id="@+id/container"
+			android:layout_marginBottom="57dp"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent" />
+		<View
+			android:id="@+id/bottom_bar_separator"
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="-57dp"
+			android:background="@color/material_black_dividers" />
 
-        <androidx.appcompat.widget.Toolbar
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/bottom_bar"
-            android:layout_height="56dp"
-            android:layout_width="match_parent"
-            android:elevation="0dp"
-            android:contentInsetEnd="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp"
-            android:contentInsetRight="0dp"
-            android:contentInsetLeft="0dp"
-            android:contentInsetStart="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            android:paddingRight="0dp"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:gravity="center"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@android:color/transparent" >
-            <Button
-                android:id="@+id/action_delete"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@drawable/list_item_selector"
-                android:text="Delete"
-                android:textColor="@color/material_black_text"
-                style="@style/KKBorderlesButton"
-                />
+		<androidx.appcompat.widget.Toolbar
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/bottom_bar"
+			android:layout_height="56dp"
+			android:layout_width="match_parent"
+			android:elevation="0dp"
+			android:contentInsetEnd="0dp"
+			app:contentInsetRight="0dp"
+			app:contentInsetEnd="0dp"
+			android:contentInsetRight="0dp"
+			android:contentInsetLeft="0dp"
+			android:contentInsetStart="0dp"
+			app:contentInsetLeft="0dp"
+			app:contentInsetStart="0dp"
+			android:paddingRight="0dp"
+			app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+			android:gravity="center"
+			android:minHeight="?attr/actionBarSize"
+			android:background="@android:color/transparent">
+			<Button
+				android:id="@+id/action_delete"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:background="@drawable/list_item_selector"
+				android:text="Delete"
+				android:textColor="@color/material_black_text"
+				style="@style/KKBorderlesButton"
+			/>
 
-            </androidx.appcompat.widget.Toolbar>
-    </LinearLayout>
+		</androidx.appcompat.widget.Toolbar>
+	</LinearLayout>
 
 </RelativeLayout>

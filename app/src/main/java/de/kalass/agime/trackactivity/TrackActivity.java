@@ -32,6 +32,12 @@ public class TrackActivity extends AnalyticsBaseCRUDActivity {
 	// NotificationServiceConnection wurde entfernt, da wir jetzt WorkManager verwenden
 
 	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+
+
+	@Override
 	protected BaseCRUDFragment newCRUDFragment(CRUDMode mode) {
 		final Intent intent = getIntent();
 		final Bundle extras = intent == null ? null : intent.getExtras();
