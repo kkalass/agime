@@ -76,5 +76,26 @@ The implementation uses the existing `EdgeToEdgeHelper` utility class with two k
 - ✅ **Comprehensive Coverage**: All activities in AndroidManifest.xml are covered through their inheritance chains
 - ✅ **Layout Compatibility**: All layout files updated to disable system window fitting for proper edge-to-edge extension
 
+### 4. Report Screens Custom Toolbar Fix
+
+#### ResizableToolbarHelper
+- **File**: `/app/src/main/java/de/kalass/agime/ResizableToolbarHelper.java`
+- **Changes**:
+  - Added `EdgeToEdgeHelper.applySystemWindowInsetsToToolbar(customToolbar)` in `setCustomToolbar()` method
+  - Ensures custom toolbars used by Report fragments receive proper system window insets
+- **Affects**: All Report Overview Fragments:
+  - AgimeDayOverviewFragment
+  - AgimeWeekOverviewFragment
+  - AgimeMonthOverviewFragment
+  - AgimeYearOverviewFragment
+  - AgimeTotalOverviewFragment
+
+#### Problem Solved
+Report screens accessed via the drawer menu were experiencing status bar overlap because their custom toolbars (managed by `ResizableToolbarHelper`) were not receiving EdgeToEdge insets. The fix integrates the existing EdgeToEdgeHelper infrastructure with the custom toolbar management system.
+
+#### Test Coverage
+- **File**: `/app/src/test/java/de/kalass/agime/ResizableToolbarHelperTest.java`
+- **Coverage**: Unit test verifies that EdgeToEdgeHelper insets are applied to custom toolbars
+
 ## Result
-The Agime app now fully supports Android 15's edge-to-edge requirements across all activity screens. Content properly extends behind system bars while maintaining correct positioning and avoiding overlaps with the status bar and navigation bar.
+The Agime app now fully supports Android 15's edge-to-edge requirements across all activity screens and report fragments. Content properly extends behind system bars while maintaining correct positioning and avoiding overlaps with the status bar and navigation bar. This includes the custom toolbar functionality used by the Report overview screens accessed through the drawer navigation.

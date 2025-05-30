@@ -22,6 +22,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -117,6 +119,21 @@ public class AgimeMainActivity extends MainEntryPointActivity implements Resizab
 
 		// Apply window insets to the toolbar to handle status bar
 		EdgeToEdgeHelper.applySystemWindowInsetsToToolbar(toolbar);
+
+		// Apply top padding to fragment container to coordinate with blue overlay positioning
+		View fragmentContainer = findViewById(R.id.fragment_container);
+		ViewCompat.setOnApplyWindowInsetsListener(fragmentContainer, (view, windowInsets) -> {
+			androidx.core.graphics.Insets systemBarInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+
+			// Apply top padding equal to status bar height to coordinate with overlay positioning
+			view.setPadding(
+				view.getPaddingLeft(),
+				systemBarInsets.top,
+				view.getPaddingRight(),
+				systemBarInsets.bottom);
+
+			return WindowInsetsCompat.CONSUMED;
+		});
 
 		_drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 
