@@ -30,13 +30,24 @@ Die neue Implementierung:
 
 ## Testabdeckung
 
-- Grundlegende Unit-Tests für den Worker und den Controller wurden hinzugefügt
-- Weitere Tests sollten vor der Veröffentlichung hinzugefügt werden
+Die Implementierung ist mit umfangreichen Tests abgedeckt:
+
+- **WorkManagerNotificationTest**: Grundlegende Tests für die Worker- und Controller-Funktionalität
+- **NotificationSystemIntegrationTest**: End-to-End-Tests für die Integration der verschiedenen Komponenten
+- **NotificationEdgeCasesTest**: Tests für Randfälle und Fehlerbehandlung (SQL-Fehler, NULL-Cursors, etc.)
+- **NotificationPerformanceTest**: Performance-Tests mit großen Datenmengen
+
+Die Tests decken folgende Szenarien ab:
+- Erfolgreiche Ausführung des Workers
+- Korrekte Verarbeitung von Intents durch den Controller und BroadcastReceiver
+- Fehlerhafte Datenbankabfragen und deren Behandlung
+- Verhalten bei deaktivierten Benachrichtigungen
+- Performance bei vielen wiederkehrenden Erfassungszeiten
 
 ## Bekannte Probleme und ToDo
 
-- Die neue Implementierung benötigt noch detailliertere Tests
 - Die WorkManager-Implementierung plant Ausführungen aktuell in Intervallen von mindestens 15 Minuten (WorkManager-Einschränkung)
+- Die Tests könnten mit einer In-Memory-Datenbank erweitert werden, um einen realistischeren Testaufbau zu ermöglichen
 
 ## Migrationsschritte
 
@@ -49,7 +60,12 @@ Die folgenden Dateien wurden geändert:
 - RecurringAcquisitionTimeEditorFragment.java
 
 Neue Dateien:
-- NotificationWorker.java
-- WorkManagerController.java
-- NotificationBroadcastReceiver.java
-- WorkManagerNotificationTest.java
+- NotificationWorker.java - Worker für die Erstellung der Benachrichtigungen
+- WorkManagerController.java - Controller für die Planung und Verwaltung
+- NotificationBroadcastReceiver.java - BroadcastReceiver für System-Events
+
+Test-Dateien:
+- WorkManagerNotificationTest.java - Allgemeine Tests für den Worker und Controller
+- NotificationSystemIntegrationTest.java - Integration der verschiedenen Komponenten
+- NotificationEdgeCasesTest.java - Tests für Randfälle und Fehlerbehandlung
+- NotificationPerformanceTest.java - Tests der Performance und Ressourcennutzung
