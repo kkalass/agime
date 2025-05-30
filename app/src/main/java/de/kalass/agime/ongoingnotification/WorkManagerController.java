@@ -358,22 +358,13 @@ public class WorkManagerController {
 				PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				alarmManager.setExactAndAllowWhileIdle(
-					AlarmManager.RTC_WAKEUP,
-					nextNoiseTimeMillis,
-					pendingIntent);
-				if (DEBUG)
-					Log.d(LOG_TAG, "Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis).toString() + " geplant");
-			}
-			else {
-				AlarmManagerSupport.setAlarm(
-					alarmManager,
-					AlarmManager.RTC_WAKEUP,
-					nextNoiseTimeMillis,
-					pendingIntent);
-			}
-		}
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    nextNoiseTimeMillis,
+                    pendingIntent);
+            if (DEBUG)
+                Log.d(LOG_TAG, "Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis).toString() + " geplant");
+        }
 	}
 
 

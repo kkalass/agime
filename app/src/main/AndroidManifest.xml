@@ -35,6 +35,9 @@
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"
 		android:maxSdkVersion="34" />
 	<!-- Für Android 15+ - SHORT_SERVICE Berechtigung - no permission required -->
+
+	<!-- For being able to timely update notifications -->
+	<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 	<application
 		android:allowBackup="true"
 		android:icon="@drawable/ic_launcher"
