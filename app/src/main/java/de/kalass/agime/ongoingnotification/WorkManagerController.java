@@ -432,15 +432,55 @@ public class WorkManagerController {
     }
 
     private static void showPermissionRequestDialog(Context context) {
-        if (!(context instanceof android.app.Activity)) {
-            if (DEBUG) Log.d(LOG_TAG, "Cannot show dialog - context is not an Activity");
-            return; // Can't show dialog without an activity context
+        if (!(context instanceof de.kalass.agime.analytics.AnalyticsActionBarActivity) && 
+            !(context.getApplicationContext() instanceof android.app.Activity)) {
+            if (DEBUG) Log.d(LOG_TAG, "Cannot show dialog - context is not an AnalyticsActionBarActivity");
+            return;
         }
-        if (DEBUG) Log.d(LOG_TAG, "Creating permission request dialog");
-
+        
+        // Get the activity (either directly or from application context)
+        android.app.Activity activity = (context instanceof android.app.Activity) 
+            ? (android.app.Activity) context 
+            : (android.app.Activity) context.getApplicationContext();
+            
+        if (!(activity instanceof de.kalass.agime.analytics.AnalyticsActionBarActivity)) {
+            if (DEBUG) Log.d(LOG_TAG, "Activity is not an AnalyticsActionBarActivity");
+            return;
+        }
+        
+        de.kalass.agime.analytics.AnalyticsActionBarActivity analyticsActivity = 
+            (de.kalass.agime.analytics.AnalyticsActionBarActivity) activity;
+            
+        // Show the snackbar with both actions
+        analyticsActivity.showSnackbar(
+            context.getString(R.string.snackbar_permission_needed),
+            context.getString(R.string.grant_permission), // First action (main action)
+            v -> {
+                // Grant permission action
+                try {
+                    de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
+                    // Mark that we've asked
+                    android.preference.PreferenceManager.getDefaultSharedPreferences(context)
+                            .edit()
+                            .putBoolean(PREF_ALARM_PERMISSION_ASKED, true)
+                            .apply();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Error requesting exact alarm permission", e);
+                }
+            },
+            context.getString(R.string.learn_more), // Second action (learn more)
+            v -> showPermissionExplanationDialog(context)
+        );
+        
+        if (DEBUG) Log.d(LOG_TAG, "Shown permission request snackbar");
+    }
+    
+    private static void showPermissionExplanationDialog(Context context) {
+        if (DEBUG) Log.d(LOG_TAG, "User clicked Learn More");
+        // Show a dialog with more information when Learn More is clicked
         new androidx.appcompat.app.AlertDialog.Builder(context)
                 .setTitle(R.string.exact_alarm_permission_title)
-                .setMessage(R.string.exact_alarm_permission_message)
+                .setMessage(R.string.snackbar_permission_detailed)
                 .setPositiveButton(R.string.grant_permission, (dialog, which) -> {
                     if (DEBUG) Log.d(LOG_TAG, "User clicked Grant Permission");
                     try {
@@ -455,18 +495,14 @@ public class WorkManagerController {
                             .putBoolean(PREF_ALARM_PERMISSION_ASKED, true)
                             .apply();
                 })
-                .setNegativeButton(R.string.not_now, (dialog, which) -> {
-                    if (DEBUG) Log.d(LOG_TAG, "User clicked Not Now");
-                })
-                .setNeutralButton(R.string.never_ask_again, (dialog, which) -> {
-                    if (DEBUG) Log.d(LOG_TAG, "User clicked Don't Ask Again");
-                    // Mark to never ask again
+                .setNeutralButton(R.string.never_ask_again, (d, which) -> {
+                    if (DEBUG) Log.d(LOG_TAG, "User chose to never ask again");
                     android.preference.PreferenceManager.getDefaultSharedPreferences(context)
                             .edit()
                             .putBoolean(PREF_NEVER_ASK_AGAIN, true)
                             .apply();
-                    if (DEBUG) Log.d(LOG_TAG, "Set 'never ask again' preference to true");
                 })
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
 	public static AcquisitionTimes getCurrentAcquisitionTimes(Context context) {

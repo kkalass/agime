@@ -315,6 +315,9 @@ My Device: %2$s, %3$s, Android %4$s %5$d\n
     <string name="grant_permission">Grant Permission</string>
     <string name="not_now">Not Now</string>
     <string name="never_ask_again">Don\'t Ask Again</string>
+    <string name="snackbar_permission_needed">Agime needs alarm permission for timely reminders</string>
+    <string name="learn_more">Learn More</string>
+    <string name="snackbar_permission_detailed">For the best experience with reminders during your acquisition times, Agime needs to schedule exact alarms. You can change this later in app settings.</string>
     <string name="ongoing_notif_background_monitoring">Background monitoring active</string>
     <string name="action_go_to_current_week_superfluous">current week is shown</string>
     <string name="action_go_to_current_month_superfluous">current month is shown</string>
