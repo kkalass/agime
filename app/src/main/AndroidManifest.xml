@@ -281,7 +281,7 @@
 			android:name="de.kalass.agime.ongoingnotification.ShortLivedNotificationService"
 			android:enabled="true"
 			android:exported="false"
-			android:foregroundServiceType="@string/foreground_service_type">
+			android:foregroundServiceType="${foregroundServiceType}">
 		</service>
 
 		<!-- Der alte Service NotificationManagingService wurde durch die hybride Lösung aus

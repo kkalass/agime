@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'de.kalass.agime'
-    compileSdk 34
+    compileSdk 35
     
     buildFeatures {
         buildConfig = true
@@ -24,9 +24,14 @@ android {
     defaultConfig {
         applicationId "de.kalass.agime"
         minSdk 23
-        targetSdk 34
+        targetSdk 35
         versionCode 33
         versionName "0.14.0"
+        
+        // Set default foreground service type based on target SDK
+        manifestPlaceholders.foregroundServiceType = project.hasProperty('android.injected.invoked.from.ide') ? 
+            'dataSync' : // Default to dataSync for IDE builds to avoid issues
+            (project.android.defaultConfig.targetSdk >= 35 ? 'shortService' : 'dataSync')
 
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }

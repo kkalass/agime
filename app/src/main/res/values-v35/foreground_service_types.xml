@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<!-- Android 15+ verwendet den neuen shortService Typ -->
-	<string name="foreground_service_type">shortService</string>
-</resources>
