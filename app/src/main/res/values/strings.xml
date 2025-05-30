@@ -310,6 +310,11 @@ My Device: %2$s, %3$s, Android %4$s %5$d\n
     <string name="action_go_to_current_year">Current year</string>
     <string name="action_go_to_current_week">Current week</string>
     <string name="request_exact_alarm_permission_message">Agime needs the "Alarms &amp; Reminders" permission to show timely notifications. Please grant this permission in the system settings.</string>
+    <string name="exact_alarm_permission_title">Alarm Permission</string>
+    <string name="exact_alarm_permission_message">For the best experience, Agime needs permission to show notifications at exact times. This helps with timely reminders during your acquisition times.</string>
+    <string name="grant_permission">Grant Permission</string>
+    <string name="not_now">Not Now</string>
+    <string name="never_ask_again">Don\'t Ask Again</string>
     <string name="ongoing_notif_background_monitoring">Background monitoring active</string>
     <string name="action_go_to_current_week_superfluous">current week is shown</string>
     <string name="action_go_to_current_month_superfluous">current month is shown</string>

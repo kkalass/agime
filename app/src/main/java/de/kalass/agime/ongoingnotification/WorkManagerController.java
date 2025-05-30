@@ -56,7 +56,7 @@ public class WorkManagerController {
 	private static final int REQUEST_CODE_NOISE_REMINDER = 300;
 
 	// Flag für Debugging
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true; // Enable debug logging
 
 	/**
 	 * Initialisiert den WorkManager bei App-Start oder nach Geräteneustart
@@ -188,6 +188,7 @@ public class WorkManagerController {
 	 */
 	public static void scheduleNextAcquisitionTimeAlarms(Context context) {
 		Log.i(LOG_TAG, "Plane Alarme für die nächste AcquisitionTime");
+		if (DEBUG) Log.d(LOG_TAG, "scheduleNextAcquisitionTimeAlarms called with context: " + context);
 
 		// Aktuelle AcquisitionTimes abrufen
 		AcquisitionTimes times = getCurrentAcquisitionTimes(context);
@@ -378,26 +379,96 @@ public class WorkManagerController {
         }
 	}
 
-    /**
-	 * Checks if the app has the required permissions to schedule exact alarms and requests them if needed
-	 *
-	 * @param context The application context
-	 */
-    public static void checkAndRequestExactAlarmPermission(Context context) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            if (!de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context)) {
-                try {
-                    de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
-                    // Show a toast or notification to inform the user
-                    Toast.makeText(context, 
-                        R.string.request_exact_alarm_permission_message,
-                        Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Fehler beim Anfordern der Alarm-Berechtigung", e);
-                }
-			}
+    private static final String PREF_ALARM_PERMISSION_ASKED = "alarm_permission_asked";
+    private static final String PREF_NEVER_ASK_AGAIN = "never_ask_again_alarm_permission";
+    private static final String PREF_SHOULD_SHOW_PERMISSION_DIALOG = "should_show_permission_dialog";
+    
+    // Call this from your Activity's onResume() to handle pending permission dialogs
+    public static void checkPendingPermissionDialog(android.app.Activity activity) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
+            return;
         }
-	}
+        
+        android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(activity);
+        boolean shouldShowDialog = prefs.getBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, false);
+        
+        if (shouldShowDialog) {
+            // Clear the flag first to prevent showing it multiple times
+            prefs.edit().putBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, false).apply();
+            // Now show the dialog
+            showPermissionRequestDialog(activity);
+        }
+    }
+
+    /**
+     * Checks if the app has the required permissions to schedule exact alarms and shows a dialog if needed
+     *
+     * @param context The application context
+     */
+    public static void checkAndRequestExactAlarmPermission(Context context) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
+            if (DEBUG) Log.d(LOG_TAG, "SDK version < S, skipping exact alarm permission check");
+            return;
+        }
+
+        // Check if we already have permission
+        boolean hasPermission = de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context);
+        if (DEBUG) Log.d(LOG_TAG, "Has exact alarm permission: " + hasPermission);
+        if (hasPermission) {
+            return;
+        }
+
+        // Check if user selected "Don't ask again"
+        android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+        boolean neverAskAgain = prefs.getBoolean(PREF_NEVER_ASK_AGAIN, false);
+        if (DEBUG) Log.d(LOG_TAG, "Never ask again: " + neverAskAgain);
+        if (neverAskAgain) {
+            return;
+        }
+
+        // Set a flag to show the dialog when an Activity is available
+        if (DEBUG) Log.d(LOG_TAG, "Scheduling permission dialog for next Activity");
+        prefs.edit().putBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, true).apply();
+    }
+
+    private static void showPermissionRequestDialog(Context context) {
+        if (!(context instanceof android.app.Activity)) {
+            if (DEBUG) Log.d(LOG_TAG, "Cannot show dialog - context is not an Activity");
+            return; // Can't show dialog without an activity context
+        }
+        if (DEBUG) Log.d(LOG_TAG, "Creating permission request dialog");
+
+        new androidx.appcompat.app.AlertDialog.Builder(context)
+                .setTitle(R.string.exact_alarm_permission_title)
+                .setMessage(R.string.exact_alarm_permission_message)
+                .setPositiveButton(R.string.grant_permission, (dialog, which) -> {
+                    if (DEBUG) Log.d(LOG_TAG, "User clicked Grant Permission");
+                    try {
+                        de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
+                        if (DEBUG) Log.d(LOG_TAG, "Successfully requested exact alarm permission");
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "Error requesting exact alarm permission", e);
+                    }
+                    // Mark that we've asked
+                    android.preference.PreferenceManager.getDefaultSharedPreferences(context)
+                            .edit()
+                            .putBoolean(PREF_ALARM_PERMISSION_ASKED, true)
+                            .apply();
+                })
+                .setNegativeButton(R.string.not_now, (dialog, which) -> {
+                    if (DEBUG) Log.d(LOG_TAG, "User clicked Not Now");
+                })
+                .setNeutralButton(R.string.never_ask_again, (dialog, which) -> {
+                    if (DEBUG) Log.d(LOG_TAG, "User clicked Don't Ask Again");
+                    // Mark to never ask again
+                    android.preference.PreferenceManager.getDefaultSharedPreferences(context)
+                            .edit()
+                            .putBoolean(PREF_NEVER_ASK_AGAIN, true)
+                            .apply();
+                    if (DEBUG) Log.d(LOG_TAG, "Set 'never ask again' preference to true");
+                })
+                .show();
+    }
 	public static AcquisitionTimes getCurrentAcquisitionTimes(Context context) {
 
         try (Cursor query = context.getContentResolver().query(
