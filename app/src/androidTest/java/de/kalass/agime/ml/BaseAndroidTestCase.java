@@ -1,34 +1,48 @@
 package de.kalass.agime.ml;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
 import android.util.Log;
 
-import java.lang.reflect.Method;
+import androidx.test.platform.app.InstrumentationRegistry;
+
 
 /**
- * Created by klas on 07.04.14.
+ * Base test case providing common functionality for instrumented tests. Migrated from deprecated AndroidTestCase to
+ * AndroidX testing framework.
  */
-public class BaseAndroidTestCase extends AndroidTestCase {
-    public final static String LOG_TAG = "TestCase";
-    private Context _testContext;
+public class BaseAndroidTestCase {
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        try {
-            Method m = AndroidTestCase.class.getMethod("getTestContext", new Class[] {});
-            _testContext = (Context) m.invoke(this, (Object[]) null);
-        } catch (Exception x) {
-            Log.e(LOG_TAG, "Error getting test context: ", x);
-            throw x;
-        }
-    }
+	public final static String LOG_TAG = "TestCase";
+	private Context _testContext;
 
-    /**
-     * The Context the test is running within - needed to access resources that are packaged for the test.
-     */
-    public Context getTestContextExposed() {
-        return _testContext;
-    }
+	/**
+	 * Sets up the test context using AndroidX InstrumentationRegistry. Call this method in your test setup (@Before
+	 * annotated method).
+	 */
+	protected void setUp() throws Exception {
+		try {
+			// Use AndroidX InstrumentationRegistry to get the test context
+			_testContext = InstrumentationRegistry.getInstrumentation().getContext();
+		}
+		catch (Exception x) {
+			Log.e(LOG_TAG, "Error getting test context: ", x);
+			throw x;
+		}
+	}
+
+
+	/**
+	 * Returns the target application context under test.
+	 */
+	protected Context getTargetContext() {
+		return InstrumentationRegistry.getInstrumentation().getTargetContext();
+	}
+
+
+	/**
+	 * The Context the test is running within - needed to access resources that are packaged for the test.
+	 */
+	public Context getTestContextExposed() {
+		return _testContext;
+	}
 }
