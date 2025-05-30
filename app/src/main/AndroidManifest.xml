@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:versionCode="33"
 	android:versionName="0.14.0">
 
@@ -245,7 +246,7 @@
 			android:exported="false" />
 
 		<receiver
-			android:name="de.kalass.agime.ongoingnotification.OngoingNotificationManagingReceiver"
+			android:name="de.kalass.agime.ongoingnotification.NotificationBroadcastReceiver"
 			android:enabled="true"
 			android:exported="true">
 			<intent-filter>
@@ -253,21 +254,28 @@
 				<action android:name="de.kalass.agime.intent.action.FIRST_START_AFTER_INSTALL_OR_UPGRADE" />
 				<!--
                  Api Level 12,
-                 the ongoing notifications will be registered with the alarm service
-                 on boot and first use anyways, so this adds a little bit of convenience but
-                 can be lived without
+                 the ongoing notifications will be registered with WorkManager
+                 on boot and first use
                 -->
 				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
 				<action android:name="android.intent.action.TIME_SET" />
 			</intent-filter>
 		</receiver>
 
-		<service
-			android:name="de.kalass.agime.ongoingnotification.NotificationManagingService"
-			android:enabled="true"
-			android:foregroundServiceType="dataSync"
-			android:exported="false">
-		</service>
+		<!-- Der alte Service NotificationManagingService wurde durch den WorkManager-basierten
+		     NotificationWorker ersetzt -->
+
+		<!-- Provider for WorkManager -->
+		<provider
+			android:name="androidx.startup.InitializationProvider"
+			android:authorities="${applicationId}.androidx-startup"
+			android:exported="false"
+			tools:node="merge">
+			<meta-data
+				android:name="androidx.work.WorkManagerInitializer"
+				android:value="androidx.startup"
+				tools:node="remove" />
+		</provider>
 
 		<receiver
 			android:name="de.kalass.agime.backup.AutoBackupManagingBroadcastReceiver"

@@ -71,6 +71,9 @@ dependencies {
 
     // You need to depend on the lite runtime library, not protobuf-java
     implementation 'com.google.protobuf:protobuf-javalite:4.26.1'
+    
+    // WorkManager für Hintergrundaufgaben
+    implementation 'androidx.work:work-runtime:2.9.0'
 
     testImplementation 'junit:junit:4.13.2'
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'

@@ -30,7 +30,7 @@ import androidx.fragment.app.FragmentTransaction;
 import org.joda.time.LocalDate;
 
 import de.kalass.agime.acquisitiontime.AcquisitionTimeManagementActivity;
-import de.kalass.agime.ongoingnotification.NotificationManagingService;
+import de.kalass.agime.ongoingnotification.WorkManagerController;
 import de.kalass.agime.overview.AgimeDayOverviewFragment;
 import de.kalass.agime.overview.AgimeMonthOverviewFragment;
 import de.kalass.agime.overview.AgimeTotalOverviewFragment;
@@ -90,20 +90,7 @@ public class AgimeMainActivity extends MainEntryPointActivity implements Resizab
 		}
 	};
 
-	private ServiceConnection _notificationServiceConnection = new ServiceConnection() {
-
-		@Override
-		public void onServiceConnected(ComponentName className,
-				IBinder service) {
-			// service is bound to control its foreground state, so there is nothing to do here
-		}
-
-
-		@Override
-		public void onServiceDisconnected(ComponentName arg0) {
-			// service is bound to control its foreground state, so there is nothing to do here
-		}
-	};
+	// NotificationServiceConnection wurde entfernt, da wir jetzt WorkManager verwenden
 
 	private View _drawer;
 	private DrawerLayout _drawerLayout;
@@ -330,14 +317,13 @@ public class AgimeMainActivity extends MainEntryPointActivity implements Resizab
 
 
 	protected void doOnStart() {
-		Intent intent = new Intent(this, NotificationManagingService.class);
-		startService(intent);
-		bindService(intent, _notificationServiceConnection, BIND_ADJUST_WITH_ACTIVITY);
+		// NotificationManagingService wurde durch WorkManager ersetzt
+		WorkManagerController.scheduleImmediateCheck(this);
 	}
 
 
 	protected void doOnStop() {
-		unbindService(_notificationServiceConnection);
+		// Keine Bindung mehr notwendig, da WorkManager verwendet wird
 	}
 
 
@@ -597,10 +583,8 @@ public class AgimeMainActivity extends MainEntryPointActivity implements Resizab
 
 		if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				// Berechtigung erteilt, NotificationManagingService neustarten, wenn nötig
-				Intent intent = new Intent(this, NotificationManagingService.class);
-				intent.setAction(AgimeIntents.ACTION_ACQUISITION_TIME_CONFIGURE);
-				startService(intent);
+				// Berechtigung erteilt, WorkManagerController starten
+				WorkManagerController.scheduleImmediateCheck(this);
 			}
 			else {
 				// Berechtigung verweigert

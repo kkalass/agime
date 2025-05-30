@@ -15,83 +15,77 @@ import java.util.List;
 
 import de.kalass.agime.R;
 import de.kalass.agime.analytics.AnalyticsBaseCRUDActivity;
-import de.kalass.agime.ongoingnotification.NotificationManagingService;
+import de.kalass.agime.ongoingnotification.WorkManagerController;
 import de.kalass.android.common.activity.BaseCRUDFragment;
 import de.kalass.android.common.activity.CRUDMode;
 import de.kalass.android.common.util.TimeFormatUtil;
 
-//import com.linearlistview.LinearListView;
+// import com.linearlistview.LinearListView;
+
 
 public class TrackActivity extends AnalyticsBaseCRUDActivity {
-    public static final String EXTRA_DAY_MILLIS = "dayMillis";
-    public static final String EXTRA_STARTTIME_MILLIS = "starttimeMillis";
-    public static final String EXTRA_ENDTIME_MILLIS = "endtimeMillis";
 
-    private ServiceConnection _notificationServiceConnection = new ServiceConnection() {
+	public static final String EXTRA_DAY_MILLIS = "dayMillis";
+	public static final String EXTRA_STARTTIME_MILLIS = "starttimeMillis";
+	public static final String EXTRA_ENDTIME_MILLIS = "endtimeMillis";
 
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            // service is bound to control its foreground state, so there is nothing to do here
-        }
+	// NotificationServiceConnection wurde entfernt, da wir jetzt WorkManager verwenden
 
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            // service is bound to control its foreground state, so there is nothing to do here
-        }
-    };
+	@Override
+	protected BaseCRUDFragment newCRUDFragment(CRUDMode mode) {
+		final Intent intent = getIntent();
+		final Bundle extras = intent == null ? null : intent.getExtras();
 
-    @Override
-    protected BaseCRUDFragment newCRUDFragment(CRUDMode mode) {
-        final Intent intent = getIntent();
-        final Bundle extras = intent == null ? null : intent.getExtras();
+		final TrackedActivityFragment fragment = new TrackedActivityFragment();
 
-        final TrackedActivityFragment fragment = new TrackedActivityFragment();
+		if (extras != null) {
+			Bundle args = new Bundle();
+			copyLong(extras, EXTRA_DAY_MILLIS, args, TrackedActivityFragment.EXTRA_DAY_MILLIS);
+			copyLong(extras, EXTRA_STARTTIME_MILLIS, args, TrackedActivityFragment.EXTRA_STARTTIME_MILLIS);
+			copyLong(extras, EXTRA_ENDTIME_MILLIS, args, TrackedActivityFragment.EXTRA_ENDTIME_MILLIS);
+			fragment.setArguments(args);
+		}
 
-        if (extras != null) {
-            Bundle args = new Bundle();
-            copyLong(extras, EXTRA_DAY_MILLIS, args, TrackedActivityFragment.EXTRA_DAY_MILLIS);
-            copyLong(extras, EXTRA_STARTTIME_MILLIS, args, TrackedActivityFragment.EXTRA_STARTTIME_MILLIS);
-            copyLong(extras, EXTRA_ENDTIME_MILLIS, args, TrackedActivityFragment.EXTRA_ENDTIME_MILLIS);
-            fragment.setArguments(args);
-        }
-
-        return fragment;
-    }
-
-    protected void doOnStart() {
-        Intent intent = new Intent(this, NotificationManagingService.class);
-        startService(intent);
-        bindService(intent, _notificationServiceConnection, BIND_ADJUST_WITH_ACTIVITY);
-    }
-
-    protected void doOnStop() {
-        unbindService(_notificationServiceConnection);
-    }
-
-    private void copyLong(Bundle extras, String extrasKey, Bundle args, String argsKey) {
-        if (extras.containsKey(extrasKey)) {
-            args.putLong(argsKey, extras.getLong(extrasKey));
-        }
-    }
+		return fragment;
+	}
 
 
-    @Override
-    public void onEntityInserted(BaseCRUDFragment<?,?> fragment, long entityId, Object payload) {
-        onEntityInsertedOrUpdated(entityId, (InsertOrUpdateTrackedActivityResult)payload);
-    }
+	protected void doOnStart() {
+		// NotificationManagingService wurde durch WorkManager ersetzt
+		WorkManagerController.scheduleImmediateCheck(this);
+	}
 
-    @Override
-    public void onEntityUpdated(BaseCRUDFragment<?, ?> fragment, long entityId, Object payload) {
-        onEntityInsertedOrUpdated(entityId, (InsertOrUpdateTrackedActivityResult)payload);
-    }
 
-    private void onEntityInsertedOrUpdated(long entityId, InsertOrUpdateTrackedActivityResult payload) {
-        Intent result = new Intent();
-        result.putExtra(EXTRA_STARTTIME_MILLIS, payload.getStartTimeNewMillis());
-        result.putExtra(EXTRA_ID, entityId);
-        setResult(RESULT_OK, result);
-        finish();
-    }
+	protected void doOnStop() {
+		// Keine Bindung mehr notwendig, da WorkManager verwendet wird
+	}
+
+
+	private void copyLong(Bundle extras, String extrasKey, Bundle args, String argsKey) {
+		if (extras.containsKey(extrasKey)) {
+			args.putLong(argsKey, extras.getLong(extrasKey));
+		}
+	}
+
+
+	@Override
+	public void onEntityInserted(BaseCRUDFragment<?, ?> fragment, long entityId, Object payload) {
+		onEntityInsertedOrUpdated(entityId, (InsertOrUpdateTrackedActivityResult)payload);
+	}
+
+
+	@Override
+	public void onEntityUpdated(BaseCRUDFragment<?, ?> fragment, long entityId, Object payload) {
+		onEntityInsertedOrUpdated(entityId, (InsertOrUpdateTrackedActivityResult)payload);
+	}
+
+
+	private void onEntityInsertedOrUpdated(long entityId, InsertOrUpdateTrackedActivityResult payload) {
+		Intent result = new Intent();
+		result.putExtra(EXTRA_STARTTIME_MILLIS, payload.getStartTimeNewMillis());
+		result.putExtra(EXTRA_ID, entityId);
+		setResult(RESULT_OK, result);
+		finish();
+	}
 
 }

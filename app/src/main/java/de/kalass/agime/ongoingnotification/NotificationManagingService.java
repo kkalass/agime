@@ -60,6 +60,8 @@ import de.kalass.android.common.util.TimeFormatUtil;
 
 /**
  * A Service that manages
+ * 
+ * FIXME KK: delete this class, it is only used for the old foreground service
  */
 public class NotificationManagingService extends Service {
 
