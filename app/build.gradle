@@ -13,7 +13,7 @@ android {
     }
     
     // Vermeidet doppelte Klassen in Abhängigkeiten
-    configurations.all {
+    configurations.configureEach {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->
             if (details.requested.group == 'org.jetbrains.kotlin') {
                 details.useVersion '1.9.22'
