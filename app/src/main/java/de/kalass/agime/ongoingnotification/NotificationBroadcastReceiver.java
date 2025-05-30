@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import de.kalass.agime.AgimeIntents;
+import de.kalass.agime.acquisitiontime.AcquisitionTimes;
 
 
 /**
