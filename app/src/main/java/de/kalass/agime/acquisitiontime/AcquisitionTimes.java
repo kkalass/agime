@@ -159,7 +159,7 @@ public final class AcquisitionTimes {
 			}
 			if (firstValidDate != null) {
 				Preconditions.checkState(data.isCurrentlyEnabled(firstValidDate));
-				b.add(new AcquisitionTimeInstance(ImmutableList.of(data), firstValidDate, data.startTime, data.endTime));
+				b.add(new AcquisitionTimeInstance(data.getId(), ImmutableList.of(data), firstValidDate, data.startTime, data.endTime));
 			}
 		}
 		return COMPARE_START_TIME_ORDERING.sortedCopy(b.build());
@@ -189,7 +189,7 @@ public final class AcquisitionTimes {
 				continue;
 			}
 			if (data.endTime != null && data.endTime.isBefore(latestEndTime)) {
-				b.add(new AcquisitionTimeInstance(ImmutableList.of(data), firstValidDate, data.startTime, data.endTime));
+				b.add(new AcquisitionTimeInstance(data.getId(), ImmutableList.of(data), firstValidDate, data.startTime, data.endTime));
 			}
 		}
 		return COMPARE_END_TIME_ORDERING.reverse().sortedCopy(b.build());
