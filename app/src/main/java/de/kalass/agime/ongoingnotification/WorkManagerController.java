@@ -329,6 +329,10 @@ public class WorkManagerController {
 	 * Plant Erinnerungsalarme während einer Erfassungszeit, falls in den Einstellungen aktiviert
 	 */
 	private static void scheduleNoiseReminderIfNeeded(Context context, AcquisitionTimeInstance instance) {
+		if (instance == null || !instance.isActiveAt(DateTime.now())) {
+			return;
+		}
+
 		// Nur planen, wenn die Einstellung aktiviert ist
 		int noiseThresholdMinutes = de.kalass.agime.settings.Preferences.getAcquisitionTimeNotificationNoiseThresholdMinutes(context);
 		if (noiseThresholdMinutes <= 0) {
@@ -358,19 +362,36 @@ public class WorkManagerController {
 				PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    nextNoiseTimeMillis,
-                    pendingIntent);
-            if (DEBUG)
-                Log.d(LOG_TAG, "Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis).toString() + " geplant");
-        }
+
+			// Check if we can schedule exact alarms (needed for Android 14+)
+			boolean canScheduleExactAlarms = true;
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+				canScheduleExactAlarms = alarmManager.canScheduleExactAlarms();
+			}
+
+			if (canScheduleExactAlarms) {
+				try {
+					alarmManager.setExactAndAllowWhileIdle(
+						AlarmManager.RTC_WAKEUP,
+						nextNoiseTimeMillis,
+						pendingIntent);
+					if (DEBUG) {
+						Log.d(LOG_TAG, "Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis).toString() + " geplant");
+					}
+				} catch (SecurityException e) {
+					Log.e(LOG_TAG, "Keine Berechtigung zum Planen von genauen Alarmen", e);
+					// Fallback to inexact alarm
+					alarmManager.set(AlarmManager.RTC_WAKEUP, nextNoiseTimeMillis, pendingIntent);
+				}
+			} else {
+				if (DEBUG) {
+					Log.w(LOG_TAG, "Kann keine exakte Alarm-Erinnerung planen - SCHEDULE_EXACT_ALARM-Berechtigung fehlt");
+				}
+				// Fallback to inexact alarm if exact scheduling is not available
+				alarmManager.set(AlarmManager.RTC_WAKEUP, nextNoiseTimeMillis, pendingIntent);
+			}
+		}
 	}
-
-
-	/**
-	 * Lädt die aktuellen AcquisitionTimes
-	 */
 	public static AcquisitionTimes getCurrentAcquisitionTimes(Context context) {
 		Cursor query = context.getContentResolver().query(
 			RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null);
