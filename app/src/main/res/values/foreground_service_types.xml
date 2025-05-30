@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Standardwert für ältere Android-Versionen (unter Android 15) -->
-    <string name="foreground_service_type">dataSync</string>
+	<!-- Standardwert für ältere Android-Versionen (unter Android 15) -->
+	<string name="foreground_service_type">dataSync</string>
 </resources>

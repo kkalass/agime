@@ -31,8 +31,12 @@
     -->
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+	<!-- Spezifische Berechtigungen für die Foreground-Service-Typen -->
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"
+		android:maxSdkVersion="34" />
 	<!-- Für Android 15+ - SHORT_SERVICE Berechtigung -->
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SHORT_SERVICE" />
+	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SHORT_SERVICE"
+		android:minSdkVersion="35" />
 	<application
 		android:allowBackup="true"
 		android:icon="@drawable/ic_launcher"

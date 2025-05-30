@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -350,6 +351,30 @@ public class ShortLivedNotificationService extends Service {
 	public static void startService(Context context, int maxRuntimeMinutes) {
 		Intent intent = new Intent(context, ShortLivedNotificationService.class);
 		intent.putExtra(EXTRA_MAX_RUNTIME_MINUTES, maxRuntimeMinutes);
+
+		// Ab Android 13 (API 33) wird POST_NOTIFICATIONS Berechtigung benötigt
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+			if (androidx.core.content.ContextCompat.checkSelfPermission(context,
+				android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+				Log.w(TAG, "Benachrichtigungs-Berechtigung fehlt, Service kann nicht gestartet werden");
+				return;
+			}
+		}
+		
+		// Versionsabhängige Überprüfung der Foreground-Service-Typ-Berechtigungen
+		if (Build.VERSION.SDK_INT >= 35) { // Android 15+
+			if (androidx.core.content.ContextCompat.checkSelfPermission(context,
+				"android.permission.FOREGROUND_SERVICE_SHORT_SERVICE") != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+				Log.w(TAG, "FOREGROUND_SERVICE_SHORT_SERVICE Berechtigung fehlt, Service kann nicht gestartet werden");
+				return;
+			}
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) { // Android 14
+			if (androidx.core.content.ContextCompat.checkSelfPermission(context,
+				"android.permission.FOREGROUND_SERVICE_DATA_SYNC") != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+				Log.w(TAG, "FOREGROUND_SERVICE_DATA_SYNC Berechtigung fehlt, Service kann nicht gestartet werden");
+				return;
+			}
+		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			context.startForegroundService(intent);
