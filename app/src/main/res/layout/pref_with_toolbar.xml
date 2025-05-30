@@ -4,7 +4,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:fitsSystemWindows="false">
+	android:fitsSystemWindows="true">
 
 
 	<androidx.appcompat.widget.Toolbar
@@ -22,7 +22,7 @@
 		app:contentInsetLeft="72dp"
 		app:contentInsetStart="72dp"
 		android:paddingRight="12dp"
-		style="@style/AgimeToolbar"
+
 		app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
 		app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
 		android:minHeight="?attr/actionBarSize"

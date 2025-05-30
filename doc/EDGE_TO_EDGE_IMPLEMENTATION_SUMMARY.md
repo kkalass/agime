@@ -30,7 +30,7 @@ The following base activity classes were updated with edge-to-edge support:
 - **Affects**: All Management Activities (Activity Type, Category, Custom Field, Project, etc.)
 
 ### 2. Layout Files Updated
-The following layout files were updated to support edge-to-edge by adding `android:fitsSystemWindows="false"`:
+The following layout files were updated to support edge-to-edge by adding `android:fitsSystemWindows="true"`:
 
 - `/app/src/main/res/layout/pref_with_toolbar.xml` - Used by CustomPreferenceActivity
 - `/app/src/main/res/layout/base_crud_management_activity.xml` - Used by BaseCRUDManagementActivity

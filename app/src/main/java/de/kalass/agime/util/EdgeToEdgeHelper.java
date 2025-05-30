@@ -1,15 +1,20 @@
 package de.kalass.agime.util;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
+import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import de.kalass.agime.R;
 
 
 /**
@@ -25,7 +30,7 @@ public final class EdgeToEdgeHelper {
 
 	/**
 	 * Configures edge-to-edge display for an activity. This method ensures that the activity content extends behind
-	 * system bars while providing proper inset handling for content positioning.
+	 * system bars while providing proper inset handling for content positioning and a colored status bar background.
 	 * 
 	 * @param activity The activity to configure
 	 */
@@ -36,20 +41,30 @@ public final class EdgeToEdgeHelper {
 		else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
 			setupEdgeToEdgeV30(activity);
 		}
-		// For older versions, the existing theme configuration is sufficient
+		else {
+			// For older versions, set status bar color directly for consistency
+			setupStatusBarColorForOlderVersions(activity);
+		}
+
+		// Add colored status bar background for all activities
+		addStatusBarBackground(activity);
 	}
 
 
 	@RequiresApi(api = Build.VERSION_CODES.VANILLA_ICE_CREAM)
 	private static void setupEdgeToEdgeV35(Activity activity) {
+		//WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false);
 		// Android 15+ - explicit edge-to-edge configuration
 		activity.getWindow().getDecorView().setSystemUiVisibility(
 			View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
 					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
 					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
-		// Let the theme handle transparent status bar configuration
-		// The layout flags ensure content extends behind system bars
+		// Set status bar color to primary_dark for consistent blue appearance
+		// This ensures all activities have the same blue status bar as AgimeMainActivity
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark));
+		}
 	}
 
 
@@ -58,8 +73,26 @@ public final class EdgeToEdgeHelper {
 		// Android 11+ - use WindowInsetsController
 		activity.getWindow().setDecorFitsSystemWindows(false);
 
-		// Let the theme handle transparent status bar configuration
-		// The window flag ensures content extends behind system bars
+		// Set status bar color to primary_dark for consistent blue appearance
+		// This ensures all activities have the same blue status bar as AgimeMainActivity
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark));
+		}
+	}
+
+
+	/**
+	 * Sets status bar color for Android versions older than Android 11 (API < 30). This ensures consistent blue status
+	 * bar appearance across all Android versions.
+	 * 
+	 * @param activity The activity to configure
+	 */
+	private static void setupStatusBarColorForOlderVersions(Activity activity) {
+		// For older versions, just set the status bar color for consistency
+		// The existing theme configuration handles the rest
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark));
+		}
 	}
 
 
@@ -113,5 +146,61 @@ public final class EdgeToEdgeHelper {
 			// Return consumed insets
 			return WindowInsetsCompat.CONSUMED;
 		});
+	}
+
+
+	/**
+	 * Adds a colored status bar background to the activity. This creates a visual background behind the transparent
+	 * status bar to achieve consistent blue status bar appearance across all activities, similar to how AgimeMainActivity
+	 * uses DrawerLayout.setStatusBarBackgroundColor().
+	 * 
+	 * @param activity The activity to add status bar background to
+	 */
+	private static void addStatusBarBackground(@NonNull Activity activity) {
+		// Skip if this is a DrawerLayout activity (like AgimeMainActivity) as it handles status bar color itself
+		View decorView = activity.getWindow().getDecorView();
+		if (decorView instanceof ViewGroup) {
+			ViewGroup decorViewGroup = (ViewGroup)decorView;
+
+			// Check if there's already a DrawerLayout in the content (skip if found)
+			View contentView = decorViewGroup.findViewById(android.R.id.content);
+			if (contentView instanceof ViewGroup) {
+				ViewGroup contentViewGroup = (ViewGroup)contentView;
+				for (int i = 0; i < contentViewGroup.getChildCount(); i++) {
+					if (contentViewGroup.getChildAt(i) instanceof DrawerLayout) {
+						return; // DrawerLayout handles status bar color, no need for background
+					}
+				}
+			}
+
+			// Create status bar background view
+			View statusBarBackground = new View(activity);
+			statusBarBackground.setId(View.generateViewId());
+			// Set blue background color to match AgimeMainActivity's status bar
+			statusBarBackground.setBackgroundColor(activity.getResources().getColor(R.color.primary_dark));
+
+			// Create layout parameters for FrameLayout (DecorView is typically a FrameLayout)
+			FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.MATCH_PARENT,
+					0 // Will be set by insets listener
+			);
+			params.gravity = android.view.Gravity.TOP;
+			statusBarBackground.setLayoutParams(params);
+
+			// Add window insets listener to size the background to status bar height
+			ViewCompat.setOnApplyWindowInsetsListener(statusBarBackground, (view, windowInsets) -> {
+				androidx.core.graphics.Insets systemBarInsets = windowInsets.getInsets(WindowInsetsCompat.Type.statusBars());
+
+				// Set height to status bar height
+				ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+				layoutParams.height = systemBarInsets.top;
+				view.setLayoutParams(layoutParams);
+
+				return windowInsets;
+			});
+
+			// Add the background view directly to DecorView so it appears behind everything
+			decorViewGroup.addView(statusBarBackground);
+		}
 	}
 }

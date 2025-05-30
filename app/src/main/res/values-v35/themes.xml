@@ -18,7 +18,7 @@
 
 		<!-- Enable edge-to-edge with colored status bar matching app theme -->
 		<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
-		<item name="android:statusBarColor">@color/primary</item>
+		<item name="android:statusBarColor">@color/primary_dark</item>
 		<item name="android:navigationBarColor">@android:color/transparent</item>
 		<!-- Use dark status bar content (white icons/text) on blue background -->
 		<item name="android:windowLightStatusBar">false</item>
@@ -29,7 +29,7 @@
 		<item name="android:windowNoTitle">true</item>
 		<!-- Enable edge-to-edge with colored status bar matching app theme -->
 		<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
-		<item name="android:statusBarColor">@color/primary</item>
+		<item name="android:statusBarColor">@color/primary_dark</item>
 		<item name="android:navigationBarColor">@android:color/transparent</item>
 		<!-- Use dark status bar content (white icons/text) on blue background -->
 		<item name="android:windowLightStatusBar">false</item>
@@ -40,7 +40,7 @@
 		<item name="android:windowNoTitle">true</item>
 		<!-- Enable edge-to-edge with colored status bar matching app theme -->
 		<item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
-		<item name="android:statusBarColor">@color/primary</item>
+		<item name="android:statusBarColor">@color/primary_dark</item>
 		<item name="android:navigationBarColor">@android:color/transparent</item>
 		<!-- Use dark status bar content (white icons/text) on blue background -->
 		<item name="android:windowLightStatusBar">false</item>

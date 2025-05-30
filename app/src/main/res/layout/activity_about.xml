@@ -20,7 +20,7 @@ https://code.google.com/p/iosched/source/browse/android/src/main/res/layout/dial
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:fitsSystemWindows="false"
+	android:fitsSystemWindows="true"
 	android:orientation="vertical">
 
 	<androidx.appcompat.widget.Toolbar
