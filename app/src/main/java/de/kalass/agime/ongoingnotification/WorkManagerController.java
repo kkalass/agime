@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
-import android.os.SystemClock;
+import android.widget.Toast;
 import android.util.Log;
 
 import androidx.work.Constraints;
@@ -14,7 +14,6 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.Operation;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
@@ -28,11 +27,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import de.kalass.agime.AgimeIntents;
+import de.kalass.agime.R;
 import de.kalass.agime.acquisitiontime.AcquisitionTimeInstance;
 import de.kalass.agime.acquisitiontime.AcquisitionTimes;
 import de.kalass.agime.acquisitiontime.RecurringDAO;
 import de.kalass.android.common.simpleloader.CursorUtil;
-import de.kalass.android.common.support.AlarmManagerSupport;
 
 
 /**
@@ -185,14 +184,6 @@ public class WorkManagerController {
 
 
 	/**
-	 * Stoppt alle geplanten Arbeiten
-	 */
-	public static Operation cancelAllWork(Context context) {
-		return WorkManager.getInstance(context).cancelAllWorkByTag(WORKER_TAG);
-	}
-
-
-	/**
 	 * Plant Alarme für den Start und das Ende der nächsten AcquisitionTime-Phase
 	 */
 	public static void scheduleNextAcquisitionTimeAlarms(Context context) {
@@ -236,6 +227,13 @@ public class WorkManagerController {
 
 		// 3. Plane Erinnerungsalarme falls nötig
 		if (current != null) {
+			// On Android 12+, request permission if not already granted
+			// The scheduleNoiseReminderIfNeeded method will handle fallback to inexact alarms if needed
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+				checkAndRequestExactAlarmPermission(context);
+			}
+			
+			// Try to schedule the reminder - it will use exact alarms if possible, or fall back to inexact
 			scheduleNoiseReminderIfNeeded(context, current);
 		}
 	}
@@ -268,20 +266,11 @@ public class WorkManagerController {
 		}
 		else {
 			// Auf älteren Versionen oder mit Berechtigung verwenden wir exakte Alarme
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				alarmManager.setExactAndAllowWhileIdle(
-					AlarmManager.RTC_WAKEUP,
-					instance.getStartDateTime().getMillis(),
-					pendingIntent);
-			}
-			else {
-				AlarmManagerSupport.setAlarm(
-					alarmManager,
-					AlarmManager.RTC_WAKEUP,
-					instance.getStartDateTime().getMillis(),
-					pendingIntent);
-			}
-		}
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    instance.getStartDateTime().getMillis(),
+                    pendingIntent);
+        }
 	}
 
 
@@ -308,20 +297,11 @@ public class WorkManagerController {
 				pendingIntent);
 		}
 		else {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				alarmManager.setExactAndAllowWhileIdle(
-					AlarmManager.RTC_WAKEUP,
-					instance.getEndDateTime().getMillis(),
-					pendingIntent);
-			}
-			else {
-				AlarmManagerSupport.setAlarm(
-					alarmManager,
-					AlarmManager.RTC_WAKEUP,
-					instance.getEndDateTime().getMillis(),
-					pendingIntent);
-			}
-		}
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    instance.getEndDateTime().getMillis(),
+                    pendingIntent);
+        }
 	}
 
 
@@ -363,53 +343,72 @@ public class WorkManagerController {
 
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
-			// Check if we can schedule exact alarms (needed for Android 14+)
-			boolean canScheduleExactAlarms = true;
-			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-				canScheduleExactAlarms = alarmManager.canScheduleExactAlarms();
-			}
+            // Check if we can schedule exact alarms (needed for Android 12+)
+            boolean canScheduleExactAlarms = de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context);
 
-			if (canScheduleExactAlarms) {
-				try {
-					alarmManager.setExactAndAllowWhileIdle(
-						AlarmManager.RTC_WAKEUP,
-						nextNoiseTimeMillis,
-						pendingIntent);
-					if (DEBUG) {
-						Log.d(LOG_TAG, "Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis).toString() + " geplant");
-					}
-				} catch (SecurityException e) {
-					Log.e(LOG_TAG, "Keine Berechtigung zum Planen von genauen Alarmen", e);
-					// Fallback to inexact alarm
-					alarmManager.set(AlarmManager.RTC_WAKEUP, nextNoiseTimeMillis, pendingIntent);
-				}
-			} else {
-				if (DEBUG) {
-					Log.w(LOG_TAG, "Kann keine exakte Alarm-Erinnerung planen - SCHEDULE_EXACT_ALARM-Berechtigung fehlt");
-				}
-				// Fallback to inexact alarm if exact scheduling is not available
-				alarmManager.set(AlarmManager.RTC_WAKEUP, nextNoiseTimeMillis, pendingIntent);
+            if (canScheduleExactAlarms) {
+                try {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        nextNoiseTimeMillis,
+                        pendingIntent);
+                    if (DEBUG) {
+                        Log.d(LOG_TAG, "Exakte Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis) + " geplant");
+                    }
+                    return;
+                } catch (SecurityException e) {
+                    Log.e(LOG_TAG, "Keine Berechtigung zum Planen von genauen Alarmen", e);
+                    // Continue to fallback
+                }
+            } else {
+                if (DEBUG) {
+                    Log.w(LOG_TAG, "Kann keine exakte Alarm-Erinnerung planen - SCHEDULE_EXACT_ALARM-Berechtigung fehlt");
+                }
+            }
+
+            // Fallback to inexact alarm if exact scheduling is not available or failed
+            try {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, nextNoiseTimeMillis, pendingIntent);
+                if (DEBUG) {
+                    Log.d(LOG_TAG, "Inexakte Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis) + " geplant");
+                }
+			} catch (Exception e) {
+                Log.e(LOG_TAG, "Fehler beim Planen der Noise-Erinnerung", e);
 			}
-		}
+        }
+	}
+
+    /**
+	 * Checks if the app has the required permissions to schedule exact alarms and requests them if needed
+	 *
+	 * @param context The application context
+	 */
+    public static void checkAndRequestExactAlarmPermission(Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            if (!de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context)) {
+                try {
+                    de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
+                    // Show a toast or notification to inform the user
+                    Toast.makeText(context, 
+                        R.string.request_exact_alarm_permission_message,
+                        Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "Fehler beim Anfordern der Alarm-Berechtigung", e);
+                }
+			}
+        }
 	}
 	public static AcquisitionTimes getCurrentAcquisitionTimes(Context context) {
-		Cursor query = context.getContentResolver().query(
-			RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null);
 
-		List<RecurringDAO.Data> recurringItems;
-		try {
-			recurringItems = CursorUtil.readList(query, RecurringDAO.READ_DATA);
-			return AcquisitionTimes.fromRecurring(recurringItems, new DateTime());
-		}
-		catch (Exception e) {
-			Log.e(LOG_TAG, "Fehler beim Laden der AcquisitionTimes", e);
-			return null;
-		}
-		finally {
-			if (query != null) {
-				query.close();
-			}
-		}
+        try (Cursor query = context.getContentResolver().query(
+                RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null)) {
+            List<RecurringDAO.Data> recurringItems;
+            recurringItems = CursorUtil.readList(query, RecurringDAO.READ_DATA);
+            return AcquisitionTimes.fromRecurring(recurringItems, new DateTime());
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Fehler beim Laden der AcquisitionTimes", e);
+            return null;
+        }
 	}
 
 

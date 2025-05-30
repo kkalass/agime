@@ -51,6 +51,20 @@ public final class AcquisitionTimeInstance {
 		return ImmutableList.copyOf(Iterables.filter(items, RecurringDAO.Data.IS_ACTIVE_ONCE));
 	}
 
+	/**
+	 * Checks if the given date time falls within this acquisition time range.
+	 * @param dateTime The date time to check
+	 * @return true if the given date time is within the start and end time of this instance
+	 */
+	public boolean isActiveAt(DateTime dateTime) {
+		if (dateTime == null) {
+			return false;
+		}
+		DateTime start = getStartDateTime();
+		DateTime end = getEndDateTime();
+		return !dateTime.isBefore(start) && !dateTime.isAfter(end);
+	}
+
 	@CheckForNull
 	public RecurringDAO.Data findRecurringItem() {
 		for (RecurringDAO.Data d : items) {
