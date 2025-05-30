@@ -11,78 +11,98 @@ import android.view.MenuItem;
 import com.google.common.base.Preconditions;
 
 import de.kalass.agime.R;
+import de.kalass.agime.util.EdgeToEdgeHelper;
+
 
 public abstract class BaseCRUDManagementActivity extends AppCompatActivity {
 
-    private final Uri _uri;
+	private final Uri _uri;
 
-    public BaseCRUDManagementActivity(Uri uri) {
-        _uri = Preconditions.checkNotNull(uri);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.base_crud_management_activity);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (savedInstanceState == null) {
-            final Intent intent = getIntent();
-            Uri uri = intent.getData();
-            /*
-             * Creates an Intent to use when the Activity object's result is sent back to the
-             * caller.
-             */
-            if (uri == null) {
-                uri = _uri;
-            } else {
-                ContentResolverUtil.assertSameContentType(this, uri, getContentResolver().getType(_uri));
-            }
-            BaseCRUDListFragment fragment = newCRUDFragment();
-            fragment.setArguments(BaseCRUDListFragment.setCRUDArguments(fragment.getArguments(), uri));
-
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
-        }
-    }
+	public BaseCRUDManagementActivity(Uri uri) {
+		_uri = Preconditions.checkNotNull(uri);
+	}
 
 
-    protected abstract BaseCRUDListFragment newCRUDFragment();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// Configure edge-to-edge display for Android 15+
+		EdgeToEdgeHelper.setupEdgeToEdge(this);
+		super.onCreate(savedInstanceState);
 
-    protected BaseCRUDListFragment getCRUDFragment() {
-        return (BaseCRUDListFragment)getSupportFragmentManager().findFragmentById(R.id.container);
-    }
+		setContentView(R.layout.base_crud_management_activity);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(de.kalass.agime.R.menu.crud_list, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+		Toolbar toolbar = (Toolbar)findViewById(R.id.action_bar);
+		setSupportActionBar(toolbar);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-        if (itemId == R.id.action_add) {
-            insertNew();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    protected void insertNew() {
-        final Uri uri = getCRUDFragment().getContentURI();
-        startActivity(newInsertItemIntent(uri));
-    }
+		// Apply window insets to the toolbar for edge-to-edge display
+		setupToolbarInsets();
 
-    protected Intent newInsertItemIntent(Uri uri) {
-        return new Intent(Intent.ACTION_INSERT, uri);
-    }
+		if (savedInstanceState == null) {
+			final Intent intent = getIntent();
+			Uri uri = intent.getData();
+			/*
+			 * Creates an Intent to use when the Activity object's result is sent back to the
+			 * caller.
+			 */
+			if (uri == null) {
+				uri = _uri;
+			}
+			else {
+				ContentResolverUtil.assertSameContentType(this, uri, getContentResolver().getType(_uri));
+			}
+			BaseCRUDListFragment fragment = newCRUDFragment();
+			fragment.setArguments(BaseCRUDListFragment.setCRUDArguments(fragment.getArguments(), uri));
+
+			getSupportFragmentManager().beginTransaction()
+				.add(R.id.container, fragment)
+				.commit();
+		}
+	}
+
+
+	private void setupToolbarInsets() {
+		Toolbar toolbar = (Toolbar)findViewById(R.id.action_bar);
+		EdgeToEdgeHelper.applySystemWindowInsetsToToolbar(toolbar);
+	}
+
+
+	protected abstract BaseCRUDListFragment newCRUDFragment();
+
+
+	protected BaseCRUDListFragment getCRUDFragment() {
+		return (BaseCRUDListFragment)getSupportFragmentManager().findFragmentById(R.id.container);
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(de.kalass.agime.R.menu.crud_list, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int itemId = item.getItemId();
+		if (itemId == R.id.action_add) {
+			insertNew();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+
+	protected void insertNew() {
+		final Uri uri = getCRUDFragment().getContentURI();
+		startActivity(newInsertItemIntent(uri));
+	}
+
+
+	protected Intent newInsertItemIntent(Uri uri) {
+		return new Intent(Intent.ACTION_INSERT, uri);
+	}
 
 }
