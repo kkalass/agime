@@ -259,11 +259,27 @@
                 -->
 				<action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
 				<action android:name="android.intent.action.TIME_SET" />
+				<action android:name="android.intent.action.TIMEZONE_CHANGED" />
 			</intent-filter>
 		</receiver>
 
-		<!-- Der alte Service NotificationManagingService wurde durch den WorkManager-basierten
-		     NotificationWorker ersetzt -->
+		<!-- Empfänger für präzise Alarme via AlarmManager -->
+		<receiver
+			android:name="de.kalass.agime.ongoingnotification.NotificationAlarmReceiver"
+			android:enabled="true"
+			android:exported="false">
+		</receiver>
+
+		<!-- Kurzlebiger Foreground-Service für aktive Zeiterfassung -->
+		<service
+			android:name="de.kalass.agime.ongoingnotification.ShortLivedNotificationService"
+			android:enabled="true"
+			android:exported="false"
+			android:foregroundServiceType="location">
+		</service>
+
+		<!-- Der alte Service NotificationManagingService wurde durch die hybride Lösung aus
+		     WorkManager, AlarmManager und ShortLivedNotificationService ersetzt -->
 
 		<!-- Provider for WorkManager -->
 		<provider

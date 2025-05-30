@@ -49,8 +49,9 @@ import de.kalass.android.common.util.TimeFormatUtil;
 
 
 /**
- * Worker für die Handhabung von Benachrichtigungen zur Zeiterfassung. Ersetzt den früheren NotificationManagingService
- * als langlebigen Foreground-Service.
+ * Worker für die Handhabung von Benachrichtigungen zur Zeiterfassung. Teil der Hybrid-Lösung für das
+ * Benachrichtigungssystem von Agime. Der Worker ist für regelmäßige Hintergrund-Checks verantwortlich, während der
+ * ShortLivedNotificationService für präzise Echtzeit-Benachrichtigungen zuständig ist.
  */
 public class NotificationWorker extends Worker {
 
@@ -59,6 +60,10 @@ public class NotificationWorker extends Worker {
 	public static final int UP_TO_DATE_MINUTES_SINCE_ACTIVITY = 2;
 	public static final long UP_TO_DATE_MILLIS_SINCE_ACTIVITY = TimeUnit.SECONDS.toMillis(UP_TO_DATE_MINUTES_SINCE_ACTIVITY * 60);
 
+	// Konstanten für die ShortLivedNotificationService-Integration
+	public static final String BACKGROUND_CHANNEL_ID = "background_monitoring_channel";
+
+	// Legacy-Preferences für die Noise-Funktion
 	public static final String PREF_NOISE_TIME_MILLIS = "notifManagingServiceCache_last_noisetime_millis";
 	public static final String PREF_LAST_STARTTIME_MILLIS = "notifManagingServiceCache_last_starttime_millis";
 	public static final long VALUE_MILLIS_NOT_SET = 0;
@@ -77,20 +82,36 @@ public class NotificationWorker extends Worker {
 		try {
 			Log.i(LOG_TAG, "NotificationWorker ausgeführt");
 
-			// Registriere einen ContentObserver für Änderungen an Aktivitäten
-			// Dies wird in einem zukünftigen Update implementiert, falls nötig
-			// In der WorkManager-Implementierung sind regelmäßige Überprüfungen und
-			// manuelle Trigger über den WorkManagerController vorgesehen
+			// Aktuellen Status prüfen
+			AcquisitionTimes times = getCurrentAcquisitionTimes();
+			DateTime now = new DateTime();
 
-			// Erstelle und zeige Benachrichtigung
-			Notification notification = createForegroundNotificationIfNeeded();
+			// Für aktive Erfassungszeiten prüfen, ob der ShortLivedNotificationService laufen sollte
+			if (times.getCurrent() != null) {
+				// Wir befinden uns in einer aktiven Erfassungsperiode
+				// Prüfe, ob der kurzlebige Service aktiv ist (durch AlarmManager gesteuert)
+				// Falls nicht, aktiviere ihn explizit
+				if (shouldActivateShortLivedService(times.getCurrent())) {
+					Log.i(LOG_TAG, "Aktive Erfassungszeit erkannt, starte ShortLivedNotificationService");
+					ShortLivedNotificationService.startService(getApplicationContext());
+
+					// Der ShortLivedNotificationService übernimmt die wichtigen Benachrichtigungen,
+					// wir brauchen keine eigene Benachrichtigung anzuzeigen
+					// Trotzdem planen wir die nächste Ausführung, um die Zuverlässigkeit zu erhöhen
+					planNextExecution();
+					return Result.success();
+				}
+			}
+
+			// Für inaktive Zeiten oder wenn der ShortLivedNotificationService nicht aktiv sein sollte:
+			// Standard-Benachrichtigung mit niedriger Priorität erstellen
+			Notification notification = createBackgroundNotificationIfNeeded();
 
 			if (notification != null) {
-				// Als Foreground-Worker ausführen
+				// Als Foreground-Worker ausführen mit einer Benachrichtigung niedriger Priorität
 				setForegroundAsync(new ForegroundInfo(NOTIFICATION_ID, notification));
 
-				// Plane die nächste Ausführung über den WorkManagerController
-				// für spezifische Zeiten wie das Ende der aktuellen Erfassungsperiode
+				// Plane die nächste Ausführung
 				planNextExecution();
 
 				return Result.success();
@@ -115,31 +136,12 @@ public class NotificationWorker extends Worker {
 
 
 	/**
-	 * Plant die nächste Ausführung basierend auf AcquisitionTimes
+	 * Plant die nächste Ausführung basierend auf AcquisitionTimes. Im hybriden Ansatz koordiniert der
+	 * WorkManagerController sowohl die WorkManager-Ausführungen als auch die AlarmManager-Alarme.
 	 */
 	private void planNextExecution() {
-		DateTime now = new DateTime();
-
-		// Abrufen aller wiederkehrenden Erfassungszeiten
-		Cursor query = getApplicationContext().getContentResolver().query(
-			RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null);
-
-		List<RecurringDAO.Data> recurringItems;
-		try {
-			recurringItems = CursorUtil.readList(query, RecurringDAO.READ_DATA);
-		}
-		finally {
-			if (query != null) {
-				query.close();
-			}
-		}
-
-		// Ermittle die nächste Ausführungszeit
-		AcquisitionTimes times = AcquisitionTimes.fromRecurring(recurringItems, now);
-		AcquisitionTimeInstance current = times.getCurrent();
-		AcquisitionTimeInstance next = times.getNext();
-
-		// Informiere den WorkManagerController über die optimale nächste Ausführung
+		// Im hybriden Ansatz delegieren wir die Planung an den WorkManagerController
+		// Er wird sowohl die WorkManager-Jobs als auch die präzisen Alarme planen
 		WorkManagerController.scheduleNextExecution(getApplicationContext());
 	}
 
@@ -499,5 +501,142 @@ public class NotificationWorker extends Worker {
 	 */
 	private long minutesToMillis(long minutes) {
 		return minutes * 60000;
+	}
+
+
+	/**
+	 * Prüft, ob der ShortLivedNotificationService für diese Erfassungszeit aktiviert werden sollte. Wir möchten den
+	 * Service nur dann aktivieren, wenn wir uns in einer aktiven Erfassungszeit befinden.
+	 */
+	private boolean shouldActivateShortLivedService(AcquisitionTimeInstance current) {
+		if (current == null) {
+			return false;
+		}
+
+		// Wir befinden uns in einer aktiven Erfassungszeit - starten
+		DateTime now = new DateTime();
+		return now.isAfter(current.getStartDateTime()) && now.isBefore(current.getEndDateTime());
+	}
+
+
+	/**
+	 * Erstellt eine Hintergrund-Benachrichtigung mit niedriger Priorität, die vom WorkManager verwendet wird, wenn keine
+	 * aktive Zeiterfassung stattfindet.
+	 */
+	@Nullable
+	private Notification createBackgroundNotificationIfNeeded() {
+		// Diese Methode ähnelt createForegroundNotificationIfNeeded(), aber erstellt
+		// eine Benachrichtigung mit geringerer Priorität und ohne Chronometer
+		AcquisitionTimes times = getCurrentAcquisitionTimes();
+		DateTime now = new DateTime();
+
+		// Wenn keine aktive oder vorherige Erfassungszeit existiert, keine Benachrichtigung anzeigen
+		if (times.getCurrent() == null && times.getPrevious() == null) {
+			return null;
+		}
+
+		// Letzte Aktivität abrufen
+		TrackedActivityModel lastActivity = getLastActivity(times);
+
+		// Keine Benachrichtigung notwendig, wenn keine unvollständige Zeiterfassung vorliegt
+		if (!needsForegroundNotification(now, times, lastActivity)) {
+			return null;
+		}
+
+		// Erstelle einen einfachen Notification-Channel für Hintergrundbenachrichtigungen
+		final String channelId = createBackgroundNotificationChannel();
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channelId)
+			.setSmallIcon(R.drawable.ic_notif)
+			.setContentTitle(getApplicationContext().getString(R.string.app_name))
+			.setContentText(getApplicationContext().getString(R.string.ongoing_notif_background_monitoring))
+			.setPriority(NotificationCompat.PRIORITY_LOW)
+			.setOngoing(true);
+
+		// ContentIntent für die Hauptaktivität
+		PendingIntent mainActivityIntent = createMainActivityIntent(getApplicationContext());
+		builder.setContentIntent(mainActivityIntent);
+
+		// Aktionen hinzufügen
+		builder.addAction(R.drawable.ic_action_add,
+			getApplicationContext().getResources().getString(R.string.action_tracktime_new_notification),
+			createTrackActivityIntent(getApplicationContext()));
+
+		return builder.build();
+	}
+
+
+	/**
+	 * Erstellt einen Benachrichtigungskanal mit niedriger Priorität für Hintergrundbenachrichtigungen
+	 */
+	private String createBackgroundNotificationChannel() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+			NotificationChannel existingChannel = notificationManager.getNotificationChannel(BACKGROUND_CHANNEL_ID);
+			if (existingChannel != null) {
+				return BACKGROUND_CHANNEL_ID;
+			}
+
+			NotificationChannel channel = new NotificationChannel(
+					BACKGROUND_CHANNEL_ID,
+					"Agime Hintergrundüberwachung",
+					NotificationManager.IMPORTANCE_LOW);
+
+			channel.setDescription("Niedrigprioritäre Benachrichtigungen außerhalb aktiver Zeiterfassung");
+			channel.enableLights(false);
+			channel.setSound(null, null);
+			channel.enableVibration(false);
+
+			notificationManager.createNotificationChannel(channel);
+			return BACKGROUND_CHANNEL_ID;
+		}
+		return "";
+	}
+
+
+	/**
+	 * Ruft die letzte Aktivität ab, basierend auf den aktuellen AcquisitionTimes
+	 */
+	private TrackedActivityModel getLastActivity(AcquisitionTimes times) {
+		final AcquisitionTimeInstance previous = times.getPrevious();
+		final AcquisitionTimeInstance current = times.getCurrent();
+
+		if (current == null && previous == null) {
+			return null;
+		}
+
+		// Zeitbereich für die Abfrage der Aktivitäten heute
+		long startTimeMillis = (current != null ? current.getStartDateTime() : previous.getStartDateTime())
+			.withTimeAtStartOfDay().getMillis();
+
+		// Hole die letzte Aktivität von heute
+		List<TrackedActivityModel> activitiesToday = trackedActivityLoader.query(
+			startTimeMillis,
+			new DateTime().getMillis(),
+			false,
+			MCContract.Activity.COLUMN_NAME_START_TIME + " desc");
+
+		return activitiesToday.size() == 0 ? null : activitiesToday.get(0);
+	}
+
+
+	/**
+	 * Lädt die aktuellen AcquisitionTimes
+	 */
+	private AcquisitionTimes getCurrentAcquisitionTimes() {
+		Cursor query = getApplicationContext().getContentResolver().query(
+			RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null);
+
+		List<RecurringDAO.Data> recurringItems;
+		try {
+			recurringItems = CursorUtil.readList(query, RecurringDAO.READ_DATA);
+			return AcquisitionTimes.fromRecurring(recurringItems, new DateTime());
+		}
+		finally {
+			if (query != null) {
+				query.close();
+			}
+		}
 	}
 }
