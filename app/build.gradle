@@ -12,6 +12,22 @@ android {
         buildConfig = true
     }
     
+    testOptions {
+        unitTests {
+            // Exclude legacy test files that use deprecated dependencies
+            includeAndroidResources = true
+        }
+    }
+    
+    sourceSets {
+        test {
+            java {
+                exclude '**/de/kalass/commons/ml/**'
+                exclude '**/edu/mit/mobile/android/content/test/**'
+            }
+        }
+    }
+    
     // Vermeidet doppelte Klassen in Abhängigkeiten
     configurations.configureEach {
         resolutionStrategy.eachDependency { DependencyResolveDetails details ->

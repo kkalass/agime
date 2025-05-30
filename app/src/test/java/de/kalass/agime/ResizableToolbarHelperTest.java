@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
+import org.robolectric.annotation.Config;
 
 import de.kalass.agime.util.EdgeToEdgeHelper;
 
@@ -29,6 +30,7 @@ import static org.mockito.Mockito.when;
  * edge-to-edge insets applied to prevent status bar overlap.
  */
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 34) // Use SDK 34 to avoid compatibility issues with target SDK 35
 public class ResizableToolbarHelperTest {
 
 	@Mock
