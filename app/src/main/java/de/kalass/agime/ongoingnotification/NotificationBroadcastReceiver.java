@@ -63,7 +63,8 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
 		AcquisitionTimes times = WorkManagerController.getCurrentAcquisitionTimes(context);
 		if (times != null && times.getCurrent() != null) {
 			// Wir sind in einer aktiven Erfassungszeit - starte den Service
-			ShortLivedNotificationService.startService(context);
+			// FIXME Foreground service removed for now - maybe we need to rework this
+			// ShortLivedNotificationService.startService(context);
 		}
 	}
 }

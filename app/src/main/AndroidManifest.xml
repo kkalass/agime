@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:versionCode="33"
+	android:versionCode="34"
 	android:versionName="0.14.0">
 
 	<!-- For Backup: Saving Application State to disk -->
@@ -29,12 +29,7 @@
 	<!--
         Needed for notification managing service
     -->
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-	<!-- Spezifische Berechtigungen für die Foreground-Service-Typen -->
-	<uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"
-		android:maxSdkVersion="34" />
-	<!-- Für Android 15+ - SHORT_SERVICE Berechtigung - no permission required -->
 
 	<!-- For being able to timely update notifications -->
 	<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
@@ -277,13 +272,6 @@
 			android:exported="false">
 		</receiver>
 
-		<!-- Kurzlebiger Foreground-Service für aktive Zeiterfassung -->
-		<service
-			android:name="de.kalass.agime.ongoingnotification.ShortLivedNotificationService"
-			android:enabled="true"
-			android:exported="false"
-			android:foregroundServiceType="${foregroundServiceType}">
-		</service>
 
 		<!-- Der alte Service NotificationManagingService wurde durch die hybride Lösung aus
 		     WorkManager, AlarmManager und ShortLivedNotificationService ersetzt -->

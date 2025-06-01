@@ -210,7 +210,8 @@ public class WorkManagerController {
 				scheduleAcquisitionTimeEnd(context, current);
 
 				// Starte sofort den ShortLivedNotificationService für präzise Benachrichtigungen
-				ShortLivedNotificationService.startService(context);
+				// FIXME Foreground service removed for now - maybe we need to rework this
+				// ShortLivedNotificationService.startService(context);
 
 				if (DEBUG)
 					Log.d(LOG_TAG, "Aktive Erfassungszeit gefunden, Ende geplant für: " +

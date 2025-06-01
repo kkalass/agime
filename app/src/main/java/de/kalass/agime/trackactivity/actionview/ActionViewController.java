@@ -24,6 +24,7 @@ import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import de.kalass.agime.R;
 import de.kalass.agime.acquisitiontime.AcquisitionTimeInstance;
@@ -32,7 +33,6 @@ import de.kalass.agime.acquisitiontime.AcquisitionTimes;
 import de.kalass.agime.acquisitiontime.RecurringAcquisitionTimeEditorFragment;
 import de.kalass.agime.acquisitiontime.RecurringDAO;
 import de.kalass.agime.model.TrackedActivityModel;
-import de.kalass.agime.ongoingnotification.NotificationManagingService;
 import de.kalass.agime.provider.MCContract;
 import de.kalass.agime.trackactivity.InsertOrUpdateTrackedActivity;
 import de.kalass.agime.trackactivity.RecurringSyncLoader;
@@ -50,6 +50,8 @@ import de.kalass.android.common.util.TimeFormatUtil;
  */
 public class ActionViewController implements View.OnClickListener,
         UndoBarController.UndoListener {
+    private static final int UP_TO_DATE_MINUTES_SINCE_ACTIVITY = 2;
+    private static final long UP_TO_DATE_MILLIS_SINCE_ACTIVITY = TimeUnit.SECONDS.toMillis(UP_TO_DATE_MINUTES_SINCE_ACTIVITY * 60);
 
     private static final String LOG_TAG = "ActionViewController";
     private static final int BUTTON1_VISIBLE = View.VISIBLE;
@@ -372,7 +374,7 @@ public class ActionViewController implements View.OnClickListener,
         final String previousTitle = previousEntry == null ? null : previousEntry.getDisplayName(getContext());
         actionView.button2.setText(Html.fromHtml(getString(R.string.action_item_of_day_extend_previous_action, previousTitle, Long.toString(actionItemData.getDurationMinutes()))));
 
-        if (actionItemData.getDurationMinutes() < NotificationManagingService.UP_TO_DATE_MINUTES_SINCE_ACTIVITY) {
+        if (actionItemData.getDurationMinutes() < UP_TO_DATE_MINUTES_SINCE_ACTIVITY) {
             actionView.headingText.setText(getText(R.string.action_fresh_item_of_day_heading));
             if (previousEntry != null && previousEntry.getEntryDurationMillis() != 0) {
                 final String text = getString(R.string.action_fresh_item_of_day_message_with_previous_details,

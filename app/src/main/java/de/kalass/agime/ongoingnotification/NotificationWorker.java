@@ -93,7 +93,8 @@ public class NotificationWorker extends Worker {
 				// Falls nicht, aktiviere ihn explizit
 				if (shouldActivateShortLivedService(times.getCurrent())) {
 					Log.i(LOG_TAG, "Aktive Erfassungszeit erkannt, starte ShortLivedNotificationService");
-					ShortLivedNotificationService.startService(getApplicationContext());
+					// FIXME Foreground service removed for now - maybe we need to rework this
+					// ShortLivedNotificationService.startService(getApplicationContext());
 
 					// Der ShortLivedNotificationService übernimmt die wichtigen Benachrichtigungen,
 					// wir brauchen keine eigene Benachrichtigung anzuzeigen

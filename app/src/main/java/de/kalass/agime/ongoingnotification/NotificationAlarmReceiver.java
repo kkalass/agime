@@ -88,7 +88,9 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
 		}
 
 		// Starten des Services mit angepasster maximaler Laufzeit
-		ShortLivedNotificationService.startService(context, maxRuntimeMinutes);
+		// FIXME Foreground service removed for now - maybe we need to rework this
+		// ShortLivedNotificationService.startService(context, maxRuntimeMinutes);
+		WorkManagerController.scheduleImmediateCheck(context);
 
 		// Für längere Erfassungszeiten: AlarmManager für das Ende planen
 		// (wird nicht benötigt, wenn der WorkManagerController dies bereits geplant hat)
@@ -111,6 +113,8 @@ public class NotificationAlarmReceiver extends BroadcastReceiver {
 	private void handleNoiseReminder(Context context, Intent intent) {
 		// Bei einer Erinnerung starten wir den kurzlebigen Service 
 		// für eine kurze Zeit, um die Benachrichtigung mit Sound/Vibration anzuzeigen
-		ShortLivedNotificationService.startService(context, 1); // Kurze Laufzeit für Erinnerung
+		// FIXME Foreground service removed for now - maybe we need to rework this
+		// ShortLivedNotificationService.startService(context, 1); // Kurze Laufzeit für Erinnerung
+		WorkManagerController.scheduleImmediateCheck(context);
 	}
 }
