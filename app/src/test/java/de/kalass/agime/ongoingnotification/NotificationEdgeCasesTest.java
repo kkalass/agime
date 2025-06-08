@@ -100,7 +100,6 @@ public class NotificationEdgeCasesTest {
 	 * Test, dass der Worker mit einer SQLException umgehen kann
 	 */
 	@Test
-	@org.junit.Ignore("Test disabled - needs further investigation")
 	public void testWorkerWithSQLException() {
 		// SQLException beim Abfragen des ContentResolvers simulieren
 		doThrow(new RuntimeException("Simulierter SQL-Fehler"))
@@ -122,7 +121,6 @@ public class NotificationEdgeCasesTest {
 	 * Test, dass der Worker mit deaktivierten Benachrichtigungen umgehen kann
 	 */
 	@Test
-	@org.junit.Ignore("Test disabled - needs further investigation")
 	public void testWorkerWithDisabledNotifications() {
 		// Context mit deaktivierten Benachrichtigungen vorbereiten
 		Context testContext = spy(context);
@@ -150,7 +148,6 @@ public class NotificationEdgeCasesTest {
 	 * Test, dass der Worker mit NULL-Cursor umgehen kann
 	 */
 	@Test
-	@org.junit.Ignore("Test disabled - needs further investigation")
 	public void testWorkerWithNullCursor() {
 		// NULL-Cursor vom ContentResolver zurückgeben
 		when(mockContentResolver.query(

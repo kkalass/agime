@@ -73,10 +73,24 @@ public class NotificationWorker extends Worker {
 	public static final long VALUE_MILLIS_NOT_SET = 0;
 
 	private TrackedActivitySyncLoader trackedActivityLoader;
+	private AcquisitionTimesProvider acquisitionTimesProvider;
 
 	public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters params) {
 		super(context, params);
 		trackedActivityLoader = new TrackedActivitySyncLoader(context);
+		// Default production implementation
+		acquisitionTimesProvider = new DefaultAcquisitionTimesProvider(context);
+	}
+	
+	/**
+	 * Constructor for testing with dependency injection.
+	 * Package-private for testing purposes.
+	 */
+	NotificationWorker(@NonNull Context context, @NonNull WorkerParameters params, 
+			AcquisitionTimesProvider acquisitionTimesProvider, TrackedActivitySyncLoader trackedActivityLoader) {
+		super(context, params);
+		this.acquisitionTimesProvider = acquisitionTimesProvider;
+		this.trackedActivityLoader = trackedActivityLoader;
 	}
 
 
@@ -85,9 +99,8 @@ public class NotificationWorker extends Worker {
 	public Result doWork() {
 		try {
 			Log.i(LOG_TAG, "NotificationWorker ausgeführt");
-
-			// Aktuellen Status prüfen
-			AcquisitionTimes times = getCurrentAcquisitionTimes();
+		// Aktuellen Status prüfen
+		AcquisitionTimes times = acquisitionTimesProvider.getCurrentAcquisitionTimes();
 			DateTime now = new DateTime();
 			// Für aktive Erfassungszeiten: Da der ShortLivedNotificationService deaktiviert ist,
 			// übernimmt der NotificationWorker die Benachrichtigung auch während aktiver Zeiten
@@ -537,7 +550,7 @@ public class NotificationWorker extends Worker {
 	private Notification createBackgroundNotificationIfNeeded() {
 		// Diese Methode ähnelt createForegroundNotificationIfNeeded(), aber erstellt
 		// eine Benachrichtigung mit geringerer Priorität und ohne Chronometer
-		AcquisitionTimes times = getCurrentAcquisitionTimes();
+		AcquisitionTimes times = acquisitionTimesProvider.getCurrentAcquisitionTimes();
 		DateTime now = new DateTime();
 
 		// Wenn keine aktive oder vorherige Erfassungszeit existiert, keine Benachrichtigung anzeigen
@@ -630,23 +643,4 @@ public class NotificationWorker extends Worker {
 		return activitiesToday.size() == 0 ? null : activitiesToday.get(0);
 	}
 
-
-	/**
-	 * Lädt die aktuellen AcquisitionTimes
-	 */
-	private AcquisitionTimes getCurrentAcquisitionTimes() {
-		Cursor query = getApplicationContext().getContentResolver().query(
-			RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null);
-
-		List<RecurringDAO.Data> recurringItems;
-		try {
-			recurringItems = CursorUtil.readList(query, RecurringDAO.READ_DATA);
-			return AcquisitionTimes.fromRecurring(recurringItems, new DateTime());
-		}
-		finally {
-			if (query != null) {
-				query.close();
-			}
-		}
-	}
 }
