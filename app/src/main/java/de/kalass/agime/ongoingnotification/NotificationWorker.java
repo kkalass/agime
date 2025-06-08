@@ -13,10 +13,14 @@ import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.Manifest;
+import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.app.TaskStackBuilder;
 import androidx.work.ForegroundInfo;
 import androidx.work.Worker;
@@ -85,32 +89,37 @@ public class NotificationWorker extends Worker {
 			// Aktuellen Status prüfen
 			AcquisitionTimes times = getCurrentAcquisitionTimes();
 			DateTime now = new DateTime();
-
-			// Für aktive Erfassungszeiten prüfen, ob der ShortLivedNotificationService laufen sollte
+			// Für aktive Erfassungszeiten: Da der ShortLivedNotificationService deaktiviert ist,
+			// übernimmt der NotificationWorker die Benachrichtigung auch während aktiver Zeiten
 			if (times.getCurrent() != null) {
-				// Wir befinden uns in einer aktiven Erfassungsperiode
-				// Prüfe, ob der kurzlebige Service aktiv ist (durch AlarmManager gesteuert)
-				// Falls nicht, aktiviere ihn explizit
-				if (shouldActivateShortLivedService(times.getCurrent())) {
-					Log.i(LOG_TAG, "Aktive Erfassungszeit erkannt, starte ShortLivedNotificationService");
-					// FIXME Foreground service removed for now - maybe we need to rework this
-					// ShortLivedNotificationService.startService(getApplicationContext());
+				Log.i(LOG_TAG, "Aktive Erfassungszeit erkannt, erstelle normale Benachrichtigung");
 
-					// Der ShortLivedNotificationService übernimmt die wichtigen Benachrichtigungen,
-					// wir brauchen keine eigene Benachrichtigung anzuzeigen
-					// Trotzdem planen wir die nächste Ausführung, um die Zuverlässigkeit zu erhöhen
-					planNextExecution();
-					return Result.success();
+				// Erstelle normale Benachrichtigung für aktive Erfassungszeit
+				// Wir verwenden NICHT setForegroundAsync() um ForegroundServiceType-Probleme zu vermeiden
+				Notification notification = createForegroundNotificationIfNeeded();
+
+				if (notification != null) {
+					// Normale Notification anzeigen (nicht als Foreground Service)
+					NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+					if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+						notificationManager.notify(NOTIFICATION_ID, notification);
+					}
 				}
-			}
 
+				// Plane die nächste Ausführung
+				planNextExecution();
+				return Result.success();
+			}
 			// Für inaktive Zeiten oder wenn der ShortLivedNotificationService nicht aktiv sein sollte:
 			// Standard-Benachrichtigung mit niedriger Priorität erstellen
 			Notification notification = createBackgroundNotificationIfNeeded();
 
 			if (notification != null) {
-				// Als Foreground-Worker ausführen mit einer Benachrichtigung niedriger Priorität
-				setForegroundAsync(new ForegroundInfo(NOTIFICATION_ID, notification));
+				// Normale Notification anzeigen mit niedriger Priorität
+				NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+				if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+					notificationManager.notify(NOTIFICATION_ID, notification);
+				}
 
 				// Plane die nächste Ausführung
 				planNextExecution();
