@@ -60,9 +60,10 @@ public final class EdgeToEdgeHelper {
 	@RequiresApi(api = Build.VERSION_CODES.VANILLA_ICE_CREAM)
 	private static void setupEdgeToEdgeV35(Activity activity) {
 		if (activity instanceof ComponentActivity) {
-			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!Setup edge to edge");
-			EdgeToEdge.enable((ComponentActivity) activity, SystemBarStyle.dark(activity.getResources().getColor(R.color.primary_dark, activity.getTheme())));
-		} else {
+
+			EdgeToEdge.enable((ComponentActivity)activity, SystemBarStyle.dark(activity.getResources().getColor(R.color.primary_dark, activity.getTheme())));
+		}
+		else {
 
 			// Android 15+ - use proper edge-to-edge API instead of deprecated setStatusBarColor
 			WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false);
