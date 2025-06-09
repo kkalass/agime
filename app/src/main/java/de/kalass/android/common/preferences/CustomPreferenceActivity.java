@@ -1,6 +1,8 @@
 package de.kalass.android.common.preferences;
 
 import android.app.Activity;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
@@ -34,7 +36,12 @@ public class CustomPreferenceActivity extends PreferenceActivity {
 		//addPreferencesFromResource(R.xml.preferences);
 
 		toolbar.setClickable(true);
-		toolbar.setNavigationIcon(getResIdFromAttribute(this, androidx.appcompat.R.attr.homeAsUpIndicator));
+		// Navigationsicon mit weißem Farbfilter setzen, um mit anderen Bildschirmen konsistent zu sein
+		int iconResId = getResIdFromAttribute(this, androidx.appcompat.R.attr.homeAsUpIndicator);
+		Drawable navigationIcon = getResources().getDrawable(iconResId);
+		navigationIcon.setColorFilter(getResources().getColor(android.R.color.white), PorterDuff.Mode.SRC_ATOP);
+		toolbar.setNavigationIcon(navigationIcon);
+		toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
 		toolbar.setTitle(R.string.menu_settings);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
