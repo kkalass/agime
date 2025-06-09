@@ -62,6 +62,15 @@ public class WorkManagerController {
 	 * Initialisiert den WorkManager bei App-Start oder nach Geräteneustart
 	 */
 	public static void initialize(Context context) {
+		AcquisitionTimesProvider acquisitionTimesProvider = new DefaultAcquisitionTimesProvider(context);
+		initialize(context, acquisitionTimesProvider);
+	}
+
+
+	/**
+	 * Initialisiert den WorkManager mit dependency injection für bessere Testbarkeit
+	 */
+	public static void initialize(Context context, AcquisitionTimesProvider acquisitionTimesProvider) {
 		Log.i(LOG_TAG, "WorkManagerController wird initialisiert");
 
 		// Sofortige Ausführung planen
@@ -71,7 +80,7 @@ public class WorkManagerController {
 		schedulePeriodicChecks(context);
 
 		// Alarme für die nächste Acquisition Time-Phase planen
-		scheduleNextAcquisitionTimeAlarms(context);
+		scheduleNextAcquisitionTimeAlarms(context, acquisitionTimesProvider);
 	}
 
 
@@ -123,9 +132,18 @@ public class WorkManagerController {
 	 * Berechnet die Zeit bis zur nächsten Ausführung und plant entsprechend
 	 */
 	public static void scheduleNextExecution(Context context) {
+		AcquisitionTimesProvider acquisitionTimesProvider = new DefaultAcquisitionTimesProvider(context);
+		scheduleNextExecution(context, acquisitionTimesProvider);
+	}
+
+
+	/**
+	 * Berechnet die Zeit bis zur nächsten Ausführung und plant entsprechend mit dependency injection
+	 */
+	public static void scheduleNextExecution(Context context, AcquisitionTimesProvider acquisitionTimesProvider) {
 		// Im aktuellen Ansatz sind regelmäßige Checks bereits geplant,
 		// aber hier sollten wir auch die AlarmManager-Alarme aktualisieren
-		scheduleNextAcquisitionTimeAlarms(context);
+		scheduleNextAcquisitionTimeAlarms(context, acquisitionTimesProvider);
 
 		try {
 			ListenableFuture<List<WorkInfo>> workInfos = WorkManager.getInstance(context)
@@ -187,11 +205,21 @@ public class WorkManagerController {
 	 * Plant Alarme für den Start und das Ende der nächsten AcquisitionTime-Phase
 	 */
 	public static void scheduleNextAcquisitionTimeAlarms(Context context) {
+		AcquisitionTimesProvider acquisitionTimesProvider = new DefaultAcquisitionTimesProvider(context);
+		scheduleNextAcquisitionTimeAlarms(context, acquisitionTimesProvider);
+	}
+
+
+	/**
+	 * Plant Alarme für den Start und das Ende der nächsten AcquisitionTime-Phase mit dependency injection
+	 */
+	public static void scheduleNextAcquisitionTimeAlarms(Context context, AcquisitionTimesProvider acquisitionTimesProvider) {
 		Log.i(LOG_TAG, "Plane Alarme für die nächste AcquisitionTime");
-		if (DEBUG) Log.d(LOG_TAG, "scheduleNextAcquisitionTimeAlarms called with context: " + context);
+		if (DEBUG)
+			Log.d(LOG_TAG, "scheduleNextAcquisitionTimeAlarms called with context: " + context);
 
 		// Aktuelle AcquisitionTimes abrufen
-		AcquisitionTimes times = getCurrentAcquisitionTimes(context);
+		AcquisitionTimes times = getCurrentAcquisitionTimes(context, acquisitionTimesProvider);
 		if (times == null) {
 			Log.w(LOG_TAG, "Keine AcquisitionTimes verfügbar");
 			return;
@@ -234,7 +262,7 @@ public class WorkManagerController {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
 				checkAndRequestExactAlarmPermission(context);
 			}
-			
+
 			// Try to schedule the reminder - it will use exact alarms if possible, or fall back to inexact
 			scheduleNoiseReminderIfNeeded(context, current);
 		}
@@ -268,11 +296,11 @@ public class WorkManagerController {
 		}
 		else {
 			// Auf älteren Versionen oder mit Berechtigung verwenden wir exakte Alarme
-            alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    instance.getStartDateTime().getMillis(),
-                    pendingIntent);
-        }
+			alarmManager.setExactAndAllowWhileIdle(
+				AlarmManager.RTC_WAKEUP,
+				instance.getStartDateTime().getMillis(),
+				pendingIntent);
+		}
 	}
 
 
@@ -299,11 +327,11 @@ public class WorkManagerController {
 				pendingIntent);
 		}
 		else {
-            alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    instance.getEndDateTime().getMillis(),
-                    pendingIntent);
-        }
+			alarmManager.setExactAndAllowWhileIdle(
+				AlarmManager.RTC_WAKEUP,
+				instance.getEndDateTime().getMillis(),
+				pendingIntent);
+		}
 	}
 
 
@@ -345,178 +373,203 @@ public class WorkManagerController {
 
 			AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
-            // Check if we can schedule exact alarms (needed for Android 12+)
-            boolean canScheduleExactAlarms = de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context);
+			// Check if we can schedule exact alarms (needed for Android 12+)
+			boolean canScheduleExactAlarms = de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context);
 
-            if (canScheduleExactAlarms) {
-                try {
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        nextNoiseTimeMillis,
-                        pendingIntent);
-                    if (DEBUG) {
-                        Log.d(LOG_TAG, "Exakte Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis) + " geplant");
-                    }
-                    return;
-                } catch (SecurityException e) {
-                    Log.e(LOG_TAG, "Keine Berechtigung zum Planen von genauen Alarmen", e);
-                    // Continue to fallback
-                }
-            } else {
-                if (DEBUG) {
-                    Log.w(LOG_TAG, "Kann keine exakte Alarm-Erinnerung planen - SCHEDULE_EXACT_ALARM-Berechtigung fehlt");
-                }
-            }
-
-            // Fallback to inexact alarm if exact scheduling is not available or failed
-            try {
-                alarmManager.set(AlarmManager.RTC_WAKEUP, nextNoiseTimeMillis, pendingIntent);
-                if (DEBUG) {
-                    Log.d(LOG_TAG, "Inexakte Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis) + " geplant");
-                }
-			} catch (Exception e) {
-                Log.e(LOG_TAG, "Fehler beim Planen der Noise-Erinnerung", e);
+			if (canScheduleExactAlarms) {
+				try {
+					alarmManager.setExactAndAllowWhileIdle(
+						AlarmManager.RTC_WAKEUP,
+						nextNoiseTimeMillis,
+						pendingIntent);
+					if (DEBUG) {
+						Log.d(LOG_TAG, "Exakte Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis) + " geplant");
+					}
+					return;
+				}
+				catch (SecurityException e) {
+					Log.e(LOG_TAG, "Keine Berechtigung zum Planen von genauen Alarmen", e);
+					// Continue to fallback
+				}
 			}
-        }
+			else {
+				if (DEBUG) {
+					Log.w(LOG_TAG, "Kann keine exakte Alarm-Erinnerung planen - SCHEDULE_EXACT_ALARM-Berechtigung fehlt");
+				}
+			}
+
+			// Fallback to inexact alarm if exact scheduling is not available or failed
+			try {
+				alarmManager.set(AlarmManager.RTC_WAKEUP, nextNoiseTimeMillis, pendingIntent);
+				if (DEBUG) {
+					Log.d(LOG_TAG, "Inexakte Noise-Erinnerung für " + new DateTime(nextNoiseTimeMillis) + " geplant");
+				}
+			}
+			catch (Exception e) {
+				Log.e(LOG_TAG, "Fehler beim Planen der Noise-Erinnerung", e);
+			}
+		}
 	}
 
-    private static final String PREF_ALARM_PERMISSION_ASKED = "alarm_permission_asked";
-    private static final String PREF_NEVER_ASK_AGAIN = "never_ask_again_alarm_permission";
-    private static final String PREF_SHOULD_SHOW_PERMISSION_DIALOG = "should_show_permission_dialog";
-    
-    // Call this from your Activity's onResume() to handle pending permission dialogs
-    public static void checkPendingPermissionDialog(android.app.Activity activity) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
-            return;
-        }
-        
-        android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(activity);
-        boolean shouldShowDialog = prefs.getBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, false);
-        
-        if (shouldShowDialog) {
-            // Clear the flag first to prevent showing it multiple times
-            prefs.edit().putBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, false).apply();
-            // Now show the dialog
-            showPermissionRequestDialog(activity);
-        }
-    }
+	private static final String PREF_ALARM_PERMISSION_ASKED = "alarm_permission_asked";
+	private static final String PREF_NEVER_ASK_AGAIN = "never_ask_again_alarm_permission";
+	private static final String PREF_SHOULD_SHOW_PERMISSION_DIALOG = "should_show_permission_dialog";
 
-    /**
-     * Checks if the app has the required permissions to schedule exact alarms and shows a dialog if needed
-     *
-     * @param context The application context
-     */
-    public static void checkAndRequestExactAlarmPermission(Context context) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
-            if (DEBUG) Log.d(LOG_TAG, "SDK version < S, skipping exact alarm permission check");
-            return;
-        }
+	// Call this from your Activity's onResume() to handle pending permission dialogs
+	public static void checkPendingPermissionDialog(android.app.Activity activity) {
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
+			return;
+		}
 
-        // Check if we already have permission
-        boolean hasPermission = de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context);
-        if (DEBUG) Log.d(LOG_TAG, "Has exact alarm permission: " + hasPermission);
-        if (hasPermission) {
-            return;
-        }
+		android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(activity);
+		boolean shouldShowDialog = prefs.getBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, false);
 
-        // Check if user selected "Don't ask again"
-        android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
-        boolean neverAskAgain = prefs.getBoolean(PREF_NEVER_ASK_AGAIN, false);
-        if (DEBUG) Log.d(LOG_TAG, "Never ask again: " + neverAskAgain);
-        if (neverAskAgain) {
-            return;
-        }
+		if (shouldShowDialog) {
+			// Clear the flag first to prevent showing it multiple times
+			prefs.edit().putBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, false).apply();
+			// Now show the dialog
+			showPermissionRequestDialog(activity);
+		}
+	}
 
-        // Set a flag to show the dialog when an Activity is available
-        if (DEBUG) Log.d(LOG_TAG, "Scheduling permission dialog for next Activity");
-        prefs.edit().putBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, true).apply();
-    }
 
-    private static void showPermissionRequestDialog(Context context) {
-        if (!(context instanceof de.kalass.agime.analytics.AnalyticsActionBarActivity) && 
-            !(context.getApplicationContext() instanceof android.app.Activity)) {
-            if (DEBUG) Log.d(LOG_TAG, "Cannot show dialog - context is not an AnalyticsActionBarActivity");
-            return;
-        }
-        
-        // Get the activity (either directly or from application context)
-        android.app.Activity activity = (context instanceof android.app.Activity) 
-            ? (android.app.Activity) context 
-            : (android.app.Activity) context.getApplicationContext();
-            
-        if (!(activity instanceof de.kalass.agime.analytics.AnalyticsActionBarActivity)) {
-            if (DEBUG) Log.d(LOG_TAG, "Activity is not an AnalyticsActionBarActivity");
-            return;
-        }
-        
-        de.kalass.agime.analytics.AnalyticsActionBarActivity analyticsActivity = 
-            (de.kalass.agime.analytics.AnalyticsActionBarActivity) activity;
-            
-        // Show the snackbar with both actions
-        analyticsActivity.showSnackbar(
-            context.getString(R.string.snackbar_permission_needed),
-            context.getString(R.string.grant_permission), // First action (main action)
-            v -> {
-                // Grant permission action
-                try {
-                    de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
-                    // Mark that we've asked
-                    android.preference.PreferenceManager.getDefaultSharedPreferences(context)
-                            .edit()
-                            .putBoolean(PREF_ALARM_PERMISSION_ASKED, true)
-                            .apply();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Error requesting exact alarm permission", e);
-                }
-            },
-            context.getString(R.string.learn_more), // Second action (learn more)
-            v -> showPermissionExplanationDialog(context)
-        );
-        
-        if (DEBUG) Log.d(LOG_TAG, "Shown permission request snackbar");
-    }
-    
-    private static void showPermissionExplanationDialog(Context context) {
-        if (DEBUG) Log.d(LOG_TAG, "User clicked Learn More");
-        // Show a dialog with more information when Learn More is clicked
-        new androidx.appcompat.app.AlertDialog.Builder(context)
-                .setTitle(R.string.exact_alarm_permission_title)
-                .setMessage(R.string.snackbar_permission_detailed)
-                .setPositiveButton(R.string.grant_permission, (dialog, which) -> {
-                    if (DEBUG) Log.d(LOG_TAG, "User clicked Grant Permission");
-                    try {
-                        de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
-                        if (DEBUG) Log.d(LOG_TAG, "Successfully requested exact alarm permission");
-                    } catch (Exception e) {
-                        Log.e(LOG_TAG, "Error requesting exact alarm permission", e);
-                    }
-                    // Mark that we've asked
-                    android.preference.PreferenceManager.getDefaultSharedPreferences(context)
-                            .edit()
-                            .putBoolean(PREF_ALARM_PERMISSION_ASKED, true)
-                            .apply();
-                })
-                .setNeutralButton(R.string.never_ask_again, (d, which) -> {
-                    if (DEBUG) Log.d(LOG_TAG, "User chose to never ask again");
-                    android.preference.PreferenceManager.getDefaultSharedPreferences(context)
-                            .edit()
-                            .putBoolean(PREF_NEVER_ASK_AGAIN, true)
-                            .apply();
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
-    }
+	/**
+	 * Checks if the app has the required permissions to schedule exact alarms and shows a dialog if needed
+	 *
+	 * @param context The application context
+	 */
+	public static void checkAndRequestExactAlarmPermission(Context context) {
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
+			if (DEBUG)
+				Log.d(LOG_TAG, "SDK version < S, skipping exact alarm permission check");
+			return;
+		}
+
+		// Check if we already have permission
+		boolean hasPermission = de.kalass.agime.util.AlarmPermissionHelper.hasExactAlarmPermission(context);
+		if (DEBUG)
+			Log.d(LOG_TAG, "Has exact alarm permission: " + hasPermission);
+		if (hasPermission) {
+			return;
+		}
+
+		// Check if user selected "Don't ask again"
+		android.content.SharedPreferences prefs = android.preference.PreferenceManager.getDefaultSharedPreferences(context);
+		boolean neverAskAgain = prefs.getBoolean(PREF_NEVER_ASK_AGAIN, false);
+		if (DEBUG)
+			Log.d(LOG_TAG, "Never ask again: " + neverAskAgain);
+		if (neverAskAgain) {
+			return;
+		}
+
+		// Set a flag to show the dialog when an Activity is available
+		if (DEBUG)
+			Log.d(LOG_TAG, "Scheduling permission dialog for next Activity");
+		prefs.edit().putBoolean(PREF_SHOULD_SHOW_PERMISSION_DIALOG, true).apply();
+	}
+
+
+	private static void showPermissionRequestDialog(Context context) {
+		if (!(context instanceof de.kalass.agime.analytics.AnalyticsActionBarActivity) &&
+				!(context.getApplicationContext() instanceof android.app.Activity)) {
+			if (DEBUG)
+				Log.d(LOG_TAG, "Cannot show dialog - context is not an AnalyticsActionBarActivity");
+			return;
+		}
+
+		// Get the activity (either directly or from application context)
+		android.app.Activity activity = (context instanceof android.app.Activity)
+				? (android.app.Activity)context
+				: (android.app.Activity)context.getApplicationContext();
+
+		if (!(activity instanceof de.kalass.agime.analytics.AnalyticsActionBarActivity)) {
+			if (DEBUG)
+				Log.d(LOG_TAG, "Activity is not an AnalyticsActionBarActivity");
+			return;
+		}
+
+		de.kalass.agime.analytics.AnalyticsActionBarActivity analyticsActivity = (de.kalass.agime.analytics.AnalyticsActionBarActivity)activity;
+
+		// Show the snackbar with both actions
+		analyticsActivity.showSnackbar(
+			context.getString(R.string.snackbar_permission_needed),
+			context.getString(R.string.grant_permission), // First action (main action)
+			v -> {
+				// Grant permission action
+				try {
+					de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
+					// Mark that we've asked
+					android.preference.PreferenceManager.getDefaultSharedPreferences(context)
+						.edit()
+						.putBoolean(PREF_ALARM_PERMISSION_ASKED, true)
+						.apply();
+				}
+				catch (Exception e) {
+					Log.e(LOG_TAG, "Error requesting exact alarm permission", e);
+				}
+			},
+			context.getString(R.string.learn_more), // Second action (learn more)
+			v -> showPermissionExplanationDialog(context));
+
+		if (DEBUG)
+			Log.d(LOG_TAG, "Shown permission request snackbar");
+	}
+
+
+	private static void showPermissionExplanationDialog(Context context) {
+		if (DEBUG)
+			Log.d(LOG_TAG, "User clicked Learn More");
+		// Show a dialog with more information when Learn More is clicked
+		new androidx.appcompat.app.AlertDialog.Builder(context)
+			.setTitle(R.string.exact_alarm_permission_title)
+			.setMessage(R.string.snackbar_permission_detailed)
+			.setPositiveButton(R.string.grant_permission, (dialog, which) -> {
+				if (DEBUG)
+					Log.d(LOG_TAG, "User clicked Grant Permission");
+				try {
+					de.kalass.agime.util.AlarmPermissionHelper.requestExactAlarmPermission(context);
+					if (DEBUG)
+						Log.d(LOG_TAG, "Successfully requested exact alarm permission");
+				}
+				catch (Exception e) {
+					Log.e(LOG_TAG, "Error requesting exact alarm permission", e);
+				}
+				// Mark that we've asked
+				android.preference.PreferenceManager.getDefaultSharedPreferences(context)
+					.edit()
+					.putBoolean(PREF_ALARM_PERMISSION_ASKED, true)
+					.apply();
+			})
+			.setNeutralButton(R.string.never_ask_again, (d, which) -> {
+				if (DEBUG)
+					Log.d(LOG_TAG, "User chose to never ask again");
+				android.preference.PreferenceManager.getDefaultSharedPreferences(context)
+					.edit()
+					.putBoolean(PREF_NEVER_ASK_AGAIN, true)
+					.apply();
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+	}
+
+
 	public static AcquisitionTimes getCurrentAcquisitionTimes(Context context) {
+		AcquisitionTimesProvider acquisitionTimesProvider = new DefaultAcquisitionTimesProvider(context);
+		return getCurrentAcquisitionTimes(context, acquisitionTimesProvider);
+	}
 
-        try (Cursor query = context.getContentResolver().query(
-                RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null)) {
-            List<RecurringDAO.Data> recurringItems;
-            recurringItems = CursorUtil.readList(query, RecurringDAO.READ_DATA);
-            return AcquisitionTimes.fromRecurring(recurringItems, new DateTime());
-        } catch (Exception e) {
-            Log.e(LOG_TAG, "Fehler beim Laden der AcquisitionTimes", e);
-            return null;
-        }
+
+	/**
+	 * Retrieves current acquisition times using dependency injection for better testability
+	 */
+	public static AcquisitionTimes getCurrentAcquisitionTimes(Context context, AcquisitionTimesProvider acquisitionTimesProvider) {
+		try {
+			return acquisitionTimesProvider.getCurrentAcquisitionTimes();
+		}
+		catch (Exception e) {
+			Log.e(LOG_TAG, "Fehler beim Laden der AcquisitionTimes", e);
+			return null;
+		}
 	}
 
 

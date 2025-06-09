@@ -81,12 +81,12 @@ public class NotificationWorker extends Worker {
 		// Default production implementation
 		acquisitionTimesProvider = new DefaultAcquisitionTimesProvider(context);
 	}
-	
+
+
 	/**
-	 * Constructor for testing with dependency injection.
-	 * Package-private for testing purposes.
+	 * Constructor for testing with dependency injection. Package-private for testing purposes.
 	 */
-	NotificationWorker(@NonNull Context context, @NonNull WorkerParameters params, 
+	NotificationWorker(@NonNull Context context, @NonNull WorkerParameters params,
 			AcquisitionTimesProvider acquisitionTimesProvider, TrackedActivitySyncLoader trackedActivityLoader) {
 		super(context, params);
 		this.acquisitionTimesProvider = acquisitionTimesProvider;
@@ -99,8 +99,8 @@ public class NotificationWorker extends Worker {
 	public Result doWork() {
 		try {
 			Log.i(LOG_TAG, "NotificationWorker ausgeführt");
-		// Aktuellen Status prüfen
-		AcquisitionTimes times = acquisitionTimesProvider.getCurrentAcquisitionTimes();
+			// Aktuellen Status prüfen
+			AcquisitionTimes times = acquisitionTimesProvider.getCurrentAcquisitionTimes();
 			DateTime now = new DateTime();
 			// Für aktive Erfassungszeiten: Da der ShortLivedNotificationService deaktiviert ist,
 			// übernimmt der NotificationWorker die Benachrichtigung auch während aktiver Zeiten
