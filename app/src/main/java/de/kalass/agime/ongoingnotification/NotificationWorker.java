@@ -104,7 +104,7 @@ public class NotificationWorker extends Worker {
 			DateTime now = new DateTime();
 			// Für aktive Erfassungszeiten: Da der ShortLivedNotificationService deaktiviert ist,
 			// übernimmt der NotificationWorker die Benachrichtigung auch während aktiver Zeiten
-			if (times.getCurrent() != null) {
+			if (times != null && times.getCurrent() != null) {
 				Log.i(LOG_TAG, "Aktive Erfassungszeit erkannt, erstelle normale Benachrichtigung");
 
 				// Erstelle normale Benachrichtigung für aktive Erfassungszeit
@@ -174,24 +174,16 @@ public class NotificationWorker extends Worker {
 	 */
 	@Nullable
 	private Notification createForegroundNotificationIfNeeded() {
-		Context context = getApplicationContext();
 		DateTime now = new DateTime();
 
-		Cursor query = context.getContentResolver().query(
-			RecurringDAO.CONTENT_URI, RecurringDAO.PROJECTION, null, null, null);
-
-		List<RecurringDAO.Data> recurringItems;
-		try {
-			recurringItems = CursorUtil.readList(query, RecurringDAO.READ_DATA);
-		}
-		finally {
-			if (query != null) {
-				query.close();
-			}
-		}
-
-		AcquisitionTimes times = AcquisitionTimes.fromRecurring(recurringItems, now);
+		// Use injected AcquisitionTimesProvider for better testability
+		AcquisitionTimes times = acquisitionTimesProvider.getCurrentAcquisitionTimes();
 		TrackedActivityModel lastActivity = null;
+
+		if (times == null) {
+			return null;
+		}
+
 		final AcquisitionTimeInstance previous = times.getPrevious();
 		final AcquisitionTimeInstance current = times.getCurrent();
 
@@ -554,7 +546,7 @@ public class NotificationWorker extends Worker {
 		DateTime now = new DateTime();
 
 		// Wenn keine aktive oder vorherige Erfassungszeit existiert, keine Benachrichtigung anzeigen
-		if (times.getCurrent() == null && times.getPrevious() == null) {
+		if (times == null || (times.getCurrent() == null && times.getPrevious() == null)) {
 			return null;
 		}
 
