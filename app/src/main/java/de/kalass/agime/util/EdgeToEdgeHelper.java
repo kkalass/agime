@@ -46,49 +46,49 @@ public final class EdgeToEdgeHelper {
 			setupStatusBarColorForOlderVersions(activity);
 		}
 
-		// Add colored status bar background for all activities
-		addStatusBarBackground(activity);
+		// Add colored status bar background for Android 11+ where we use transparent system bars
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+			addStatusBarBackground(activity);
+		}
 	}
 
 
 	@RequiresApi(api = Build.VERSION_CODES.VANILLA_ICE_CREAM)
 	private static void setupEdgeToEdgeV35(Activity activity) {
-		//WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false);
-		// Android 15+ - explicit edge-to-edge configuration
-		activity.getWindow().getDecorView().setSystemUiVisibility(
-			View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-					View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-					View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+		// Android 15+ - use proper edge-to-edge API instead of deprecated setStatusBarColor
+		WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false);
 
-		// Set status bar color to primary_dark for consistent blue appearance
-		// This ensures all activities have the same blue status bar as AgimeMainActivity
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark));
-		}
+		// Make system bars transparent - this is the recommended approach for Android 15+
+		activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+		activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
+
+		// The status bar background color will be handled by addStatusBarBackground() method
+		// which creates a colored view behind the transparent status bar
 	}
 
 
 	@RequiresApi(api = Build.VERSION_CODES.R)
 	private static void setupEdgeToEdgeV30(Activity activity) {
-		// Android 11+ - use WindowInsetsController
-		activity.getWindow().setDecorFitsSystemWindows(false);
+		// Android 11+ - use WindowInsetsController with transparent system bars
+		WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false);
 
-		// Set status bar color to primary_dark for consistent blue appearance
-		// This ensures all activities have the same blue status bar as AgimeMainActivity
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark));
-		}
+		// Make system bars transparent for consistency with Android 15+ behavior
+		activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+		activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
+
+		// The status bar background color will be handled by addStatusBarBackground() method
 	}
 
 
 	/**
 	 * Sets status bar color for Android versions older than Android 11 (API < 30). This ensures consistent blue status
-	 * bar appearance across all Android versions.
+	 * bar appearance across all Android versions. For older versions, setStatusBarColor is still supported and not
+	 * deprecated.
 	 * 
 	 * @param activity The activity to configure
 	 */
 	private static void setupStatusBarColorForOlderVersions(Activity activity) {
-		// For older versions, just set the status bar color for consistency
+		// For older versions (< Android 11), setStatusBarColor is still supported and not deprecated
 		// The existing theme configuration handles the rest
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			activity.getWindow().setStatusBarColor(activity.getResources().getColor(R.color.primary_dark));
