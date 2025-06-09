@@ -74,12 +74,16 @@ public class NotificationWorker extends Worker {
 
 	private TrackedActivitySyncLoader trackedActivityLoader;
 	private AcquisitionTimesProvider acquisitionTimesProvider;
+	private PermissionChecker permissionChecker;
+	private NotificationManagerProvider notificationManagerProvider;
 
 	public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters params) {
 		super(context, params);
 		trackedActivityLoader = new TrackedActivitySyncLoader(context);
-		// Default production implementation
+		// Default production implementations
 		acquisitionTimesProvider = new DefaultAcquisitionTimesProvider(context);
+		permissionChecker = new DefaultPermissionChecker();
+		notificationManagerProvider = new DefaultNotificationManagerProvider();
 	}
 
 
@@ -87,10 +91,13 @@ public class NotificationWorker extends Worker {
 	 * Constructor for testing with dependency injection. Package-private for testing purposes.
 	 */
 	NotificationWorker(@NonNull Context context, @NonNull WorkerParameters params,
-			AcquisitionTimesProvider acquisitionTimesProvider, TrackedActivitySyncLoader trackedActivityLoader) {
+			AcquisitionTimesProvider acquisitionTimesProvider, TrackedActivitySyncLoader trackedActivityLoader,
+			PermissionChecker permissionChecker, NotificationManagerProvider notificationManagerProvider) {
 		super(context, params);
 		this.acquisitionTimesProvider = acquisitionTimesProvider;
 		this.trackedActivityLoader = trackedActivityLoader;
+		this.permissionChecker = permissionChecker;
+		this.notificationManagerProvider = notificationManagerProvider;
 	}
 
 
@@ -113,8 +120,8 @@ public class NotificationWorker extends Worker {
 
 				if (notification != null) {
 					// Normale Notification anzeigen (nicht als Foreground Service)
-					NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-					if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+					NotificationManagerCompat notificationManager = notificationManagerProvider.getNotificationManager(getApplicationContext());
+					if (permissionChecker.hasPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)) {
 						notificationManager.notify(NOTIFICATION_ID, notification);
 					}
 				}
@@ -129,8 +136,8 @@ public class NotificationWorker extends Worker {
 
 			if (notification != null) {
 				// Normale Notification anzeigen mit niedriger Priorität
-				NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-				if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+				NotificationManagerCompat notificationManager = notificationManagerProvider.getNotificationManager(getApplicationContext());
+				if (permissionChecker.hasPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS)) {
 					notificationManager.notify(NOTIFICATION_ID, notification);
 				}
 
