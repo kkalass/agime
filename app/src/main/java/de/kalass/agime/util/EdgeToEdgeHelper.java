@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import android.widget.FrameLayout;
+
+import androidx.activity.ComponentActivity;
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.view.ViewCompat;
@@ -55,15 +59,21 @@ public final class EdgeToEdgeHelper {
 
 	@RequiresApi(api = Build.VERSION_CODES.VANILLA_ICE_CREAM)
 	private static void setupEdgeToEdgeV35(Activity activity) {
-		// Android 15+ - use proper edge-to-edge API instead of deprecated setStatusBarColor
-		WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false);
+		if (activity instanceof ComponentActivity) {
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!Setup edge to edge");
+			EdgeToEdge.enable((ComponentActivity) activity, SystemBarStyle.dark(activity.getResources().getColor(R.color.primary_dark, activity.getTheme())));
+		} else {
 
-		// Make system bars transparent - this is the recommended approach for Android 15+
-		activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
-		activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
+			// Android 15+ - use proper edge-to-edge API instead of deprecated setStatusBarColor
+			WindowCompat.setDecorFitsSystemWindows(activity.getWindow(), false);
 
-		// The status bar background color will be handled by addStatusBarBackground() method
-		// which creates a colored view behind the transparent status bar
+			// Make system bars transparent - this is the recommended approach for Android 15+
+			activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+			activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
+
+			// The status bar background color will be handled by addStatusBarBackground() method
+			// which creates a colored view behind the transparent status bar
+		}
 	}
 
 
